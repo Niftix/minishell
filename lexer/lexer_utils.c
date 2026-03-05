@@ -6,53 +6,53 @@
 /*   By: vcucuiet <vcucuiet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/05 16:19:52 by vcucuiet          #+#    #+#             */
-/*   Updated: 2026/03/05 17:15:49 by vcucuiet         ###   ########.fr       */
+/*   Updated: 2026/03/05 18:04:25 by vcucuiet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lexer.h"
 
-static void	set_token_type(char *value, t_token_type *type)
+static void	set_token_type(char *value, t_token *type)
 {
-	ft_bzero(type, sizeof(t_token_type));
 	if (ft_strlen(value) == 1 && value[0] == '|')
-		type->pipe = 1;
+		*type = TOKEN_PIPE;
 	else if (ft_strlen(value) == 1 && value[0] == '<')
-		type->in = 1;
+		*type = TOKEN_IN;
 	else if (ft_strlen(value) == 1 && value[0] == '>')
-		type->out = 1;
+		*type = TOKEN_OUT;
 	else if (ft_strlen(value) == 2 && value[0] == '<' && value[1] == '<')
-		type->here_doc = 1;
+		*type = TOKEN_HERE_DOC;
 	else if (ft_strlen(value) == 2 && value[0] == '>' && value[1] == '>')
-		type->append_out = 1;
+		*type = TOKEN_APPEND_OUT;
 	else if (ft_strlen(value) == 2 && value[0] == '|' && value[1] == '|')
-		type->append_out = 1;
+		*type = TOKEN_OR;
 	else if (ft_strlen(value) == 2 && value[0] == '&' && value[1] == '&')
-		type->append_out = 1;
+		*type = TOKEN_AND;
 	else
-		type->word = 1;
+		*type = TOKEN_WORD;
 }
 
-static char *set_lex_value(char *value, t_token_type type)
+static char *set_lex_value(char *value, t_token type)
 {
 	char *res;
 	ssize_t len;
 
-	if (type.in)
+	res = NULL;
+	if (type == TOKEN_IN)
 		res = ft_strdup("[Redirect:IN]");
-	else if (type.out)
+	else if (type == TOKEN_OUT)
 		res = ft_strdup("[Redirect:OUT]");
-	else if (type.here_doc)
+	else if (type == TOKEN_HERE_DOC)
 		res = ft_strdup("[HERE_DOC]");
-	else if (type.append_out)
+	else if (type == TOKEN_APPEND_OUT)
 		res = ft_strdup("[APPEND:OUT]");
-	else if (type.pipe)
+	else if (type == TOKEN_PIPE)
 		res = ft_strdup("[PIPE]");
-	else if (type.is_and)
+	else if (type == TOKEN_AND)
 		res = ft_strdup("[AND]");
-	else if (type.is_or)
+	else if (type == TOKEN_OR)
 		res = ft_strdup("[OR]");
-	else if (type.word)
+	else if (type == TOKEN_WORD)
 	{
 		res = ft_strdup("[WORD:");
 		len = 7;
