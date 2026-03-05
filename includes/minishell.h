@@ -13,7 +13,7 @@ typedef struct s_shell
 {
 	char    **env;
 	int     exit_status;
-	int     running;
+	int     run;
 }   t_shell;
 
 #endif
