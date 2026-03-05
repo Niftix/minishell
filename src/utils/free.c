@@ -6,7 +6,7 @@
 /*   By: mville <mville@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/05 16:36:29 by mville            #+#    #+#             */
-/*   Updated: 2026/03/05 17:21:00 by mville           ###   ########.fr       */
+/*   Updated: 2026/03/05 17:42:02 by mville           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,9 @@
 
 void	ft_free_tab(char **res)
 {
-	int	i;
+ 	int	i;
+ if (!res)
+  return ;
 
 	i = 0;
 	while (res[i])
