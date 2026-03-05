@@ -6,13 +6,13 @@
 /*   By: mville <mville@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/05 16:36:29 by mville            #+#    #+#             */
-/*   Updated: 2026/03/05 16:37:43 by mville           ###   ########.fr       */
+/*   Updated: 2026/03/05 17:21:00 by mville           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_free(char **res)
+void	ft_free_tab(char **res)
 {
 	int	i;
 
