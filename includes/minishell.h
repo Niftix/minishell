@@ -12,7 +12,7 @@
 typedef struct s_shell
 {
 	char    **env;
-	int     exit_status;
+	int     status_exit;
 	int     run;
 }   t_shell;
 
