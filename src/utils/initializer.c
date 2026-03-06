@@ -6,7 +6,7 @@
 /*   By: mville <mville@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/05 16:36:14 by mville            #+#    #+#             */
-/*   Updated: 2026/03/05 17:50:34 by mville           ###   ########.fr       */
+/*   Updated: 2026/03/05 17:56:26 by mville           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ static int	duplicate_env(t_shell *shell, char **envp, int count)
 			return (ft_free_tab(shell->env), 1);
 		i++;
 	}
+	shell->env[i] = NULL;
 	return (0);
 }
 
