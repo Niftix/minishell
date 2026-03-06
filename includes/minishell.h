@@ -6,7 +6,7 @@
 /*   By: mville <mville@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/05 16:37:12 by mville            #+#    #+#             */
-/*   Updated: 2026/03/05 17:27:25 by mville           ###   ########.fr       */
+/*   Updated: 2026/03/06 14:06:53 by mville           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,38 @@ typedef struct s_shell
 	int		status_exit;
 	int		run;
 }	t_shell;
+
+typedef enum e_ast_type
+{
+	NODE_CMD,
+	NODE_PIPE,
+	NODE_AND,
+	NODE_OR
+}	t_ast_type;
+
+typedef enum e_redirect_type
+{
+	REDIR_IN,
+	REDIR_OUT,
+	REDIR_APPEND,
+	REDIR_HEREDOC
+}	t_redirect_type;
+
+typedef struct s_redirect
+{
+	t_redirect_type		type;
+	char				*target;
+	struct s_redirect		*next;
+}	t_redirect;
+
+typedef struct s_ast
+{
+	t_ast_type		type;
+	char			**args_cmd;
+	t_redirect			*redirects;
+	struct s_node	*left;
+	struct s_node	*right;
+}	t_ast;                                              
 
 /* UTILS->INITIALIZER.C */
 int		shell_init(t_shell *shell, char **envp);
