@@ -6,7 +6,7 @@
 /*   By: mville <mville@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/05 16:37:12 by mville            #+#    #+#             */
-/*   Updated: 2026/03/06 14:06:53 by mville           ###   ########.fr       */
+/*   Updated: 2026/03/06 14:18:36 by mville           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,10 @@ typedef struct s_shell
 
 typedef enum e_ast_type
 {
-	NODE_CMD,
-	NODE_PIPE,
-	NODE_AND,
-	NODE_OR
+	AST_CMD,
+	AST_PIPE,
+	AST_AND,
+	AST_OR
 }	t_ast_type;
 
 typedef enum e_redirect_type
