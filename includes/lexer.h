@@ -3,16 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vcucuiet <vcucuiet@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vcucuiet <vita@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/05 15:24:52 by vcucuiet          #+#    #+#             */
-/*   Updated: 2026/03/05 18:02:15 by vcucuiet         ###   ########.fr       */
+/*   Updated: 2026/03/10 00:54:17 by vcucuiet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LEXER_H
 # define LEXER_H
 # include "libft.h"
+# include <stdio.h>
+# ifndef LEXER_BUF
+#  define LEXER_BUF 255
+# endif
 
 typedef enum e_token
 {
@@ -24,17 +28,21 @@ typedef enum e_token
 	TOKEN_PIPE,
 	TOKEN_AND,
 	TOKEN_OR,
+	TOKEN_LPAREN,
+	TOKEN_RPAREN,
+	TOKEN_EOF,
 }			t_token;
 
 typedef	struct s_lexer
 {
-	t_token	type;
-	char	*value;
-	t_lexer	*next;
+	t_token			type;
+	char			*value;
+	struct s_lexer	*next;
 }			t_lexer;
 
-t_lexer	*ft_lexnew(char *value);
+t_token	tokeniser(char *input, size_t *idx);
 int		ft_lexadd_back(t_lexer **lst, t_lexer *new);
 void	ft_lexclear(t_lexer **lst, void (*del)(void *));
+void	print_token_type(t_token token);		//debug ft
 
 #endif
