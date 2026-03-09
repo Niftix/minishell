@@ -1,29 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec.c                                             :+:      :+:    :+:   */
+/*   exec_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mville <mville@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/03/06 13:31:33 by mville            #+#    #+#             */
-/*   Updated: 2026/03/09 20:49:37 by mville           ###   ########.fr       */
+/*   Created: 2026/03/06 15:21:48 by mville            #+#    #+#             */
+/*   Updated: 2026/03/07 12:54:19 by mville           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int ast_dispatch(t_shell *shell, t_ast *ast)
+int check_builtins(char *cmd)
 {
- if (!ast)
+ if (!cmd)
   return (0);
- if (ast->type == AST_CMD)
-  return(exec_cmd(shell, ast));
- else if (ast->type == AST_PIPE)
-  // exec pipe
- else if (ast->type == AST_AND)
-  // exec and
- else if (ast->type == AST_OR)
-  // exec or
- return (1);
+ if (ft_strcmp(cmd, "export") == 0)
+  return (1);
+ if (ft_strcmp(cmd, "echo") == 0)
+  return (1);
+ if (ft_strcmp(cmd, "cd") == 0)
+  return (1);
+ if (ft_strcmp(cmd, "pwd") == 0)
+  return (1);
+ if (ft_strcmp(cmd, "exit") == 0)
+  return (1);
+ if (ft_strcmp(cmd, "end") == 0)
+  return (1);
+return (0);
 }
-
