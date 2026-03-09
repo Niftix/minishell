@@ -12,18 +12,17 @@
 
 #include "minishell.h"
 
-int ast_dispatch(t_shell *shell, t_ast *ast)
+int	ast_dispatch(t_shell *shell, t_ast *ast)
 {
- if (!ast)
-  return (0);
- if (ast->type == AST_CMD)
-  return(exec_cmd(shell, ast));
- else if (ast->type == AST_PIPE)
-  return(exec_pipe(shell, ast));
- else if (ast->type == AST_AND)
-  return (exec_and(shell, ast));
- else if (ast->type == AST_OR)
-  return (exec_or(shell, ast));
- return (1);
+	if (!ast)
+		return (0);
+	if (ast->type == AST_CMD)
+		return (exec_cmd(shell, ast));
+	else if (ast->type == AST_PIPE)
+		return (exec_pipe(shell, ast));
+	else if (ast->type == AST_AND)
+		return (exec_and(shell, ast));
+	else if (ast->type == AST_OR)
+		return (exec_or(shell, ast));
+	return (1);
 }
-

@@ -12,22 +12,22 @@
 
 #include "minishell.h"
 
-int exec_and(t_shell *shell, t_ast *ast)
+int	exec_and(t_shell *shell, t_ast *ast)
 {
- int status;
+	int	status;
 
- status = ast_dispatch(shell, ast->left);
- if (status == 0)
-  status = ast_dispatch(shell, ast->right);
- return(status);
+	status = ast_dispatch(shell, ast->left);
+	if (status == 0)
+		status = ast_dispatch(shell, ast->right);
+	return (status);
 }
 
-int exec_or(t_shell *shell, t_ast *ast)
+int	exec_or(t_shell *shell, t_ast *ast)
 {
- int status;
+	int	status;
 
- status = ast_dispatch(shell, ast->left);
- if (status != 0)
-  status = ast_dispatch(shell, ast->right);
- return(status);
+	status = ast_dispatch(shell, ast->left);
+	if (status != 0)
+		status = ast_dispatch(shell, ast->right);
+	return (status);
 }
