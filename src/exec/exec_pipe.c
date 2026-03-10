@@ -6,7 +6,7 @@
 /*   By: mville <mville@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/07 12:55:33 by mville            #+#    #+#             */
-/*   Updated: 2026/03/10 12:05:49 by mville           ###   ########.fr       */
+/*   Updated: 2026/03/10 12:17:18 by mville           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ static void	lchild(t_shell *shell, t_ast *ast, int *fd)
 {
 	int	status;
 
+	signal(SIGINT, SIG_DFL);
+	signal(SIGQUIT, SIG_DFL);
 	close(fd[0]);
 	dup2(fd[1], STDOUT_FILENO);
 	close(fd[1]);
@@ -41,6 +43,8 @@ static void	rchild(t_shell *shell, t_ast *ast, int *fd)
 {
 	int	status;
 
+	signal(SIGINT, SIG_DFL);
+	signal(SIGQUIT, SIG_DFL);
 	close(fd[1]);
 	dup2(fd[0], STDIN_FILENO);
 	close(fd[0]);

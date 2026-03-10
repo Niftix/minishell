@@ -6,11 +6,17 @@
 /*   By: mville <mville@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/09 21:16:54 by mville            #+#    #+#             */
-/*   Updated: 2026/03/10 11:55:22 by mville           ###   ########.fr       */
+/*   Updated: 2026/03/10 12:17:54 by mville           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static int gest_signal(void)
+{
+	signal(SIGINT, SIG_DFL);
+	signal(SIGQUIT, SIG_DFL);
+}
 
 int	exec_cmd(t_shell *shell, t_ast *ast)
 {
@@ -27,6 +33,7 @@ int	exec_cmd(t_shell *shell, t_ast *ast)
 		return (1);
 	if (pid == 0)
 	{
+		gest_signal();
 		path = find_cmd_path(shell, ast);
 		if (!path)
 			exit(127);
