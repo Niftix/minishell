@@ -6,7 +6,7 @@
 /*   By: vcucuiet <vcucuiet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/05 15:24:52 by vcucuiet          #+#    #+#             */
-/*   Updated: 2026/03/10 14:44:49 by vcucuiet         ###   ########.fr       */
+/*   Updated: 2026/03/10 16:29:27 by vcucuiet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ typedef enum e_token
 	TOKEN_OR,
 	TOKEN_LPAREN,
 	TOKEN_RPAREN,
+	TOKEN_EOF,
 }			t_token;
 
 typedef	struct s_lexer
@@ -39,11 +40,11 @@ typedef	struct s_lexer
 	struct s_lexer	*next;
 }			t_lexer;
 
-t_token	tokeniser(char *input, size_t *idx);
-t_lexer	*creat_new_node(char *input, size_t idx, int status);
-char	*set_value(char *input, size_t idx);
-int		ft_lexadd_back(t_lexer **lst, t_lexer *new);
-void	ft_lexclear(t_lexer **lst, void (*del)(void *));
-void	print_token_type(t_token token);		//debug ft
+t_token	lex_tokeniser(char *input, size_t *idx);
+t_lexer	*lex_creat_new_node(char *input, size_t idx, int status);
+char	*lex_set_value(char *input, size_t idx);
+int		lex_lexadd_back(t_lexer **lst, t_lexer *new);
+void	lex_lexclear(t_lexer **lst, void (*del)(void *));
+void	lex_print_token_type(t_token token);		//debug ft
 
 #endif
