@@ -6,7 +6,7 @@
 /*   By: mville <mville@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/09 21:16:54 by mville            #+#    #+#             */
-/*   Updated: 2026/03/09 21:16:59 by mville           ###   ########.fr       */
+/*   Updated: 2026/03/10 11:53:15 by mville           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ int	exec_cmd(t_shell *shell, t_ast *ast)
 	char	*path;
 	pid_t	pid;
 
+ if (!ast->args_cmd || !ast->args_cmd[0])
+		return (0);
 	if (check_builtins(ast->args_cmd[0]))
 		return (exec_builtins(shell, ast));
 	pid = fork();
