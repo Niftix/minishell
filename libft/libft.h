@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mville <mville@student.42.fr>              +#+  +:+       +#+        */
+/*   By: vcucuiet <vita@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/07 15:01:06 by vcucuiet          #+#    #+#             */
-/*   Updated: 2026/03/10 21:58:15 by mville           ###   ########.fr       */
+/*   Updated: 2026/03/09 23:44:54 by vcucuiet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,9 +67,7 @@ int		ft_max(int *arr, int size);
 int		ft_med(int *arr, int size);
 void	ft_swap(int *a, int *b);
 void	ft_qsort(int *arr, int low, int high);
-//----end_libc_ft---//
-//-----------------//
-//-----lst_ft-----//
+
 typedef struct s_splitvar
 {
 	int		i;
@@ -86,12 +84,13 @@ void	ft_putchar_fd(char c, int fd);
 void	ft_putstr_fd(char *s, int fd);
 void	ft_putendl_fd(char *s, int fd);
 void	ft_putnbr_fd(int n, int fd);
-
+//----end_libc_ft---//
+//-----------------//
+//-----lst_ft-----//
 typedef struct s_list
 {
 	void			*content;
 	struct s_list	*next;
-	struct s_list	*previous;
 }					t_list;
 
 t_list	*ft_lstnew(void *content);
