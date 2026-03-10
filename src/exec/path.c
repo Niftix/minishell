@@ -6,7 +6,7 @@
 /*   By: mville <mville@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/09 19:12:06 by mville            #+#    #+#             */
-/*   Updated: 2026/03/09 20:32:19 by mville           ###   ########.fr       */
+/*   Updated: 2026/03/10 12:10:36 by mville           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,11 @@ char	*find_cmd_path(t_shell *shell, t_ast *ast)
 	int		i;
 
 	if (ft_strchr(ast->args_cmd[0], '/'))
+	{
+		if (access(ast->args_cmd[0], X_OK) != 0)
+			return (NULL);
 		return (ft_strdup(ast->args_cmd[0]));
+	}
 	path = find_path(shell);
 	if (!path)
 		return (NULL);
@@ -67,6 +71,5 @@ char	*find_cmd_path(t_shell *shell, t_ast *ast)
 		free(tmp);
 		i++;
 	}
-	ft_free_tab(path);
-	return (NULL);
+	return (	ft_free_tab(path), NULL);
 }
