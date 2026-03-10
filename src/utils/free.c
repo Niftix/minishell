@@ -1,37 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mville <mville@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/03/05 16:35:00 by mville            #+#    #+#             */
-/*   Updated: 2026/03/05 17:25:49 by mville           ###   ########.fr       */
+/*   Created: 2026/03/05 16:36:29 by mville            #+#    #+#             */
+/*   Updated: 2026/03/05 17:45:11 by mville           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	main(int ac, char **av, char **envp)
+void	ft_free_tab(char **res)
 {
-	t_shell	shell;
-	char	*input;
+	int	i;
 
-	(void)ac;
-	(void)av;
-	signal_init();
-	if (shell_init(&shell, envp) == 1)
-		return (1);
-	while (shell.run)
+	if (!res)
+		return ;
+	i = 0;
+	while (res[i])
 	{
-		input = get_input(&shell);
-		if (input)
-		{
-			/* PARSING */
-			/* EXEC */
-		}
-		free(input);
+		free(res[i]);
+		i++;
 	}
-	free_and_clean_history(&shell);
-	return (shell.status_exit);
+	free(res);
 }

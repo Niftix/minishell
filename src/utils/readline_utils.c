@@ -1,37 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   readline_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mville <mville@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/03/05 16:35:00 by mville            #+#    #+#             */
-/*   Updated: 2026/03/05 17:25:49 by mville           ###   ########.fr       */
+/*   Created: 2026/03/05 17:15:14 by mville            #+#    #+#             */
+/*   Updated: 2026/03/06 14:12:06 by mville           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	main(int ac, char **av, char **envp)
+char	*get_input(t_shell *shell)
 {
-	t_shell	shell;
 	char	*input;
 
-	(void)ac;
-	(void)av;
-	signal_init();
-	if (shell_init(&shell, envp) == 1)
-		return (1);
-	while (shell.run)
+	input = readline("minishell > ");
+	if (input == NULL)
 	{
-		input = get_input(&shell);
-		if (input)
-		{
-			/* PARSING */
-			/* EXEC */
-		}
-		free(input);
+		write(1, "exit\n", 5);
+		shell->run = 0;
+		return (NULL);
 	}
-	free_and_clean_history(&shell);
-	return (shell.status_exit);
+	if (input[0] != '\0')
+		add_history(input);
+	return (input);
+}
+
+void	free_and_clean_history(t_shell *shell)
+{
+	rl_clear_history();
+	ft_free_tab(shell->env);
 }
