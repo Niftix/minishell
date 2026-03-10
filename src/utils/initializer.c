@@ -43,6 +43,10 @@ int	shell_init(t_shell *shell, char **envp)
 		count++;
 	shell->status_exit = 0;
 	shell->run = 1;
+	shell->in_pipe = 0;
+	shell->stdin_backup = -1;
+	shell->stdout_backup = -1;
+	shell->last_pid = -1;
 	shell->env = malloc(sizeof(char *) * (count + 1));
 	if (!shell->env)
 		return (1);
