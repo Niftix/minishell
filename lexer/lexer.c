@@ -123,8 +123,8 @@ t_lexer	*lexer(char *input)
 	ft_lexadd_back(&lex, tmp);
 	return (lex);
 }
-#include <stdio.h>
 
+/*
 int	main(void)
 {
 	t_lexer *lex = lexer("               echo         |         'wc'");
@@ -138,4 +138,4 @@ int	main(void)
 	}
 	ft_lexclear(&lex, free);
 	return (0);
-}
+} */
