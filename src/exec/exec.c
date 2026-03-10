@@ -6,7 +6,7 @@
 /*   By: mville <mville@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/06 13:31:33 by mville            #+#    #+#             */
-/*   Updated: 2026/03/09 21:08:36 by mville           ###   ########.fr       */
+/*   Updated: 2026/03/10 11:42:46 by mville           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,5 +24,7 @@ int	ast_dispatch(t_shell *shell, t_ast *ast)
 		return (exec_and(shell, ast));
 	else if (ast->type == AST_OR)
 		return (exec_or(shell, ast));
+	else if (ast->type == AST_SUBSHELL)
+		return (exec_subshell(shell, ast));
 	return (1);
 }
