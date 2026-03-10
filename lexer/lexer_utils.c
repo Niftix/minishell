@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vcucuiet <vita@student.42.fr>              +#+  +:+       +#+        */
+/*   By: vcucuiet <vcucuiet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/05 16:19:52 by vcucuiet          #+#    #+#             */
-/*   Updated: 2026/03/10 00:11:42 by vcucuiet         ###   ########.fr       */
+/*   Updated: 2026/03/10 11:15:45 by vcucuiet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ void	print_token_type(t_token token)		//debug ft
 	else if (token == TOKEN_HERE_DOC)
 		printf("token = \"<<\"\n");
 	else if (token == TOKEN_IN)
-		printf("token = \">\"\n");
+		printf("token = \"<\"\n");
 	else if (token == TOKEN_LPAREN)
 		printf("token = \"(\"\n");
 	else if (token == TOKEN_RPAREN)

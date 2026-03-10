@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vcucuiet <vita@student.42.fr>              +#+  +:+       +#+        */
+/*   By: vcucuiet <vcucuiet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/05 15:50:00 by vcucuiet          #+#    #+#             */
-/*   Updated: 2026/03/10 00:53:05 by vcucuiet         ###   ########.fr       */
+/*   Updated: 2026/03/10 11:08:30 by vcucuiet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lexer.h"
 
-size_t	skip_tab_space_nl(char *input, int start)
+size_t	skip_tab_space_nl(char *input, size_t start)
 {
 	size_t	idx;
 
@@ -62,6 +62,8 @@ static char	*set_value(char *input, size_t idx)
 		t_cpy = set_buf(buf, input, &idx);
 		buf[t_cpy] = '\0';
 		val = ft_strdupcat(val, buf, &val_len, t_cpy);
+		if (!val)
+			return (free(buf), NULL);
 		if (t_cpy != LEXER_BUF)
 			break ;
 	}
