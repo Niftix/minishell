@@ -6,7 +6,7 @@
 /*   By: mville <mville@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/09 21:16:54 by mville            #+#    #+#             */
-/*   Updated: 2026/03/10 11:53:15 by mville           ###   ########.fr       */
+/*   Updated: 2026/03/10 11:55:22 by mville           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ int	exec_cmd(t_shell *shell, t_ast *ast)
 		if (!path)
 			exit(127);
 		execve(path, ast->args_cmd, shell->env);
+		free(path);
 		exit(126);
 	}
 	waitpid(pid, &status, 0);
