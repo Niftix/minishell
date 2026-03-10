@@ -6,13 +6,13 @@
 /*   By: vcucuiet <vcucuiet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/08 20:23:09 by vcucuiet          #+#    #+#             */
-/*   Updated: 2026/03/10 14:35:32 by vcucuiet         ###   ########.fr       */
+/*   Updated: 2026/03/10 16:07:00 by vcucuiet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lexer.h"
 
-t_token	tokeniser(char *input, size_t *idx)
+t_token	lex_tokeniser(char *input, size_t *idx)
 {
 	if (input[*idx] == '(')
 		return (TOKEN_LPAREN);
@@ -33,7 +33,7 @@ t_token	tokeniser(char *input, size_t *idx)
 	if (input[*idx] == '&' && input[*idx + 1] == '&')
 		return (TOKEN_AND);
 	if (input[*idx] == '\0')
-		return (EOF);
+		return (TOKEN_EOF);
 	else
 		return (TOKEN_WORD);
 }
