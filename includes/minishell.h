@@ -6,7 +6,7 @@
 /*   By: mville <mville@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/05 16:37:12 by mville            #+#    #+#             */
-/*   Updated: 2026/03/09 21:16:10 by mville           ###   ########.fr       */
+/*   Updated: 2026/03/10 11:39:47 by mville           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,10 @@ typedef struct s_shell
 	char	**env;
 	int		status_exit;
 	int		run;
+	int  in_pipe;
+ int stdin_backup;
+ int stdout_backup;
+ pid_t last_pid;
 }	t_shell;
 
 typedef enum e_ast_type
@@ -35,6 +39,7 @@ typedef enum e_ast_type
 	AST_CMD,
 	AST_PIPE,
 	AST_AND,
+	AST_SUBSHELL,
 	AST_OR
 }	t_ast_type;
 
