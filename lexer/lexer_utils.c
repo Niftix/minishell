@@ -6,11 +6,29 @@
 /*   By: vcucuiet <vcucuiet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/05 16:19:52 by vcucuiet          #+#    #+#             */
-/*   Updated: 2026/03/10 11:15:45 by vcucuiet         ###   ########.fr       */
+/*   Updated: 2026/03/10 14:36:29 by vcucuiet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lexer.h"
+
+t_lexer	*creat_new_node(char *input, size_t idx, int status)
+{
+	t_lexer	*new_lex;
+
+	new_lex = malloc(sizeof(t_lexer));
+	if (!new_lex)
+		return (NULL);
+	new_lex->next = NULL;
+	if (status == 1)
+		new_lex->type = tokeniser(input, &idx);
+	else
+		new_lex->type = EOF;
+	new_lex->value = NULL;
+	if (new_lex->type == TOKEN_WORD)
+		new_lex->value = set_value(input, idx);
+	return (new_lex);
+}
 
 int	ft_lexadd_back(t_lexer **lst, t_lexer *new)
 {
@@ -46,7 +64,9 @@ void	ft_lexclear(t_lexer **lst, void (*del)(void *))
 	*lst = NULL;
 }
 
-void	print_token_type(t_token token)		//debug ft
+//debug ft
+
+void	print_token_type(t_token token)
 {
 	if (token == TOKEN_AND)
 		printf("token = \"&&\"\n");
@@ -66,7 +86,7 @@ void	print_token_type(t_token token)		//debug ft
 		printf("token = \")\"\n");
 	else if (token == TOKEN_OUT)
 		printf("token = \">\"\n");
-	else if (token == TOKEN_EOF)
+	else if (token == EOF)
 		printf("token = \"EOF\"\n");
 	else if (token == TOKEN_WORD)
 		printf("token = \"WORD\"\n");
