@@ -6,7 +6,7 @@
 /*   By: mville <mville@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/10 10:52:17 by mville            #+#    #+#             */
-/*   Updated: 2026/03/10 20:12:09 by mville           ###   ########.fr       */
+/*   Updated: 2026/03/10 21:49:01 by mville           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,9 @@ static int	redir_out(char *target, int append)
 	{
 		ft_putstr_fd("minishell: ", 2);
 		ft_putstr_fd(target, 2);
-		ft_putstr_fd(": Permission denied\n", 2);
+		ft_putstr_fd(": ", 2);
+		ft_putstr_fd(strerror(errno), 2);
+		ft_putstr_fd("\n", 2);
 		return (1);
 	}
 	dup2(fd, STDOUT_FILENO);
@@ -60,7 +62,7 @@ static int	redir_heredoc(char *delimiter)
 		return (1);
 	while (1)
 	{
-		line = readline("> ");
+		line = readline("heredoc> ");
 		if (!line || ft_strcmp(line, delimiter) == 0)
 		{
 			free(line);

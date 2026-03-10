@@ -6,7 +6,7 @@
 /*   By: mville <mville@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/05 16:37:12 by mville            #+#    #+#             */
-/*   Updated: 2026/03/10 21:37:46 by mville           ###   ########.fr       */
+/*   Updated: 2026/03/10 21:47:40 by mville           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include <signal.h>
 # include <sys/wait.h>
 # include <fcntl.h>
+# include <errno.h>
 # include <limits.h>
 # include <readline/readline.h>
 # include <readline/history.h>

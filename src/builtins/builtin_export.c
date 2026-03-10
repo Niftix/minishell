@@ -6,11 +6,37 @@
 /*   By: mville <mville@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/10 15:51:23 by mville            #+#    #+#             */
-/*   Updated: 2026/03/10 21:36:28 by mville           ###   ########.fr       */
+/*   Updated: 2026/03/10 19:32:22 by mville           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static void	print_one(char *entry)
+{
+	char	*equal;
+	int		name_len;
+	int		j;
+
+	equal = ft_strchr(entry, '=');
+	ft_putstr_fd("declare -x ", 1);
+	if (!equal)
+	{
+		ft_putstr_fd(entry, 1);
+		ft_putstr_fd("\n", 1);
+		return ;
+	}
+	name_len = equal - entry + 1;
+	j = 0;
+	while (j < name_len)
+	{
+		write(1, &entry[j], 1);
+		j++;
+	}
+	ft_putstr_fd("\"", 1);
+	ft_putstr_fd(equal + 1, 1);
+	ft_putstr_fd("\"\n", 1);
+}
 
 static void	print_all(t_shell *shell)
 {
@@ -19,9 +45,7 @@ static void	print_all(t_shell *shell)
 	i = 0;
 	while (shell->env[i])
 	{
-		ft_putstr_fd("declare -x ", 1);
-		ft_putstr_fd(shell->env[i], 1);
-		ft_putstr_fd("\n", 1);
+		print_one(shell->env[i]);
 		i++;
 	}
 }

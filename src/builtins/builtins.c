@@ -6,7 +6,7 @@
 /*   By: mville <mville@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/10 18:15:01 by mville            #+#    #+#             */
-/*   Updated: 2026/03/10 18:49:22 by mville           ###   ########.fr       */
+/*   Updated: 2026/03/10 21:44:01 by mville           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ int	builtin_exit(t_shell *shell, t_ast *ast)
 	ft_putstr_fd("exit\n", 1);
 	shell->run = 0;
 	if (!ast->args_cmd[1])
-		exit(shell->status_exit);
+		return (shell->status_exit);
 	value = ft_atoi(ast->args_cmd[1]);
-	exit(value & 0xFF);
+	return (value & 0xFF);
 }

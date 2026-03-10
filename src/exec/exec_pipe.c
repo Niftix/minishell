@@ -6,7 +6,7 @@
 /*   By: mville <mville@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/07 12:55:33 by mville            #+#    #+#             */
-/*   Updated: 2026/03/10 12:17:18 by mville           ###   ########.fr       */
+/*   Updated: 2026/03/10 20:12:07 by mville           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ int	exec_pipe(t_shell *shell, t_ast *ast)
 	if (rpid == 0)
 		rchild(shell, ast, fd);
 	close_pipe(fd, 0);
-	waitpid(lpid, &status, 0);
+	waitpid(lpid, NULL, 0);
 	waitpid(rpid, &status, 0);
 	return (WEXITSTATUS(status));
 }
