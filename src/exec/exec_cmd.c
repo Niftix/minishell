@@ -6,7 +6,7 @@
 /*   By: mville <mville@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/09 21:16:54 by mville            #+#    #+#             */
-/*   Updated: 2026/03/10 12:24:50 by mville           ###   ########.fr       */
+/*   Updated: 2026/03/10 12:26:34 by mville           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static void path_null_exit(t_ast *ast)
 	exit(127);
 }
 
-static int gest_signal(void)
+static void gest_signal(void)
 {
 	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_DFL);
