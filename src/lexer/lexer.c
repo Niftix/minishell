@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vcucuiet <vcucuiet@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vcucuiet <vita@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/05 15:50:00 by vcucuiet          #+#    #+#             */
-/*   Updated: 2026/03/10 16:25:39 by vcucuiet         ###   ########.fr       */
+/*   Updated: 2026/03/12 15:22:11 by vcucuiet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static size_t	lex_token_len(t_token token)
 	return (1);
 }
 
-t_lexer	*lexer(char *input)
+t_lexer	*lexer_creat(char *input)
 {
 	t_lexer	*lex;
 	t_lexer	*tmp;
@@ -58,8 +58,7 @@ t_lexer	*lexer(char *input)
 	return (lex);
 }
 
-
-int	main(int ac, char **av)
+/* int	main(int ac, char **av)
 {
 	if (ac != 2)
 		return(ft_putstr_fd("Error: Need only one cmd line\n", 2), 1);
@@ -75,3 +74,4 @@ int	main(int ac, char **av)
 	lex_lexclear(&lex, free);
 	return (0);
 }
+ */
