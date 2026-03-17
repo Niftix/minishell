@@ -6,7 +6,7 @@
 /*   By: vcucuiet <vcucuiet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/14 20:43:27 by vcucuiet          #+#    #+#             */
-/*   Updated: 2026/03/17 14:40:35 by vcucuiet         ###   ########.fr       */
+/*   Updated: 2026/03/17 15:24:18 by vcucuiet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ static int	valid_comp(t_lexer *prev, t_lexer *now)
 {
 	t_lexer	*next;
 
-	ft_printf("%s", prev->value);
 	if (prev == NULL)
 		return (1);
 	next = now->next;
@@ -50,7 +49,7 @@ static int	valid_open_parent(t_lexer *now)
 			break ;
 		if (tmp->type == TOKEN_RPAREN)
 			o_parent--;
-		if (tmp->type == TOKEN_RPAREN)
+		if (tmp->type == TOKEN_LPAREN)
 			o_parent++;
 		tmp = tmp->next;
 	}
@@ -68,12 +67,12 @@ static int	valid_parent(t_lexer *lexer, t_lexer *now)
 		return (valid_open_parent(now));
 	// verif for closed parent
 	tmp = lexer;
-	c_parent = 0;
+	c_parent = -1;
 	while (tmp != now)
 	{
 		if (tmp->type == TOKEN_RPAREN)
 			c_parent--;
-		if (tmp->type == TOKEN_RPAREN)
+		if (tmp->type == TOKEN_LPAREN)
 			c_parent++;
 		if (tmp->next == now && c_parent == 0 && (tmp->type == TOKEN_LPAREN
 				&& now->type == TOKEN_RPAREN))
@@ -82,7 +81,7 @@ static int	valid_parent(t_lexer *lexer, t_lexer *now)
 	}
 	if (c_parent == 0)
 		return (0);
-	return (2);
+	return (1);
 }
 
 int	lex_pars_elements(t_lexer *lexer, t_lexer *prev, t_lexer *now)
