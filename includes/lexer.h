@@ -6,7 +6,7 @@
 /*   By: vcucuiet <vita@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/05 15:24:52 by vcucuiet          #+#    #+#             */
-/*   Updated: 2026/03/12 15:22:31 by vcucuiet         ###   ########.fr       */
+/*   Updated: 2026/03/14 20:06:29 by vcucuiet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ typedef enum e_token
 	TOKEN_LPAREN,
 	TOKEN_RPAREN,
 	TOKEN_EOF,
+	TOKEN_ERROR,
 }			t_token;
 
 typedef	struct s_lexer
