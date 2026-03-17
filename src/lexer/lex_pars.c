@@ -3,64 +3,87 @@
 /*                                                        :::      ::::::::   */
 /*   lex_pars.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vcucuiet <vita@student.42.fr>              +#+  +:+       +#+        */
+/*   By: vcucuiet <vcucuiet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/14 20:07:59 by vcucuiet          #+#    #+#             */
-/*   Updated: 2026/03/14 20:48:32 by vcucuiet         ###   ########.fr       */
+/*   Updated: 2026/03/17 14:35:57 by vcucuiet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lexer.h"
 
-
-
-void lex_print_token_error(t_token token)
+static void	lex_print_token_error(t_token token, int check)
 {
-	if(token == TOKEN_IN)
+	if (check == 2)
+		return (ft_putstr_fd("'newline'\n", 2));
+	if (token == TOKEN_IN)
 		return (ft_putstr_fd("'<'\n", 2));
-	if(token == TOKEN_OUT)
+	if (token == TOKEN_OUT)
 		return (ft_putstr_fd("'>'\n", 2));
-	if(token == TOKEN_OR)
+	if (token == TOKEN_OR)
 		return (ft_putstr_fd("'||'\n", 2));
-	if(token == TOKEN_AND)
+	if (token == TOKEN_AND)
 		return (ft_putstr_fd("'&&'\n", 2));
-	if(token == TOKEN_LPAREN)
+	if (token == TOKEN_LPAREN)
 		return (ft_putstr_fd("'('\n", 2));
-	if(token == TOKEN_RPAREN)
+	if (token == TOKEN_RPAREN)
 		return (ft_putstr_fd("')'\n", 2));
-	if(token == TOKEN_PIPE)
+	if (token == TOKEN_PIPE)
 		return (ft_putstr_fd("'|'\n", 2));
-	if(token == TOKEN_HERE_DOC)
+	if (token == TOKEN_HERE_DOC)
 		return (ft_putstr_fd("'<<'\n", 2));
-	if(token == TOKEN_APPEND_OUT)
+	if (token == TOKEN_APPEND_OUT)
 		return (ft_putstr_fd("'>>'\n", 2));
 }
 
-t_lexer	*lex_pars_error(t_lexer *tmp, t_lexer *lex)
+static int	lex_pars_put_error(t_token token, int check, char *exec_name)
 {
-	ft_putstr_fd("syntax error near unexpected token ", 2);
-	lex_print_token_error(tmp->type);
-	free(lex);
+	char	*error;
+	char	*ptr;
+
+	error = ft_strdup(exec_name);
+	if (!error)
+		return (1);
+	ptr = error;
+	error = ft_strrchr(error, '/') + 1;
+	error = ft_strjoin(error, ": syntax error near unexpected token ");
+	if (!error)
+		return (free(ptr), 1);
+	free(ptr);
+	ft_putstr_fd(error, 2);
+	free(error);
+	lex_print_token_error(token, check);
+	return (0);
+}
+
+static t_lexer	*lex_pars_error(t_lexer *tmp, t_lexer *lex, int check,
+		char *exec_name)
+{
+	lex_pars_put_error(tmp->type, check, exec_name);
+	lex_lexclear(&lex, free);
 	lex = malloc(sizeof(t_lexer));
 	if (!lex)
-		return(NULL);
+		return (NULL);
 	lex->next = NULL;
 	lex->value = NULL;
 	lex->type = TOKEN_ERROR;
 	return (lex);
 }
 
-t_lexer	*lex_pars(t_lexer *lex)
+t_lexer	*lex_pars(t_lexer *lex, char *exec_name)
 {
 	t_lexer	*tmp;
 	t_lexer	*prev;
+	int		check;
 
 	prev = NULL;
 	tmp = lex;
 	while (tmp->type != TOKEN_EOF)
 	{
-		if (lex_pars_elements(prev, tmp))
-			return (lex_pars_error(tmp, lex));
+		check = lex_pars_elements(lex, prev, tmp);
+		if (check)
+			return (lex_pars_error(tmp, lex, check, exec_name));
+		prev = tmp;
 		tmp = tmp->next;
 	}
 	return (lex);

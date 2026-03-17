@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vcucuiet <vita@student.42.fr>              +#+  +:+       +#+        */
+/*   By: vcucuiet <vcucuiet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/05 15:50:00 by vcucuiet          #+#    #+#             */
-/*   Updated: 2026/03/14 20:07:42 by vcucuiet         ###   ########.fr       */
+/*   Updated: 2026/03/17 14:36:28 by vcucuiet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@ static size_t	lex_skip_tab_space_nl(char *input, size_t start)
 	size_t	idx;
 
 	idx = start;
-	while (input[idx] && (input[idx] == '\t'
-			|| input[idx] == ' ' || input[idx] == '\n'))
+	while (input[idx] && (input[idx] == '\t' || input[idx] == ' '
+			|| input[idx] == '\n'))
 		idx++;
 	return (idx);
 }
@@ -31,7 +31,7 @@ static size_t	lex_token_len(t_token token)
 	return (1);
 }
 
-t_lexer	*lexer_creat(char *input)
+t_lexer	*lexer_creat(char *input, char *exec_name)
 {
 	t_lexer	*lex;
 	t_lexer	*tmp;
@@ -48,24 +48,25 @@ t_lexer	*lexer_creat(char *input)
 		i = lex_skip_tab_space_nl(input, i);
 		tmp = lex_creat_new_node(input, i, 1);
 		if (!tmp)
-			return (lex_lexclear(&lex, free), NULL); //need malloc failed error
+			return (lex_lexclear(&lex, free), NULL); // need malloc failed error
 		if (tmp->type != TOKEN_WORD)
 			i += lex_token_len(tmp->type);
 		else
 			i += ft_strlen(tmp->value);
 		lex_lexadd_back(&lex, tmp);
 	}
-	lex = lex_pars(lex);
-	return (lex);
+	return (lex_pars(lex, exec_name));
 }
 
-/* int	main(int ac, char **av)
+int	main(int ac, char **av)
 {
-	if (ac != 2)
-		return(ft_putstr_fd("Error: Need only one cmd line\n", 2), 1);
-	t_lexer *lex = lexer(av[1]);
-	t_lexer *tmp = lex;
+	t_lexer	*lex;
+	t_lexer	*tmp;
 
+	if (ac != 2)
+		return (ft_putstr_fd("Error: Need only one cmd line\n", 2), 1);
+	lex = lexer_creat(av[1], av[0]);
+	tmp = lex;
 	while (tmp)
 	{
 		printf("%s : ", tmp->value);
@@ -75,4 +76,3 @@ t_lexer	*lexer_creat(char *input)
 	lex_lexclear(&lex, free);
 	return (0);
 }
- */

@@ -6,7 +6,7 @@
 /*   By: vcucuiet <vcucuiet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/05 16:19:52 by vcucuiet          #+#    #+#             */
-/*   Updated: 2026/03/10 16:20:29 by vcucuiet         ###   ########.fr       */
+/*   Updated: 2026/03/17 13:40:23 by vcucuiet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,14 @@ void	lex_lexclear(t_lexer **lst, void (*del)(void *))
 
 //debug ft
 
+static void	lex_print_token_t2(t_token token)
+{
+	if (token == TOKEN_ERROR)
+		printf("token = ERROR\n");
+	else
+		printf("BIG ERROR BRO YOUR NOT SUPPOSE TO SEE THIS\n");
+}
+
 void	lex_print_token_type(t_token token)
 {
 	if (token == TOKEN_AND)
@@ -94,4 +102,6 @@ void	lex_print_token_type(t_token token)
 		printf("token = \"EOF\"\n");
 	else if (token == TOKEN_WORD)
 		printf("token = \"WORD\"\n");
+	else
+		lex_print_token_t2(token);
 }
