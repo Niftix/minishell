@@ -6,7 +6,11 @@
 /*   By: vcucuiet <vcucuiet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/10 11:25:35 by vcucuiet          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2026/03/17 14:36:40 by vcucuiet         ###   ########.fr       */
+=======
+/*   Updated: 2026/03/10 16:01:30 by vcucuiet         ###   ########.fr       */
+>>>>>>> main
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +38,13 @@ static ssize_t	lex_set_buf(char *buf, char *input, size_t *idx)
 			quote = input[*idx];
 		else if (input[*idx] == quote)
 			quote = 'x';
+<<<<<<< HEAD
 		if ((quote == 'x' && input[*idx] == ' ') || (quote == 'x'
 				&& lex_tokeniser(input, idx) != TOKEN_WORD))
+=======
+		if ((quote == 'x' && input[*idx] == ' ')
+			|| (quote == 'x' && lex_tokeniser(input, idx) != TOKEN_WORD))
+>>>>>>> main
 			return (*idx += 1, i);
 		buf[i] = input[*idx];
 		*idx += 1;
