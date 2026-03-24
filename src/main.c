@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vcucuiet <vita@student.42.fr>              +#+  +:+       +#+        */
+/*   By: vcucuiet <vcucuiet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/05 16:35:00 by mville            #+#    #+#             */
-/*   Updated: 2026/03/23 13:46:41 by vcucuiet         ###   ########.fr       */
+/*   Updated: 2026/03/24 16:53:08 by vcucuiet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	main(int ac, char **av, char **envp)
 		input = get_input(&shell);
 		if (input)
 		{
-			lexer = lexer_creat(input, av[0]);
+			lexer = lexer_creat(input, av[0], &shell.status_exit); // to see all lexer use lex_print_all(lexer)
 			if (!lexer)
 				return (free(input), 1); //malloc faile
 			/* PARSER*/
