@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vcucuiet <vita@student.42.fr>              +#+  +:+       +#+        */
+/*   By: vcucuiet <vcucuiet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/05 15:50:00 by vcucuiet          #+#    #+#             */
-/*   Updated: 2026/03/23 13:30:49 by vcucuiet         ###   ########.fr       */
+/*   Updated: 2026/03/24 11:34:21 by vcucuiet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,8 @@ t_lexer	*lexer_creat(char *input, char *exec_name)
 			i += ft_strlen(tmp->value);
 		lex_lexadd_back(&lex, tmp);
 	}
-	return (lex_pars(lex, exec_name));
+	lex_pars(lex, exec_name);
+	return (lex);
 }
 
 /* int	main(int ac, char **av)
@@ -75,4 +76,5 @@ t_lexer	*lexer_creat(char *input, char *exec_name)
 	}
 	lex_lexclear(&lex, free);
 	return (0);
-} */
+}
+ */

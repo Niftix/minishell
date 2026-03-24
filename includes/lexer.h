@@ -3,14 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vcucuiet <vita@student.42.fr>              +#+  +:+       +#+        */
+/*   By: vcucuiet <vcucuiet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/05 15:24:52 by vcucuiet          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2026/03/17 14:39:41 by vcucuiet         ###   ########.fr       */
-=======
-/*   Updated: 2026/03/12 15:22:31 by vcucuiet         ###   ########.fr       */
->>>>>>> main
+/*   Updated: 2026/03/24 11:31:02 by vcucuiet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +43,7 @@ typedef struct s_lexer
 
 t_lexer	*lexer_creat(char *input, char *exec_name);
 
-t_lexer	*lexer_creat(char *input);
+t_lexer	*lexer_creat(char *input, char *exec_name);
 
 t_token	lex_tokeniser(char *input, size_t *idx);
 t_lexer	*lex_creat_new_node(char *input, size_t idx, int status);

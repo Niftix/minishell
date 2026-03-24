@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vcucuiet <vita@student.42.fr>              +#+  +:+       +#+        */
+/*   By: vcucuiet <vcucuiet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/05 16:35:00 by mville            #+#    #+#             */
-/*   Updated: 2026/03/23 13:46:41 by vcucuiet         ###   ########.fr       */
+/*   Updated: 2026/03/24 11:31:33 by vcucuiet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	main(int ac, char **av, char **envp)
 			if (!lexer)
 				return (free(input), 1); //malloc faile
 			/* PARSER*/
-			lex_lexclear(&lexer, free);
+      lex_lexclear(&lexer, free);
 			/* EXEC */
 		}
 		free(input);

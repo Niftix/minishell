@@ -74,19 +74,19 @@ OBJ = $(SRC:.c=.o)
 NAME = libft.a
 
 $(NAME): $(OBJ)
-	$(AR) -rcs $(NAME) $(OBJ)
+	@$(AR) -rcs $(NAME) $(OBJ)
 
 .PHONY: all clean fclean re
 
 all: $(NAME)
 
 %.o: %.c
-	$(CC) $(CFLAGS) -c $< -o $@
+	@$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
-	$(RM) -f $(OBJ)
+	@$(RM) -f $(OBJ)
 
 fclean: clean
-	$(RM) -f $(NAME)
+	@$(RM) -f $(NAME)
 
 re: fclean all
