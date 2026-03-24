@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_set_value.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vcucuiet <vcucuiet@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vcucuiet <vita@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/10 11:25:35 by vcucuiet          #+#    #+#             */
 /*   Updated: 2026/03/24 11:35:12 by vcucuiet         ###   ########.fr       */

@@ -33,7 +33,7 @@ int	main(int ac, char **av, char **envp)
 			if (!lexer)
 				return (free(input), 1); //malloc faile
 			/* PARSER*/
-		lex_lexclear(&lexer, free);
+      lex_lexclear(&lexer, free);
 			/* EXEC */
 		}
 		free(input);

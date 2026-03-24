@@ -17,8 +17,8 @@ static size_t	lex_skip_tab_space_nl(char *input, size_t start)
 	size_t	idx;
 
 	idx = start;
-	while (input[idx] && (input[idx] == '\t'
-			|| input[idx] == ' ' || input[idx] == '\n'))
+	while (input[idx] && (input[idx] == '\t' || input[idx] == ' '
+			|| input[idx] == '\n'))
 		idx++;
 	return (idx);
 }
@@ -61,11 +61,13 @@ t_lexer	*lexer_creat(char *input, char *exec_name)
 
 /* int	main(int ac, char **av)
 {
-	if (ac != 2)
-		return(ft_putstr_fd("Error: Need only one cmd line\n", 2), 1);
-	t_lexer *lex = lexer(av[1]);
-	t_lexer *tmp = lex;
+	t_lexer	*lex;
+	t_lexer	*tmp;
 
+	if (ac != 2)
+		return (ft_putstr_fd("Error: Need only one cmd line\n", 2), 1);
+	lex = lexer_creat(av[1], av[0]);
+	tmp = lex;
 	while (tmp)
 	{
 		printf("%s : ", tmp->value);
