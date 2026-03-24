@@ -6,7 +6,7 @@
 /*   By: vcucuiet <vcucuiet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/05 16:35:00 by mville            #+#    #+#             */
-/*   Updated: 2026/03/24 11:31:33 by vcucuiet         ###   ########.fr       */
+/*   Updated: 2026/03/24 17:08:39 by vcucuiet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	main(int ac, char **av, char **envp)
 		input = get_input(&shell);
 		if (input)
 		{
-			lexer = lexer_creat(input, av[0]);
+			lexer = lexer_creat(input, av[0], &shell.status_exit); // to see all lexer use lex_print_all(lexer)
 			if (!lexer)
 				return (free(input), 1); //malloc faile
 			/* PARSER*/

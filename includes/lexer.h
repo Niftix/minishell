@@ -6,7 +6,7 @@
 /*   By: vcucuiet <vcucuiet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/05 15:24:52 by vcucuiet          #+#    #+#             */
-/*   Updated: 2026/03/24 11:31:02 by vcucuiet         ###   ########.fr       */
+/*   Updated: 2026/03/24 17:08:23 by vcucuiet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,19 +41,21 @@ typedef struct s_lexer
 	struct s_lexer	*next;
 }					t_lexer;
 
-t_lexer	*lexer_creat(char *input, char *exec_name);
-
-t_lexer	*lexer_creat(char *input, char *exec_name);
+t_lexer	*lexer_creat(char *input, char *exec_name, int *status_exit);
 
 t_token	lex_tokeniser(char *input, size_t *idx);
 t_lexer	*lex_creat_new_node(char *input, size_t idx, int status);
 char	*lex_set_value(char *input, size_t idx);
 int		lex_lexadd_back(t_lexer **lst, t_lexer *new);
+t_lexer	*lex_cpy_node(t_lexer *old);
 void	lex_lexclear(t_lexer **lst, void (*del)(void *));
 
-t_lexer	*lex_pars(t_lexer *lex, char *exec_nameeeee);
+t_lexer	*lex_pars(t_lexer *lex, char *exec_name, int *status_exit);
 int		lex_pars_elements(t_lexer *lexer, t_lexer *prev, t_lexer *now);
 
-void	lex_print_token_type(t_token token); // debug ft
+// debug ft
+
+void	lex_print_token_type(t_token token);
+void	lex_print_all(t_lexer *lexer);		
 
 #endif

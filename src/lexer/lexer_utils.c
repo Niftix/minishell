@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vcucuiet <vita@student.42.fr>              +#+  +:+       +#+        */
+/*   By: vcucuiet <vcucuiet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/05 16:19:52 by vcucuiet          #+#    #+#             */
-/*   Updated: 2026/03/24 11:34:51 by vcucuiet         ###   ########.fr       */
+/*   Updated: 2026/03/24 17:08:44 by vcucuiet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,25 @@ t_lexer	*lex_creat_new_node(char *input, size_t idx, int status)
 	if (new_lex->type == TOKEN_WORD)
 	{
 		new_lex->value = lex_set_value(input, idx);
+		if (!new_lex->value)
+			return (free(new_lex), NULL);
+	}
+	return (new_lex);
+}
+
+t_lexer	*lex_cpy_node(t_lexer *old)
+{
+	t_lexer	*new_lex;
+
+	new_lex = malloc(sizeof(t_lexer));
+	if (!new_lex)
+		return (NULL);
+	new_lex->next = NULL;
+	new_lex->value = NULL;
+	new_lex->type = old->type;
+	if (old->value)
+	{
+		new_lex->value = ft_strdup(old->value);
 		if (!new_lex->value)
 			return (free(new_lex), NULL);
 	}
@@ -66,42 +85,4 @@ void	lex_lexclear(t_lexer **lst, void (*del)(void *))
 		*lst = temp;
 	}
 	*lst = NULL;
-}
-
-//debug ft
-
-static void	lex_print_token_t2(t_token token)
-{
-	if (token == TOKEN_ERROR)
-		printf("token = ERROR\n");
-	else
-		printf("BIG ERROR BRO YOUR NOT SUPPOSE TO SEE THIS\n");
-}
-
-void	lex_print_token_type(t_token token)
-{
-	if (token == TOKEN_AND)
-		printf("token = \"&&\"\n");
-	else if (token == TOKEN_OR)
-		printf("token = \"||\"\n");
-	else if (token == TOKEN_PIPE)
-		printf("token = \"|\"\n");
-	else if (token == TOKEN_APPEND_OUT)
-		printf("token = \">>\"\n");
-	else if (token == TOKEN_HERE_DOC)
-		printf("token = \"<<\"\n");
-	else if (token == TOKEN_IN)
-		printf("token = \"<\"\n");
-	else if (token == TOKEN_LPAREN)
-		printf("token = \"(\"\n");
-	else if (token == TOKEN_RPAREN)
-		printf("token = \")\"\n");
-	else if (token == TOKEN_OUT)
-		printf("token = \">\"\n");
-	else if (token == TOKEN_EOF)
-		printf("token = \"EOF\"\n");
-	else if (token == TOKEN_WORD)
-		printf("token = \"WORD\"\n");
-	else
-		lex_print_token_t2(token);
 }
