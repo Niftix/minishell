@@ -3,17 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-<<<<<<< HEAD
 /*   By: vcucuiet <vcucuiet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/05 15:50:00 by vcucuiet          #+#    #+#             */
-/*   Updated: 2026/03/17 15:20:10 by vcucuiet         ###   ########.fr       */
-=======
-/*   By: vcucuiet <vita@student.42.fr>              +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/03/05 15:50:00 by vcucuiet          #+#    #+#             */
-/*   Updated: 2026/03/12 15:22:11 by vcucuiet         ###   ########.fr       */
->>>>>>> main
+/*   Updated: 2026/03/24 11:34:21 by vcucuiet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +17,8 @@ static size_t	lex_skip_tab_space_nl(char *input, size_t start)
 	size_t	idx;
 
 	idx = start;
-<<<<<<< HEAD
-	while (input[idx] && (input[idx] == '\t' || input[idx] == ' '
-			|| input[idx] == '\n'))
-=======
 	while (input[idx] && (input[idx] == '\t'
 			|| input[idx] == ' ' || input[idx] == '\n'))
->>>>>>> main
 		idx++;
 	return (idx);
 }
@@ -43,11 +31,7 @@ static size_t	lex_token_len(t_token token)
 	return (1);
 }
 
-<<<<<<< HEAD
 t_lexer	*lexer_creat(char *input, char *exec_name)
-=======
-t_lexer	*lexer_creat(char *input)
->>>>>>> main
 {
 	t_lexer	*lex;
 	t_lexer	*tmp;
@@ -64,31 +48,14 @@ t_lexer	*lexer_creat(char *input)
 		i = lex_skip_tab_space_nl(input, i);
 		tmp = lex_creat_new_node(input, i, 1);
 		if (!tmp)
-<<<<<<< HEAD
 			return (lex_lexclear(&lex, free), NULL); // need malloc failed error
-=======
-			return (lex_lexclear(&lex, free), NULL); //need malloc failed error
->>>>>>> main
 		if (tmp->type != TOKEN_WORD)
 			i += lex_token_len(tmp->type);
 		else
 			i += ft_strlen(tmp->value);
 		lex_lexadd_back(&lex, tmp);
 	}
-<<<<<<< HEAD
-	return (lex_pars(lex, exec_name));
-}
-
-int	main(int ac, char **av)
-{
-	t_lexer	*lex;
-	t_lexer	*tmp;
-
-	if (ac != 2)
-		return (ft_putstr_fd("Error: Need only one cmd line\n", 2), 1);
-	lex = lexer_creat(av[1], av[0]);
-	tmp = lex;
-=======
+	lex_pars(lex, exec_name);
 	return (lex);
 }
 
@@ -99,7 +66,6 @@ int	main(int ac, char **av)
 	t_lexer *lex = lexer(av[1]);
 	t_lexer *tmp = lex;
 
->>>>>>> main
 	while (tmp)
 	{
 		printf("%s : ", tmp->value);
@@ -109,7 +75,4 @@ int	main(int ac, char **av)
 	lex_lexclear(&lex, free);
 	return (0);
 }
-<<<<<<< HEAD
-=======
  */
->>>>>>> main

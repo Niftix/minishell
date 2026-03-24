@@ -6,7 +6,7 @@
 /*   By: vcucuiet <vcucuiet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 13:13:38 by vcucuiet          #+#    #+#             */
-/*   Updated: 2026/02/03 16:45:51 by vcucuiet         ###   ########.fr       */
+/*   Updated: 2026/03/24 11:30:17 by vcucuiet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,8 @@
 
 void	ft_lstadd_front(t_list **lst, t_list *new)
 {
-	t_list	*tmp;
-
 	if (!lst || !new)
 		return ;
 	new->next = *lst;
-	tmp = *lst;
-	tmp->previous = new;
 	*lst = new;
 }
