@@ -29,6 +29,7 @@ SRC_FILES   = main.c \
             lexer/lexer_tokeniser.c \
             lexer/lexer_set_value.c \
             lexer/lex_pars.c \
+			lexer/lexer_debug.c \
             lexer/lex_pars_elements.c \
             utils/free.c \
             utils/initializer.c \
