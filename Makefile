@@ -4,61 +4,66 @@ CC			= cc
 
 CFLAGS		= -Wextra -Werror -Wall -Iincludes -Ilibft -g3
 
-SRC_DIR		= src
-LIBFT_DIR	= libft
-OBJ_DIR		= obj
+LDFLAGS     = -lreadline
 
-SRC_FILES 	= main.c\
-			builtins/builtins.c\
-			builtins/builtin_export.c\
-			builtins/builtins_cd_utils.c\
-			builtins/builtin_unset.c\
-			exec/exec_and_or.c\
-			exec/exec_builtins.c\
-			exec/exec.c\
-			exec/exec_cmd.c\
-			exec/exec_pipe.c\
-			exec/exec_redir.c\
-			exec/exec_subshell.c\
-			exec/exec_utils.c\
-			exec/path.c\
-			lexer/lexer.c\
-			lexer/lexer_utils.c\
-			lexer/lexer_tokeniser.c\
-			lexer/lexer_set_value.c\
-			lexer/lex_pars.c\
-			lexer/lex_pars_elements.c\
-			utils/free.c\
-			utils/initializer.c\
-			utils/readline_utils.c\
-			utils/signal_utils.c
+SRC_DIR     = src
+LIBFT_DIR   = libft
+OBJ_DIR     = obj
 
-SRC			= $(addprefix $(SRC_DIR)/, $(SRC_FILES))
+SRC_FILES   = main.c \
+            builtins/builtins.c \
+            builtins/builtin_export.c \
+            builtins/builtins_cd_utils.c \
+            builtins/builtin_unset.c \
+            exec/exec_and_or.c \
+            exec/exec_builtins.c \
+            exec/exec.c \
+            exec/exec_cmd.c \
+            exec/exec_pipe.c \
+            exec/exec_redir.c \
+            exec/exec_subshell.c \
+            exec/exec_utils.c \
+            exec/path.c \
+            lexer/lexer.c \
+            lexer/lexer_utils.c \
+            lexer/lexer_tokeniser.c \
+            lexer/lexer_set_value.c \
+            lexer/lex_pars.c \
+            lexer/lex_pars_elements.c \
+            utils/free.c \
+            utils/initializer.c \
+            utils/readline_utils.c \
+            utils/signal_utils.c
 
-OBJ			= $(SRC:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
-DEPS		= $(SRC:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.d)
+SRC         = $(addprefix $(SRC_DIR)/, $(SRC_FILES))
+OBJ         = $(SRC:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
+DEPS        = $(OBJ:.o=.d)
 
-LIBFT		= $(LIBFT_DIR)/libft.a
+LIBFT       = $(LIBFT_DIR)/libft.a
 
 all: $(NAME)
 
 $(NAME): $(LIBFT) $(OBJ)
-	$(CC) $(CFLAGS) $(OBJ) -o $(NAME)
-
-$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
-	mkdir -p $(OBJ_DIR) $(OBJ_DIR)/builtins $(OBJ_DIR)/lexer $(OBJ_DIR)/exec $(OBJ_DIR)/utils
-	$(CC) $(CFLAGS) -MMD -c $< -o $@
+	@echo "Création de l'exécutable $(NAME)..."
+	$(CC) $(CFLAGS) $(OBJ) $(LIBFT) $(LDFLAGS) -o $(NAME)
 
 $(LIBFT):
-	make -C $(LIBFT_DIR)
+	@echo "Compilation de la libft..."
+	$(MAKE) -C $(LIBFT_DIR)
+
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
+	@mkdir -p $(dir $@)
+	$(CC) $(CFLAGS) -MMD -MP -c $< -o $@
 
 clean:
+	@echo "Nettoyage des objets..."
+	$(MAKE) -C $(LIBFT_DIR) clean
 	rm -rf $(OBJ_DIR)
-	make clean -C $(LIBFT_DIR)
 
 fclean: clean
+	@echo "Nettoyage complet..."
+	$(MAKE) -C $(LIBFT_DIR) fclean
 	rm -f $(NAME)
-	make fclean -C $(LIBFT_DIR)
 
 re: fclean all
 
