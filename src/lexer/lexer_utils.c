@@ -3,14 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vcucuiet <vcucuiet@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vcucuiet <vita@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/05 16:19:52 by vcucuiet          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2026/03/17 13:40:23 by vcucuiet         ###   ########.fr       */
-=======
-/*   Updated: 2026/03/10 16:20:29 by vcucuiet         ###   ########.fr       */
->>>>>>> main
+/*   Updated: 2026/03/23 13:31:04 by vcucuiet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +70,6 @@ void	lex_lexclear(t_lexer **lst, void (*del)(void *))
 
 //debug ft
 
-<<<<<<< HEAD
 static void	lex_print_token_t2(t_token token)
 {
 	if (token == TOKEN_ERROR)
@@ -83,8 +78,6 @@ static void	lex_print_token_t2(t_token token)
 		printf("BIG ERROR BRO YOUR NOT SUPPOSE TO SEE THIS\n");
 }
 
-=======
->>>>>>> main
 void	lex_print_token_type(t_token token)
 {
 	if (token == TOKEN_AND)
@@ -109,9 +102,6 @@ void	lex_print_token_type(t_token token)
 		printf("token = \"EOF\"\n");
 	else if (token == TOKEN_WORD)
 		printf("token = \"WORD\"\n");
-<<<<<<< HEAD
 	else
 		lex_print_token_t2(token);
-=======
->>>>>>> main
 }
