@@ -6,7 +6,7 @@
 /*   By: vcucuiet <vcucuiet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/05 15:50:00 by vcucuiet          #+#    #+#             */
-/*   Updated: 2026/03/24 16:47:06 by vcucuiet         ###   ########.fr       */
+/*   Updated: 2026/03/24 17:09:03 by vcucuiet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,4 +75,5 @@ t_lexer	*lexer_creat(char *input, char *exec_name, int *exit_status)
 	}
 	lex_lexclear(&lex, free);
 	return (0);
-} */
+}
+ */

@@ -6,7 +6,7 @@
 /*   By: vcucuiet <vcucuiet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/05 16:35:00 by mville            #+#    #+#             */
-/*   Updated: 2026/03/24 16:53:08 by vcucuiet         ###   ########.fr       */
+/*   Updated: 2026/03/24 17:08:39 by vcucuiet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	main(int ac, char **av, char **envp)
 			if (!lexer)
 				return (free(input), 1); //malloc faile
 			/* PARSER*/
-			lex_lexclear(&lexer, free);
+      lex_lexclear(&lexer, free);
 			/* EXEC */
 		}
 		free(input);
