@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vcucuiet <vita@student.42.fr>              +#+  +:+       +#+        */
+/*   By: vcucuiet <vcucuiet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/07 15:01:06 by vcucuiet          #+#    #+#             */
-/*   Updated: 2026/03/09 23:44:54 by vcucuiet         ###   ########.fr       */
+/*   Updated: 2026/03/31 13:46:21 by vcucuiet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ typedef struct s_splitvar
 	int		start;
 	char	**tab;
 }			t_splitvar;
-
+void	*ft_realloc(void *ptr, size_t old_size, size_t new_size);
 char	**ft_split(char const *s, char c);
 char	*ft_itoa(int n);
 char	*ft_strmapi(char const *s, char (*f)(unsigned int, char));
