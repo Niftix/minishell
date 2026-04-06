@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mville <mville@student.42.fr>              +#+  +:+       +#+        */
+/*   By: vcucuiet <vita@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/05 16:37:12 by mville            #+#    #+#             */
-/*   Updated: 2026/03/10 21:47:40 by mville           ###   ########.fr       */
+/*   Updated: 2026/04/06 11:30:07 by vcucuiet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,10 @@ void	free_and_clean_history(t_shell *shell);
 
 /* UTILS->SIGNAL_UTILS.C */
 void	signal_init(void);
+
+/* EXPAND */
+
+char	**expand(char *str, char **env);
 
 /* EXEC->EXEC.C */
 int		ast_dispatch(t_shell *shell, t_ast *ast);
