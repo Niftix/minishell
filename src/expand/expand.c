@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vcucuiet <vcucuiet@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vcucuiet <vita@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/28 13:57:54 by vcucuiet          #+#    #+#             */
-/*   Updated: 2026/04/02 17:01:33 by vcucuiet         ###   ########.fr       */
+/*   Updated: 2026/04/03 18:47:51 by vcucuiet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ static char	*exp_exchange_var(char *str, char *var, char *new_var, ssize_t *idx)
 
 	old_v_len = ft_strlen(var);
 	new_v_len = ft_strlen(new_var);
-	remain = ft_strdup(str + (*idx + old_v_len));
+	remain = ft_strdup(str + (*idx + old_v_len + 1));
 	if (!remain)
 		return (free(str), NULL);
 	i = 0;
@@ -81,13 +81,10 @@ static char	*exp_exchange_var(char *str, char *var, char *new_var, ssize_t *idx)
 		str[*idx] = new_var[i++];
 		*idx += 1;
 	}
-	i = 0;
-	while (*remain + i)
-	{
-		str[*idx] = *remain + i++;
-		*idx += 1;
-	}
-	str[*idx] = '\0';
+	i = -1;
+	while (remain[++i])
+		str[*idx + i] = remain[i];
+	str[*idx + i] = '\0';
 	free(remain);
 	return (str);
 }
@@ -102,20 +99,19 @@ static char	*exp_merge_var_to_str(char *str, char **env, char *var, ssize_t *idx
 	if (!new_var)
 		return (NULL);//malloc error
 	old_size = ft_strlen(str);
-	new_size = old_size + ft_strlen(new_var) - ft_strlen(var);
+	new_size = old_size + (ft_strlen(new_var) - ft_strlen(var));
 	if (new_size > old_size)
 	{
-		str = ft_realloc(str, old_size, new_size + 1);
+		str = ft_realloc(str, old_size, new_size);
 		if (!str)
 			return (NULL);//malloc error
 	}
 	str = exp_exchange_var(str, var, new_var, idx);
 	if (!str)
 		return (NULL);//malloc error
-	free(var);
-	var = NULL;
+	free(new_var);
 	if (new_size < old_size)
-		str = ft_realloc(str, old_size, new_size + 1);
+		str = ft_realloc(str, old_size, new_size);
 	return (str);
 }
 
@@ -136,6 +132,8 @@ static char	*exp_chr(char *str, char **env, ssize_t idx, char quote, char *var)
 		if (var)
 		{
 			str = exp_merge_var_to_str(str, env, var, &idx);
+			free(var);
+			var = NULL;
 			if (!str)
 				return (NULL); //malloc error
 		}
@@ -144,11 +142,30 @@ static char	*exp_chr(char *str, char **env, ssize_t idx, char quote, char *var)
 	}
 	return (str);
 }
+
+char	**exp_specifique_case(int state)
+{
+	char	**res;
+	if (state == 1)
+	{
+		res = malloc(sizeof(char *) * 2);
+		if (!res)
+			return (NULL);
+		res [0] = ft_strdup("");
+		if (!res[0])
+			return (free(res), NULL);
+		res[1] = NULL;
+		return (res);
+	}
+	return (NULL);
+}
+
 char	**expand(char *str, char **env)
 {
 	char	quote;
 	char	*var;
 	ssize_t	idx;
+	char	**res;
 
 	if (!str)
 		return (NULL);
@@ -158,5 +175,10 @@ char	**expand(char *str, char **env)
 	str = exp_chr(str, env, idx, quote, var);
 	if (!str)
 		return (NULL); // malloc error
-	return (ft_split(str, ' '));
+	if (str[0] == '\0')
+		res = exp_specifique_case(1);
+	else
+		res = ft_split(str, ' ');
+	free(str);
+	return (res);
 }
