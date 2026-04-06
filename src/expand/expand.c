@@ -1,16 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   expand.c                                           :+:      :+:    :+:   */
+/*   expand_v2.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vcucuiet <vita@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/28 13:57:54 by vcucuiet          #+#    #+#             */
-/*   Updated: 2026/04/03 18:47:51 by vcucuiet         ###   ########.fr       */
+/*   Updated: 2026/04/06 17:44:16 by vcucuiet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+
+static int	is_ifs(char c)
+{
+	if (c == ' ' || c == '\t')
+		return (1);
+	return (0);
+}
 
 static int	exp_is_var_sep(char c)
 {
@@ -30,6 +37,8 @@ static char	*exp_grab_var(char *str)
 
 	var_len = 0;
 	while (str[var_len] && !exp_is_var_sep(str[var_len]))
+		var_len++;
+	if (str[var_len] == '}')
 		var_len++;
 	idx = 0;
 	var = malloc(sizeof(char) * (var_len + 1));
@@ -63,122 +72,182 @@ static char	*exp_chr_var_in_env(char **env, char *var)
 	return (ft_strdup(""));
 }
 
-static char	*exp_exchange_var(char *str, char *var, char *new_var, ssize_t *idx)
+static char	*exp_chr_var_and_exp(char *str, char **env, size_t *idx)
 {
-	ssize_t	old_v_len;
-	ssize_t	new_v_len;
-	char	*remain;
-	ssize_t	i;
+	char	*var;
+	char	*expanded_var;
+	size_t	i;
 
-	old_v_len = ft_strlen(var);
-	new_v_len = ft_strlen(new_var);
-	remain = ft_strdup(str + (*idx + old_v_len + 1));
-	if (!remain)
-		return (free(str), NULL);
-	i = 0;
-	while (i < new_v_len)
-	{
-		str[*idx] = new_var[i++];
+	var = exp_grab_var(str + *idx + 1);
+	if (!var)
+		return (NULL);
+	*idx += 1 +ft_strlen(var);
+	if (str[*idx] == '}')
 		*idx += 1;
+	if (var[0] == '{')
+	{
+		i = -1;
+		while (var[++i + 1] != '}')
+			var[i] = var[i + 1];
+		var[i] = '\0';
 	}
-	i = -1;
-	while (remain[++i])
-		str[*idx + i] = remain[i];
-	str[*idx + i] = '\0';
-	free(remain);
-	return (str);
+	expanded_var = exp_chr_var_in_env(env, var);
+	free(var);
+	return(expanded_var);
+}
+static size_t	exp_skip_tab_space_nl(char *str, size_t start)
+{
+	size_t	idx;
+
+	idx = start;
+	while (str[idx] && (str[idx] == '\t' || str[idx] == ' '
+			|| str[idx] == '\n'))
+		idx++;
+	return (idx);
 }
 
-static char	*exp_merge_var_to_str(char *str, char **env, char *var, ssize_t *idx)
+static char	*exp_extract_none_var(char *str, size_t start, size_t end)
 {
-	size_t	old_size;
-	size_t	new_size;
-	char	*new_var;
+	char	*var;
+	size_t	i;
+	size_t	len;
 
-	new_var = exp_chr_var_in_env(env, var);
-	if (!new_var)
-		return (NULL);//malloc error
-	old_size = ft_strlen(str);
-	new_size = old_size + (ft_strlen(new_var) - ft_strlen(var));
-	if (new_size > old_size)
-	{
-		str = ft_realloc(str, old_size, new_size);
-		if (!str)
-			return (NULL);//malloc error
-	}
-	str = exp_exchange_var(str, var, new_var, idx);
-	if (!str)
-		return (NULL);//malloc error
-	free(new_var);
-	if (new_size < old_size)
-		str = ft_realloc(str, old_size, new_size);
-	return (str);
+	len = end - start;
+	var = malloc(sizeof(char) * (len + 1));
+	if (!var)
+		return (var);
+	var[len] = '\0';
+	i = 0;
+	while (i < len)
+		var[i++] = str[start++];
+	return (var);
 }
 
-static char	*exp_chr(char *str, char **env, ssize_t idx, char quote, char *var)
+static int	exp_is_specifique_case(char *str, size_t idx)
 {
-	while (str[idx])
-	{
-		if (quote == 'x' && (str[idx] == '\'' || str[idx] == '\"'))
-			quote = str[idx];
-		else if (str[idx] == quote)
-			quote = 'x';
-		if (str[idx] == '$' && quote != '\'')
-		{
-			var = exp_grab_var(str + idx + 1);
-			if (!var)
-				return (NULL); //malloc error
-		}
-		if (var)
-		{
-			str = exp_merge_var_to_str(str, env, var, &idx);
-			free(var);
-			var = NULL;
-			if (!str)
-				return (NULL); //malloc error
-		}
-		else
-			idx++;
-	}
-	return (str);
+	if (str[idx + 1] == '?' || str[idx + 1] == '$')
+		return (1);
+	return (0);
 }
 
-char	**exp_specifique_case(int state)
+static char	*exp_specifique_case_var(char *str, size_t *idx, int exit_status)
 {
-	char	**res;
-	if (state == 1)
-	{
-		res = malloc(sizeof(char *) * 2);
-		if (!res)
-			return (NULL);
-		res [0] = ft_strdup("");
-		if (!res[0])
-			return (free(res), NULL);
-		res[1] = NULL;
-		return (res);
-	}
+	*idx += 2;
+	if (str[*idx - 1] == '?')
+		return (ft_itoa(exit_status));
+	if (str[*idx - 1] == '$')
+		return (ft_strdup("$$"));
 	return (NULL);
 }
 
-char	**expand(char *str, char **env)
+static char *exp_extract_var(char *str, char **env, size_t *idx, char quote,
+			int exit_status)
+{
+	size_t		start;
+	static int	in_v = 0;
+
+	if (in_v && exp_is_specifique_case(str, *idx))
+		return (in_v = 0, exp_specifique_case_var(str, idx, exit_status));
+	if (in_v)
+			return(in_v = 0, exp_chr_var_and_exp(str, env, idx));
+	if (quote == 'x')
+			*idx = exp_skip_tab_space_nl(str, *idx);
+	start = *idx;
+	while (str[*idx])
+	{
+		if (quote == 'x' && (str[*idx] == '\'' || str[*idx] == '\"'))
+			quote = str[*idx];
+		else if (str[*idx] == quote)
+			quote = 'x';
+		if (str[*idx] == '$' && quote != '\'')
+		{
+			in_v = 1;
+			return (exp_extract_none_var(str, start, *idx));
+		}
+		if (is_ifs(str[*idx]) && quote == 'x' && !in_v)
+			return (exp_extract_none_var(str, start, *idx));
+		*idx += 1;
+	}
+	return (exp_extract_none_var(str, start, *idx));
+}
+
+static char	*exp_var_append_to_last(char *dest, char *src)
+{
+	ssize_t	dest_len;
+
+	if (!*src)
+		return (dest);
+	dest_len = ft_strlen(dest);
+	dest = ft_strdupcat(dest, src, &dest_len, ft_strlen(src));
+	return (dest);
+}
+
+static char	**exp_var_append(char **res, int *r_len, char *var, int need_new)
+{
+	size_t	old_s;
+	size_t	new_s;
+
+	if (!need_new && *r_len != 1)
+	{
+		res[*r_len - 2] = exp_var_append_to_last(res[*r_len - 2], var);
+		free(var);
+		if (!res[*r_len - 2])
+			return (ft_free2c(res), NULL);
+		return (res);
+	}
+	old_s = sizeof(char *) * (*r_len);
+	new_s = sizeof(char *) * (*r_len + 1);
+	res = ft_realloc(res, old_s, new_s);
+	if (!res)
+		return (free(var), NULL);
+	res[*r_len - 1] = ft_strdup(var);
+	free(var);
+	if (!res[*r_len - 1])
+		return (ft_free2c(res), NULL);
+	res[*r_len] = NULL;
+	*r_len += 1;
+	return (res);
+}
+
+static char	**exp_chr(char *str, char **env, size_t idx, char quote,
+			int exit_status)
+{
+	char	*var;
+	char	**res;
+	int		r_len;
+	int		ifs;
+
+	res = malloc(sizeof(char *) * 1);
+	var = NULL;
+	if (!res)
+		return (NULL);
+	r_len = 1;
+	res[r_len - 1] = NULL;
+	while (str[idx])
+	{                
+		ifs = is_ifs(str[idx]);
+		var = exp_extract_var(str, env, &idx, quote, exit_status);
+		if (!var)
+			return (ft_free2c(res), NULL);
+		res = exp_var_append(res, &r_len, var, ifs);	//continue to handle all var
+		if (!res)
+			return (ft_free2c(res), NULL);
+		var = NULL;
+	}
+	return (res);
+}
+
+char	**expand(char *str, char **env, int	exit_status)
 {
 	char	quote;
-	char	*var;
-	ssize_t	idx;
+	size_t	idx;
 	char	**res;
 
 	if (!str)
 		return (NULL);
 	idx = 0;
 	quote = 'x';
-	var = NULL;
-	str = exp_chr(str, env, idx, quote, var);
-	if (!str)
-		return (NULL); // malloc error
-	if (str[0] == '\0')
-		res = exp_specifique_case(1);
-	else
-		res = ft_split(str, ' ');
+	res = exp_chr(str, env, idx, quote, exit_status);
 	free(str);
 	return (res);
 }
