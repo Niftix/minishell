@@ -1,30 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main_test.c                                        :+:      :+:    :+:   */
+/*   exp_none_var.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vcucuiet <vita@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/04/02 14:19:18 by vcucuiet          #+#    #+#             */
-/*   Updated: 2026/04/06 17:48:05 by vcucuiet         ###   ########.fr       */
+/*   Created: 2026/04/06 18:06:48 by vcucuiet          #+#    #+#             */
+/*   Updated: 2026/04/06 18:12:19 by vcucuiet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-#include <stdio.h>
-#include <stdlib.h>
+#include "expand.h"
 
-char	**expand(char *str, char **env, int exit_status);
-
-int	main(int ac, char **av, char **env)
+char	*exp_extract_none_var(char *str, size_t start, size_t end)
 {
-	char	*str = ft_strdup("salut $USER \"tu es la:&PWD\"  \'last_exit:$?\'");
-	char	**exp = NULL;
+	char	*var;
+	size_t	i;
+	size_t	len;
 
-	((void)ac, (void)av);
-	exp = expand(str, env, 0);
-	for (int i = 0; exp[i]; i++)
-		printf("%s\n", exp[i]);
-	ft_free2c(exp);
-	return (0);
+	len = end - start;
+	var = malloc(sizeof(char) * (len + 1));
+	if (!var)
+		return (var);
+	var[len] = '\0';
+	i = 0;
+	while (i < len)
+		var[i++] = str[start++];
+	return (var);
 }
