@@ -24,7 +24,7 @@ SRC_FILES   = main.c \
             exec/exec_subshell.c \
             exec/exec_utils.c \
             exec/path.c \
-            epand/expand.c \
+            expand/expand.c \
             lexer/lexer.c \
             lexer/lexer_utils.c \
             lexer/lexer_tokeniser.c \
