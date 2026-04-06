@@ -24,6 +24,9 @@ SRC_FILES   = main.c \
             exec/exec_subshell.c \
             exec/exec_utils.c \
             exec/path.c \
+            expand/exp_env_var.c \
+            expand/exp_none_var.c \
+            expand/exp_utils.c \
             expand/expand.c \
             lexer/lexer.c \
             lexer/lexer_utils.c \
