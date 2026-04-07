@@ -35,10 +35,19 @@ SRC_FILES   = main.c \
             lexer/lex_pars.c \
 			lexer/lexer_debug.c \
             lexer/lex_pars_elements.c \
+            parser/ast.c \
+            parser/ast_cmd.c \
+            parser/ast_parser.c \
+            parser/ast_redirection.c \
+            parser/hd_resolve.c \
+            parser/parser.c \
+            parser/parser_cmd.c \
+            parser/parser_redirect.c \
             utils/free.c \
             utils/initializer.c \
             utils/readline_utils.c \
-            utils/signal_utils.c
+            utils/signal_utils.c \
+            utils/verif_if_need_expand.c
 
 SRC			= $(addprefix $(SRC_DIR)/, $(SRC_FILES))
 
@@ -53,7 +62,7 @@ $(NAME): $(LIBFT) $(OBJ)
 	@$(CC) $(CFLAGS) $(OBJ) $(LIBFT) $(READLFLAGS) -o $(NAME)
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
-	@mkdir -p $(OBJ_DIR) $(OBJ_DIR)/builtins $(OBJ_DIR)/lexer $(OBJ_DIR)/exec $(OBJ_DIR)/utils $(OBJ_DIR)/expand
+	@mkdir -p $(OBJ_DIR) $(OBJ_DIR)/builtins $(OBJ_DIR)/lexer $(OBJ_DIR)/exec $(OBJ_DIR)/utils $(OBJ_DIR)/expand $(OBJ_DIR)/parser
 	@$(CC) $(CFLAGS) -MMD -MP -c $< -o $@
 
 $(LIBFT):
