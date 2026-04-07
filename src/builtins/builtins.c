@@ -53,6 +53,11 @@ int	builtin_cd(t_shell *shell, t_ast *ast)
 	char	new_pwd[PATH_MAX];
 	char	*dir;
 
+	if (ast->args_cmd[1] && ast->args_cmd[2])
+	{
+		ft_putstr_fd("minishell: cd: too many arguments\n", 2);
+		return (1);
+	}
 	dir = ast->args_cmd[1];
 	if (!dir)
 		dir = find_home(shell);
@@ -63,13 +68,8 @@ int	builtin_cd(t_shell *shell, t_ast *ast)
 	}
 	if (!getcwd(old_pwd, PATH_MAX))
 		return (1);
-	if (chdir(dir) == -1)
-	{
-		ft_putstr_fd("minishell: cd: ", 2);
-		ft_putstr_fd(dir, 2);
-		ft_putstr_fd(": No such file or directory\n", 2);
+	if (cd_chdir(dir))
 		return (1);
-	}
 	if (!getcwd(new_pwd, PATH_MAX))
 		return (1);
 	return (update_env(shell, old_pwd, new_pwd));
@@ -91,12 +91,21 @@ int	builtin_env(t_shell *shell)
 
 int	builtin_exit(t_shell *shell, t_ast *ast)
 {
-	int	value;
-
 	ft_putstr_fd("exit\n", 1);
-	shell->run = 0;
 	if (!ast->args_cmd[1])
-		return (shell->status_exit);
-	value = ft_atoi(ast->args_cmd[1]);
-	return (value & 0xFF);
+		return (shell->run = 0, shell->status_exit);
+	if (ast->args_cmd[2])
+	{
+		ft_putstr_fd("minishell: exit: too many arguments\n", 2);
+		return (1);
+	}
+	if (!exit_is_num(ast->args_cmd[1]))
+	{
+		ft_putstr_fd("minishell: exit: ", 2);
+		ft_putstr_fd(ast->args_cmd[1], 2);
+		ft_putstr_fd(": numeric argument required\n", 2);
+		return (shell->run = 0, 2);
+	}
+	shell->run = 0;
+	return (ft_atoi(ast->args_cmd[1]) & 0xFF);
 }
