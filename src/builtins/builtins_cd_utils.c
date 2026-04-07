@@ -6,7 +6,7 @@
 /*   By: mville <mville@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/10 18:39:45 by mville            #+#    #+#             */
-/*   Updated: 2026/03/10 21:50:29 by mville           ###   ########.fr       */
+/*   Updated: 2026/04/07 13:53:39 by mville           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,34 @@ int	is_valid_id(char *s)
 		i++;
 	}
 	return (1);
+}
+
+int	exit_is_num(char *s)
+{
+	int	i;
+
+	i = 0;
+	if (s[i] == '+' || s[i] == '-')
+		i++;
+	while (s[i])
+	{
+		if (!ft_isdigit(s[i]))
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
+int	cd_chdir(char *dir)
+{
+	if (chdir(dir) == -1)
+	{
+		ft_putstr_fd("minishell: cd: ", 2);
+		ft_putstr_fd(dir, 2);
+		ft_putstr_fd(": No such file or directory\n", 2);
+		return (1);
+	}
+	return (0);
 }
 
 char	*find_home(t_shell *shell)
