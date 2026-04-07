@@ -27,9 +27,14 @@ static char	**add_expanded_args(char **args, char **words, int *count)
 	i = 0;
 	while (words[i])
 	{
-		new[*count] = remove_quote(words[i]);
-		free(words[i]);
-		(*count)++;
+		if (words[i][0] != '\0')
+		{
+			new[*count] = remove_quote(words[i]);
+			free(words[i]);
+			(*count)++;
+		}
+		else
+			free(words[i]);
 		i++;
 	}
 	new[*count] = NULL;
