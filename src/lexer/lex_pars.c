@@ -107,7 +107,6 @@ t_lexer	*lex_pars(t_lexer *lex, char *exec_name, int *status_exit)
 		prev = tmp;
 		tmp = tmp->next;
 	}
-	*status_exit = 0;
 	if (lex->type == TOKEN_ERROR)
 		*status_exit = 2;
 	return (lex);
