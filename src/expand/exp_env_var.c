@@ -3,21 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   exp_env_var.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vcucuiet <vita@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mville <mville@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/06 18:05:01 by vcucuiet          #+#    #+#             */
-/*   Updated: 2026/04/06 18:21:52 by vcucuiet         ###   ########.fr       */
+/*   Updated: 2026/04/07 14:02:32 by mville           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "expand.h"
-
-int	exp_is_specifique_case(char *str, size_t idx)
-{
-	if (str[idx + 1] == '?' || str[idx + 1] == '$')
-		return (1);
-	return (0);
-}
 
 char	*exp_specifique_case_var(char *str, size_t *idx, int exit_status)
 {
@@ -72,11 +65,20 @@ static char	*exp_chr_var_in_env(char **env, char *var)
 	return (ft_strdup(""));
 }
 
+static void	exp_strip_braces(char *var)
+{
+	size_t	i;
+
+	i = -1;
+	while (var[++i + 1] != '}')
+		var[i] = var[i + 1];
+	var[i] = '\0';
+}
+
 char	*exp_chr_var_and_exp(char *str, char **env, size_t *idx)
 {
 	char	*var;
 	char	*expanded_var;
-	size_t	i;
 
 	var = exp_grab_var(str + *idx + 1);
 	if (!var)
@@ -91,12 +93,7 @@ char	*exp_chr_var_and_exp(char *str, char **env, size_t *idx)
 	if (str[*idx] == '}')
 		*idx += 1;
 	if (var[0] == '{')
-	{
-		i = -1;
-		while (var[++i + 1] != '}')
-			var[i] = var[i + 1];
-		var[i] = '\0';
-	}
+		exp_strip_braces(var);
 	expanded_var = exp_chr_var_in_env(env, var);
 	free(var);
 	return (expanded_var);

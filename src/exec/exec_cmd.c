@@ -6,7 +6,7 @@
 /*   By: mville <mville@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/09 21:16:54 by mville            #+#    #+#             */
-/*   Updated: 2026/03/10 21:43:05 by mville           ###   ########.fr       */
+/*   Updated: 2026/04/07 14:02:28 by mville           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,10 +44,12 @@ static void	exec_fork_child(t_shell *shell, t_ast *ast)
 			ft_putstr_fd("minishell: ", 2);
 			ft_putstr_fd(ast->args_cmd[0], 2);
 			if (access(ast->args_cmd[0], F_OK) == 0)
+			{
 				ft_putstr_fd(": Permission denied\n", 2);
-			else
-				ft_putstr_fd(": No such file or directory\n", 2);
-			exit(access(ast->args_cmd[0], F_OK) == 0 ? 126 : 127);
+				exit(126);
+			}
+			ft_putstr_fd(": No such file or directory\n", 2);
+			exit(127);
 		}
 		path_null_exit(ast);
 	}

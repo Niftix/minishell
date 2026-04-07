@@ -6,12 +6,11 @@
 /*   By: mville <mville@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/07 12:31:23 by mville            #+#    #+#             */
-/*   Updated: 2026/04/07 13:00:37 by mville           ###   ########.fr       */
+/*   Updated: 2026/04/07 14:02:41 by mville           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
-
 
 char	*remove_quote(char *str)
 {
@@ -58,7 +57,7 @@ static int	check_quote(t_redirect *redir)
 	return (expand);
 }
 
-static char *create_hd(t_redirect *redir)
+static char	*create_hd(t_redirect *redir)
 {
 	static int	i;
 	char		*name;
@@ -80,11 +79,9 @@ int	read_hd(t_redirect *redir, t_shell *shell)
 {
 	char	*line;
 	char	*name;
-	int		expand;
 
-	(void)shell; //tempo
-	expand = check_quote(redir);
-	(void)expand; //tempo
+	(void)shell;
+	check_quote(redir);
 	name = create_hd(redir);
 	if (!name)
 		return (1);

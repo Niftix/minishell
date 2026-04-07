@@ -6,7 +6,7 @@
 /*   By: mville <mville@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/07 12:31:28 by mville            #+#    #+#             */
-/*   Updated: 2026/04/07 13:01:22 by mville           ###   ########.fr       */
+/*   Updated: 2026/04/07 14:02:41 by mville           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,13 +28,8 @@ static char	**add_expanded_args(char **args, char **words, int *count)
 	while (words[i])
 	{
 		if (words[i][0] != '\0')
-		{
-			new[*count] = remove_quote(words[i]);
-			free(words[i]);
-			(*count)++;
-		}
-		else
-			free(words[i]);
+			new[(*count)++] = remove_quote(words[i]);
+		free(words[i]);
 		i++;
 	}
 	new[*count] = NULL;
@@ -46,6 +41,7 @@ static t_ast	*fill_simple_cmd(t_ast *node, t_lexer **cur, t_shell *shell)
 {
 	char	**words;
 	int		count;
+
 	count = 0;
 	node->args_cmd = malloc(sizeof(char *));
 	if (!node->args_cmd)
@@ -55,7 +51,8 @@ static t_ast	*fill_simple_cmd(t_ast *node, t_lexer **cur, t_shell *shell)
 	{
 		if ((*cur)->type == TOKEN_WORD)
 		{
-			words = expand(ft_strdup((*cur)->value), shell->env, shell->status_exit);
+			words = expand(ft_strdup((*cur)->value), shell->env,
+					shell->status_exit);
 			if (!words)
 				return (ast_free(node), NULL);
 			node->args_cmd = add_expanded_args(node->args_cmd, words, &count);

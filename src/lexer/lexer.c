@@ -48,7 +48,7 @@ t_lexer	*lexer_creat(char *input, char *exec_name, int *exit_status)
 		i = lex_skip_tab_space_nl(input, i);
 		tmp = lex_creat_new_node(input, i, 1);
 		if (!tmp)
-			return (lex_lexclear(&lex, free), NULL); // need malloc failed error
+			return (lex_lexclear(&lex, free), NULL);
 		if (tmp->type != TOKEN_WORD)
 			i += lex_token_len(tmp->type);
 		else

@@ -65,7 +65,6 @@ static int	valid_parent(t_lexer *lexer, t_lexer *now)
 
 	if (now->type == TOKEN_LPAREN)
 		return (valid_open_parent(now));
-	// verif for closed parent
 	tmp = lexer;
 	c_parent = -1;
 	while (tmp != now)
@@ -88,7 +87,7 @@ int	lex_pars_elements(t_lexer *lexer, t_lexer *prev, t_lexer *now)
 {
 	int	check;
 
-	check = 0; // 0 = good ; 1 == token not conform ; 2 == newline problemme ;
+	check = 0;
 	if (now->type == TOKEN_IN || now->type == TOKEN_OUT
 		|| now->type == TOKEN_APPEND_OUT || now->type == TOKEN_HERE_DOC)
 		check = valid_redirect(now);

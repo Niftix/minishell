@@ -15,15 +15,15 @@ int	verif_if_need_expand(char *str)
 	char	quote;
 
 	quote = 'x';
-    while (*str)
-    {
+	while (*str)
+	{
 		if (quote == 'x' && (*str == '\'' || *str == '\"'))
 			quote = *str;
 		else if (*str == quote)
 			quote = 'x';
-        if (*str == '$' && quote != '\'')
-            return (1);
-        str++;
-    }
-    return (0);
+		if (*str == '$' && quote != '\'')
+			return (1);
+		str++;
+	}
+	return (0);
 }
