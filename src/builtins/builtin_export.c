@@ -106,15 +106,24 @@ static int	env_add(t_shell *shell, char *arg)
 int	builtin_export(t_shell *shell, t_ast *ast)
 {
 	int	i;
+	int	ret;
 
 	i = 1;
+	ret = 0;
 	if (!ast->args_cmd[1])
 		return (print_all(shell), 0);
 	while (ast->args_cmd[i])
 	{
-		if (env_update(shell, ast->args_cmd[i]) == 1)
+		if (!is_valid_id(ast->args_cmd[i]))
+		{
+			ft_putstr_fd("minishell: export: '", 2);
+			ft_putstr_fd(ast->args_cmd[i], 2);
+			ft_putstr_fd("': not a valid identifier\n", 2);
+			ret = 1;
+		}
+		else if (env_update(shell, ast->args_cmd[i]) == 1)
 			env_add(shell, ast->args_cmd[i]);
 		i++;
 	}
-	return (0);
+	return (ret);
 }
