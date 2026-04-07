@@ -35,6 +35,7 @@ t_redirect	*redirect_new(t_redirect_type type, char *target)
 	if (!redir)
 		return (NULL);
 	redir->type = type;
+	redir->fd = -1;
 	redir->target = ft_strdup(target);
 	if (!redir->target)
 		return (free(redir), NULL);
