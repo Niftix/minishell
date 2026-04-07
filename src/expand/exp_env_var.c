@@ -81,6 +81,12 @@ char	*exp_chr_var_and_exp(char *str, char **env, size_t *idx)
 	var = exp_grab_var(str + *idx + 1);
 	if (!var)
 		return (NULL);
+	if (!var[0])
+	{
+		free(var);
+		*idx += 1;
+		return (ft_strdup("$"));
+	}
 	*idx += 1 + ft_strlen(var);
 	if (str[*idx] == '}')
 		*idx += 1;
