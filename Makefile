@@ -36,9 +36,6 @@ SRC_FILES   = main.c \
 			lexer/lexer_debug.c \
             lexer/lex_pars_elements.c \
             parser/ast.c \
-            parser/ast_cmd.c \
-            parser/ast_parser.c \
-            parser/ast_redirection.c \
             parser/hd_resolve.c \
             parser/parser.c \
             parser/parser_cmd.c \
