@@ -24,6 +24,7 @@
 # include <limits.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+# include "libft.h"
 
 typedef struct s_shell
 {
@@ -57,6 +58,7 @@ typedef struct s_redirect
 {
 	t_redirect_type		type;
 	char				*target;
+	int					fd;
 	struct s_redirect	*next;
 }	t_redirect;
 
@@ -84,7 +86,7 @@ void	signal_init(void);
 
 /* EXPAND */
 
-char	**expand(char *str, char **env);
+char	**expand(char *str, char **env, int exit_status);
 
 /* EXEC->EXEC.C */
 int		ast_dispatch(t_shell *shell, t_ast *ast);
