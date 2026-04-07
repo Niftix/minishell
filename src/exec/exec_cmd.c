@@ -38,7 +38,19 @@ static void	exec_fork_child(t_shell *shell, t_ast *ast)
 		exit(1);
 	path = find_cmd_path(shell, ast);
 	if (!path)
+	{
+		if (ft_strchr(ast->args_cmd[0], '/'))
+		{
+			ft_putstr_fd("minishell: ", 2);
+			ft_putstr_fd(ast->args_cmd[0], 2);
+			if (access(ast->args_cmd[0], F_OK) == 0)
+				ft_putstr_fd(": Permission denied\n", 2);
+			else
+				ft_putstr_fd(": No such file or directory\n", 2);
+			exit(access(ast->args_cmd[0], F_OK) == 0 ? 126 : 127);
+		}
 		path_null_exit(ast);
+	}
 	execve(path, ast->args_cmd, shell->env);
 	execve_fail_exit(ast, path);
 }
@@ -64,7 +76,7 @@ int	exec_cmd(t_shell *shell, t_ast *ast)
 	int		status;
 	pid_t	pid;
 
-	if (!ast->args_cmd || !ast->args_cmd[0])
+	if (!ast->args_cmd || !ast->args_cmd[0] || !ast->args_cmd[0][0])
 		return (0);
 	if (check_builtins(ast->args_cmd[0]))
 	{
