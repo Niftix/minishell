@@ -104,6 +104,7 @@ int		check_builtins(char *cmd);
 int		fd_save(t_shell *shell);
 void	fd_recovery(t_shell *shell);
 void	gest_signal(void);
+int		is_valid_id(char *s);
 char	*find_home(t_shell *shell);
 int		update_env(t_shell *shell, char *old_pwd, char *new_pwd);
 
