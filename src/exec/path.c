@@ -11,6 +11,16 @@
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include <sys/stat.h>
+
+int	check_dir(char *path)
+{
+	struct stat	st;
+
+	if (stat(path, &st))
+		return (0);
+	return (S_ISDIR(st.st_mode));
+}
 
 static char	**find_path(t_shell *shell)
 {
@@ -32,7 +42,7 @@ static char	**find_path(t_shell *shell)
 	return (NULL);
 }
 
-static char	*build_cmd_path(char *dir, char *cmd)
+static char	*join_path(char *dir, char *cmd)
 {
 	char	*tmp;
 	char	*ttmp;
@@ -63,10 +73,10 @@ char	*find_cmd_path(t_shell *shell, t_ast *ast)
 	i = 0;
 	while (path[i])
 	{
-		tmp = build_cmd_path(path[i], ast->args_cmd[0]);
+		tmp = join_path(path[i], ast->args_cmd[0]);
 		if (!tmp)
 			return (ft_free_tab(path), NULL);
-		if (access(tmp, X_OK) == 0)
+		if (access(tmp, X_OK) == 0 && !check_dir(tmp))
 			return (ft_free_tab(path), tmp);
 		free(tmp);
 		i++;

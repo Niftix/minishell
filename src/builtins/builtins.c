@@ -6,35 +6,11 @@
 /*   By: mville <mville@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/10 18:15:01 by mville            #+#    #+#             */
-/*   Updated: 2026/03/10 21:44:01 by mville           ###   ########.fr       */
+/*   Updated: 2026/04/10 13:41:43 by mville           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-int	builtin_echo(t_ast *ast)
-{
-	int	i;
-	int	newline;
-
-	i = 1;
-	newline = 1;
-	if (ast->args_cmd[1] && ft_strcmp(ast->args_cmd[1], "-n") == 0)
-	{
-		newline = 0;
-		i = 2;
-	}
-	while (ast->args_cmd[i])
-	{
-		ft_putstr_fd(ast->args_cmd[i], 1);
-		if (ast->args_cmd[i + 1])
-			ft_putstr_fd(" ", 1);
-		i++;
-	}
-	if (newline)
-		ft_putstr_fd("\n", 1);
-	return (0);
-}
 
 int	builtin_pwd(void)
 {
@@ -75,10 +51,17 @@ int	builtin_cd(t_shell *shell, t_ast *ast)
 	return (update_env(shell, old_pwd, new_pwd));
 }
 
-int	builtin_env(t_shell *shell)
+int	builtin_env(t_shell *shell, t_ast *ast)
 {
 	int	i;
 
+	if (ast->args_cmd[1])
+	{
+		ft_putstr_fd("env: '", 2);
+		ft_putstr_fd(ast->args_cmd[1], 2);
+		ft_putstr_fd("': No such file or directory\n", 2);
+		return (127);
+	}
 	i = 0;
 	while (shell->env[i])
 	{
@@ -91,21 +74,22 @@ int	builtin_env(t_shell *shell)
 
 int	builtin_exit(t_shell *shell, t_ast *ast)
 {
-	ft_putstr_fd("exit\n", 1);
+	if (isatty(STDIN_FILENO))
+		ft_putstr_fd("exit\n", 1);
 	if (!ast->args_cmd[1])
 		return (shell->run = 0, shell->status_exit);
-	if (ast->args_cmd[2])
-	{
-		ft_putstr_fd("minishell: exit: too many arguments\n", 2);
-		return (1);
-	}
-	if (!exit_is_num(ast->args_cmd[1]))
+	if (!ast->args_cmd[1][0] || !exit_is_num(ast->args_cmd[1]))
 	{
 		ft_putstr_fd("minishell: exit: ", 2);
 		ft_putstr_fd(ast->args_cmd[1], 2);
 		ft_putstr_fd(": numeric argument required\n", 2);
 		return (shell->run = 0, 2);
 	}
+	if (ast->args_cmd[2])
+	{
+		ft_putstr_fd("minishell: exit: too many arguments\n", 2);
+		return (1);
+	}
 	shell->run = 0;
-	return (ft_atoi(ast->args_cmd[1]) & 0xFF);
+	return ((unsigned char)ft_atol(ast->args_cmd[1]));
 }

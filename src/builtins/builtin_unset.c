@@ -6,7 +6,7 @@
 /*   By: mville <mville@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/10 17:28:31 by mville            #+#    #+#             */
-/*   Updated: 2026/03/10 21:36:27 by mville           ###   ########.fr       */
+/*   Updated: 2026/04/10 13:41:35 by mville           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,13 @@ int	builtin_unset(t_shell *shell, t_ast *ast)
 	i = 1;
 	while (ast->args_cmd[i])
 	{
+		if (ast->args_cmd[i][0] == '-' && ast->args_cmd[i][1])
+		{
+			ft_putstr_fd("minishell: unset: ", 2);
+			ft_putstr_fd(ast->args_cmd[i], 2);
+			ft_putstr_fd(": invalid option\n", 2);
+			return (2);
+		}
 		unset_exec(shell, ast->args_cmd[i]);
 		i++;
 	}
