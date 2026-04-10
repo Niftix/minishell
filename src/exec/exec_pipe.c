@@ -36,7 +36,7 @@ static void	lchild(t_shell *shell, t_ast *ast, int *fd)
 	dup2(fd[1], STDOUT_FILENO);
 	close(fd[1]);
 	status = ast_dispatch(shell, ast->left);
-	exit(status);
+	child_exit(shell, status);
 }
 
 static void	rchild(t_shell *shell, t_ast *ast, int *fd)
@@ -49,7 +49,7 @@ static void	rchild(t_shell *shell, t_ast *ast, int *fd)
 	dup2(fd[0], STDIN_FILENO);
 	close(fd[0]);
 	status = ast_dispatch(shell, ast->right);
-	exit(status);
+	child_exit(shell, status);
 }
 
 int	exec_pipe(t_shell *shell, t_ast *ast)

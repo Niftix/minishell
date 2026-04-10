@@ -6,27 +6,40 @@
 /*   By: mville <mville@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/09 21:16:54 by mville            #+#    #+#             */
-/*   Updated: 2026/04/07 14:02:28 by mville           ###   ########.fr       */
+/*   Updated: 2026/04/10 13:10:11 by mville           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	execve_fail_exit(t_ast *ast, char *path)
+static void	execve_fail_exit(t_shell *shell, t_ast *ast, char *path)
 {
 	ft_putstr_fd("minishell : ", 2);
 	ft_putstr_fd(ast->args_cmd[0], 2);
 	ft_putstr_fd(": permission denied\n", 2);
 	free(path);
-	exit(126);
+	child_exit(shell, 126);
 }
 
-static void	path_null_exit(t_ast *ast)
+static void	path_null_exit(t_shell *shell, t_ast *ast)
 {
-	ft_putstr_fd("minishell : ", 2);
+	if (!ft_strchr(ast->args_cmd[0], '/'))
+	{
+		ft_putstr_fd("minishell : ", 2);
+		ft_putstr_fd(ast->args_cmd[0], 2);
+		ft_putstr_fd(": command not found\n", 2);
+		child_exit(shell, 127);
+	}
+	ft_putstr_fd("minishell: ", 2);
 	ft_putstr_fd(ast->args_cmd[0], 2);
-	ft_putstr_fd(": command not found\n", 2);
-	exit(127);
+	if (check_dir(ast->args_cmd[0]))
+		return (ft_putstr_fd(": Is a directory\n", 2),
+			child_exit(shell, 126));
+	if (access(ast->args_cmd[0], F_OK) == 0)
+		return (ft_putstr_fd(": Permission denied\n", 2),
+			child_exit(shell, 126));
+	ft_putstr_fd(": No such file or directory\n", 2);
+	child_exit(shell, 127);
 }
 
 static void	exec_fork_child(t_shell *shell, t_ast *ast)
@@ -35,26 +48,12 @@ static void	exec_fork_child(t_shell *shell, t_ast *ast)
 
 	gest_signal();
 	if (ast->redirects && all_redirects(ast->redirects))
-		exit(1);
+		child_exit(shell, 1);
 	path = find_cmd_path(shell, ast);
 	if (!path)
-	{
-		if (ft_strchr(ast->args_cmd[0], '/'))
-		{
-			ft_putstr_fd("minishell: ", 2);
-			ft_putstr_fd(ast->args_cmd[0], 2);
-			if (access(ast->args_cmd[0], F_OK) == 0)
-			{
-				ft_putstr_fd(": Permission denied\n", 2);
-				exit(126);
-			}
-			ft_putstr_fd(": No such file or directory\n", 2);
-			exit(127);
-		}
-		path_null_exit(ast);
-	}
+		path_null_exit(shell, ast);
 	execve(path, ast->args_cmd, shell->env);
-	execve_fail_exit(ast, path);
+	execve_fail_exit(shell, ast, path);
 }
 
 static int	exec_builtin_with_redirect(t_shell *shell, t_ast *ast)

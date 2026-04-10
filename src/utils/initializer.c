@@ -47,6 +47,9 @@ int	shell_init(t_shell *shell, char **envp)
 	shell->stdin_backup = -1;
 	shell->stdout_backup = -1;
 	shell->last_pid = -1;
+	shell->current_input = NULL;
+	shell->t_current_lexer = NULL;
+	shell->t_current_ast = NULL;
 	shell->env = malloc(sizeof(char *) * (count + 1));
 	if (!shell->env)
 		return (1);

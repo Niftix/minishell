@@ -28,13 +28,16 @@
 
 typedef struct s_shell
 {
-	char	**env;
-	int		status_exit;
-	int		run;
-	int		in_pipe;
-	int		stdin_backup;
-	int		stdout_backup;
-	pid_t	last_pid;
+	char			**env;
+	int				status_exit;
+	int				run;
+	int				in_pipe;
+	int				stdin_backup;
+	int				stdout_backup;
+	pid_t			last_pid;
+	char			*current_input;
+	struct s_lexer	*t_current_lexer;
+	struct s_ast	*t_current_ast;
 }	t_shell;
 
 typedef enum e_ast_type
@@ -79,7 +82,9 @@ void	ft_free_tab(char **res);
 
 /* UTILS->READLINE_UTILS.C */
 char	*get_input(t_shell *shell);
-void	free_and_clean_history(t_shell *shell);
+void	clean_loop(t_shell *shell);
+void	free_shell(t_shell *shell);
+void	child_exit(t_shell *shell, int status);
 
 /* UTILS->SIGNAL_UTILS.C */
 void	signal_init(void);
@@ -125,8 +130,10 @@ int		exec_builtins(t_shell *shell, t_ast *ast);
 int		builtin_echo(t_ast *ast);
 int		builtin_pwd(void);
 int		builtin_cd(t_shell *shell, t_ast *ast);
-int		builtin_env(t_shell *shell);
+int		builtin_env(t_shell *shell, t_ast *ast);
 int		builtin_exit(t_shell *shell, t_ast *ast);
+void	print_export(t_shell *shell);
+int		exp_opt(char *arg);
 
 /* BUILTINS->BUILTIN_EXPORT.C */
 int		builtin_export(t_shell *shell, t_ast *ast);
@@ -136,6 +143,7 @@ int		builtin_unset(t_shell *shell, t_ast *ast);
 
 /* EXEC->PATH.C */
 char	*find_cmd_path(t_shell *shell, t_ast *ast);
+int		check_dir(char *path);
 
 /* LIBFT */
 int		ft_strcmp(const char *s1, const char *s2);
