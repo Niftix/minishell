@@ -6,38 +6,11 @@
 /*   By: mville <mville@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/07 12:31:23 by mville            #+#    #+#             */
-/*   Updated: 2026/04/07 14:02:41 by mville           ###   ########.fr       */
+/*   Updated: 2026/04/10 12:23:11 by mville           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
-
-char	*remove_quote(char *str)
-{
-	char	*new;
-	char	quote;
-	int		i;
-	int		j;
-
-	new = malloc(ft_strlen(str) + 1);
-	if (!new)
-		return (NULL);
-	quote = 0;
-	i = 0;
-	j = 0;
-	while (str[i])
-	{
-		if (!quote && (str[i] == '\'' || str[i] == '\"'))
-			quote = str[i];
-		else if (quote && str[i] == quote)
-			quote = 0;
-		else
-			new[j++] = str[i];
-		i++;
-	}
-	new[j] = '\0';
-	return (new);
-}
 
 static int	check_quote(t_redirect *redir)
 {
@@ -79,9 +52,9 @@ int	read_hd(t_redirect *redir, t_shell *shell)
 {
 	char	*line;
 	char	*name;
+	int		expand;
 
-	(void)shell;
-	check_quote(redir);
+	expand = check_quote(redir);
 	name = create_hd(redir);
 	if (!name)
 		return (1);
@@ -93,15 +66,10 @@ int	read_hd(t_redirect *redir, t_shell *shell)
 			free(line);
 			break ;
 		}
-		ft_putstr_fd(line, redir->fd);
-		ft_putstr_fd("\n", redir->fd);
-		free(line);
+		if (write_line_hd(redir, shell, line, expand))
+			return (close(redir->fd), free(name), 1);
 	}
-	close(redir->fd);
-	redir->fd = open(name, O_RDONLY);
-	unlink(name);
-	free(name);
-	return (0);
+	return (close_hd(redir, name));
 }
 
 int	hd_resolve(t_ast *ast, t_shell *shell)

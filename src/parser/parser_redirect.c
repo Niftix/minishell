@@ -6,7 +6,7 @@
 /*   By: mville <mville@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/07 12:31:30 by mville            #+#    #+#             */
-/*   Updated: 2026/04/07 14:02:42 by mville           ###   ########.fr       */
+/*   Updated: 2026/04/10 12:23:02 by mville           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,10 @@ int	parse_one_redirect(t_lexer **cur, t_redirect **list)
 	*cur = (*cur)->next;
 	if (!*cur || (*cur)->type != TOKEN_WORD)
 		return (1);
-	target = remove_quote((*cur)->value);
+	if (rtype == REDIR_HEREDOC)
+		target = ft_strdup((*cur)->value);
+	else
+		target = remove_quote((*cur)->value);
 	redir = redirect_new(rtype, target);
 	free(target);
 	if (!redir)
