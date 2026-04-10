@@ -14,6 +14,14 @@
 
 static void	execve_fail_exit(t_shell *shell, t_ast *ast, char *path)
 {
+	if (check_dir(path))
+	{
+		ft_putstr_fd("minishell: ", 2);
+		ft_putstr_fd(ast->args_cmd[0], 2);
+		ft_putstr_fd(": Is a directory\n", 2);
+		free(path);
+		child_exit(shell, 126);
+	}
 	ft_putstr_fd("minishell : ", 2);
 	ft_putstr_fd(ast->args_cmd[0], 2);
 	ft_putstr_fd(": permission denied\n", 2);
@@ -79,6 +87,12 @@ int	exec_cmd(t_shell *shell, t_ast *ast)
 
 	if (!ast->args_cmd || !ast->args_cmd[0] || !ast->args_cmd[0][0])
 		return (0);
+	status = builtin_assign(shell, ast);
+	if (status != -1)
+	{
+		shell->status_exit = status;
+		return (status);
+	}
 	if (check_builtins(ast->args_cmd[0]))
 	{
 		if (ast->redirects)
