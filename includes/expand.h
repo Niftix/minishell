@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vcucuiet <vita@student.42.fr>              +#+  +:+       +#+        */
+/*   By: vcucuiet <vcucuiet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/06 18:02:33 by vcucuiet          #+#    #+#             */
-/*   Updated: 2026/04/06 18:42:34 by vcucuiet         ###   ########.fr       */
+/*   Updated: 2026/04/10 17:07:12 by vcucuiet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 # include "libft.h"
 
 char	**expand(char *str, char **env, int exit_status);
+char	*exp_cringe_dolars(char *str);
 char	*exp_chr_var_and_exp(char *str, char **env, size_t *idx);
 int		exp_is_var_sep(char c);
 int		exp_is_specifique_case(char *str, size_t idx);
