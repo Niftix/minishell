@@ -24,7 +24,7 @@ int	ast_dispatch(t_shell *shell, t_ast *ast)
 		return (exec_and(shell, ast));
 	else if (ast->type == AST_OR)
 		return (exec_or(shell, ast));
-	else if (ast->type == AST_SUBSHELL)
-		return (exec_subshell(shell, ast));
+	else if (ast->type == AST_GROUP)
+		return (exec_group(shell, ast));
 	return (1);
 }

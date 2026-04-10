@@ -24,7 +24,7 @@ SRC_FILES   = main.c \
             exec/exec_cmd.c \
             exec/exec_pipe.c \
             exec/exec_redir.c \
-            exec/exec_subshell.c \
+            exec/exec_group.c \
             exec/exec_utils.c \
             exec/path.c \
             expand/exp_env_var.c \
@@ -39,10 +39,12 @@ SRC_FILES   = main.c \
 			lexer/lexer_debug.c \
             lexer/lex_pars_elements.c \
             parser/ast.c \
+            parser/parser_io.c \
             parser/hd_utils.c \
             parser/hd_resolve.c \
             parser/parser.c \
             parser/parser_cmd.c \
+            parser/parser_cmd_utils.c \
             parser/parser_redirect.c \
             utils/free.c \
             utils/initializer.c \

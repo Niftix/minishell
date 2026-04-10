@@ -45,7 +45,7 @@ typedef enum e_ast_type
 	AST_CMD,
 	AST_PIPE,
 	AST_AND,
-	AST_SUBSHELL,
+	AST_GROUP,
 	AST_OR
 }	t_ast_type;
 
@@ -62,6 +62,7 @@ typedef struct s_redirect
 	t_redirect_type		type;
 	char				*target;
 	int					fd;
+	int					io;
 	struct s_redirect	*next;
 }	t_redirect;
 
@@ -120,8 +121,8 @@ int		update_env(t_shell *shell, char *old_pwd, char *new_pwd);
 /* EXEC->EXEC_REDIR.C */
 int		all_redirects(t_redirect *redirects);
 
-/* EXEC->EXEC_SUBSHELL.C */
-int		exec_subshell(t_shell *shell, t_ast *ast);
+/* EXEC->EXEC_GROUP.C */
+int		exec_group(t_shell *shell, t_ast *ast);
 
 /* BUILTINS->EXEC_BUILTINS.C */
 int		exec_builtins(t_shell *shell, t_ast *ast);
