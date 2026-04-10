@@ -134,9 +134,11 @@ int		builtin_env(t_shell *shell, t_ast *ast);
 int		builtin_exit(t_shell *shell, t_ast *ast);
 void	print_export(t_shell *shell);
 int		exp_opt(char *arg);
+int		find_var(t_shell *shell, char *arg, int mode);
 
 /* BUILTINS->BUILTIN_EXPORT.C */
 int		builtin_export(t_shell *shell, t_ast *ast);
+int		builtin_assign(t_shell *shell, t_ast *ast);
 
 /* BUILTINS->BUILTIN_UNSET.C */
 int		builtin_unset(t_shell *shell, t_ast *ast);

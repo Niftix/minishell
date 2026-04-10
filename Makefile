@@ -12,6 +12,7 @@ OBJ_DIR		= obj
 
 SRC_FILES   = main.c \
             builtins/builtins.c \
+            builtins/builtin_assign.c \
             builtins/builtin_echo.c \
             builtins/builtin_export.c \
             builtins/builtin_export_utils.c \

@@ -89,19 +89,10 @@ int	exec_cmd(t_shell *shell, t_ast *ast)
 		return (0);
 	status = builtin_assign(shell, ast);
 	if (status != -1)
-	{
-		shell->status_exit = status;
-		return (status);
-	}
+		return (shell->status_exit = status, status);
 	if (check_builtins(ast->args_cmd[0]))
-	{
-		if (ast->redirects)
-			status = exec_builtin_with_redirect(shell, ast);
-		else
-			status = exec_builtins(shell, ast);
-		shell->status_exit = status;
-		return (status);
-	}
+		return (shell->status_exit = exec_builtin_with_redirect(shell, ast),
+			shell->status_exit);
 	pid = fork();
 	if (pid == -1)
 		return (1);
