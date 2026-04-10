@@ -12,7 +12,9 @@ OBJ_DIR		= obj
 
 SRC_FILES   = main.c \
             builtins/builtins.c \
+            builtins/builtin_echo.c \
             builtins/builtin_export.c \
+            builtins/builtin_export_utils.c \
             builtins/builtins_cd_utils.c \
             builtins/builtin_unset.c \
             exec/exec_and_or.c \
@@ -36,6 +38,7 @@ SRC_FILES   = main.c \
 			lexer/lexer_debug.c \
             lexer/lex_pars_elements.c \
             parser/ast.c \
+            parser/hd_utils.c \
             parser/hd_resolve.c \
             parser/parser.c \
             parser/parser_cmd.c \
