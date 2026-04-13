@@ -6,11 +6,29 @@
 /*   By: mville <mville@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/13 18:23:37 by mville            #+#    #+#             */
-/*   Updated: 2026/04/13 23:01:40 by mville           ###   ########.fr       */
+/*   Updated: 2026/04/13 23:31:52 by mville           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static int	check_if_num_only(char *str)
+{
+	int	i;
+
+	i = 0;
+	if (str[i] == '+' || str[i] == '-')
+		i++;
+	if (!str[i])
+		return (0);
+	while (str[i])
+	{
+		if (!ft_isdigit(str[i]))
+			return (0);
+		i++;
+	}
+	return (1);
+}
 
 int	blt_exit(t_shell *shell, t_ast *ast)
 {
