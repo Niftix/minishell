@@ -1,46 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_export_utils.c                             :+:      :+:    :+:   */
+/*   utils_blt_export.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mville <mville@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/04/10 15:12:00 by mville            #+#    #+#             */
-/*   Updated: 2026/04/10 15:12:00 by mville           ###   ########.fr       */
+/*   Created: 2026/04/08 01:52:21 by mville            #+#    #+#             */
+/*   Updated: 2026/04/13 22:59:49 by mville           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-int	exp_opt(char *arg)
-{
-	return (arg && arg[0] == '-' && arg[1]);
-}
-
-int	find_var(t_shell *shell, char *arg, int mode)
-{
-	int		i;
-	int		name_len;
-	char	*equal;
-
-	i = 0;
-	equal = ft_strchr(arg, '=');
-	if (!equal)
-		name_len = ft_strlen(arg);
-	else if (mode)
-		name_len = equal - arg - 1;
-	else
-		name_len = equal - arg;
-	while (shell->env[i])
-	{
-		if (ft_strncmp(shell->env[i], arg, name_len) == 0
-			&& (shell->env[i][name_len] == '='
-			|| shell->env[i][name_len] == '\0'))
-			return (i);
-		i++;
-	}
-	return (-1);
-}
 
 static void	sort_env(char **env)
 {
@@ -66,24 +36,34 @@ static void	sort_env(char **env)
 	}
 }
 
-static void	print_line(char *s)
+static void	display_export(char *arg)
 {
+	char	*equal_sign;
 	int		i;
-	char	*eq;
 
-	eq = ft_strchr(s, '=');
+	equal_sign = ft_strchr(arg, '=');
 	ft_putstr_fd("declare -x ", 1);
-	if (!eq)
-		return (ft_putstr_fd(s, 1), ft_putstr_fd("\n", 1));
-	i = 0;
-	while (&s[i] != eq + 1)
-		write(1, &s[i++], 1);
+	if (equal_sign == NULL)
+	{
+		ft_putstr_fd(arg, 1);
+		ft_putstr_fd("\n", 1);
+		return ;
+	}
+	write(1, arg, (equal_sign - arg) + 1);
 	ft_putstr_fd("\"", 1);
-	ft_putstr_fd(eq + 1, 1);
+	i = 1;
+	while (equal_sign[i])
+	{
+		if (equal_sign[i] == '"' || equal_sign[i] == '\\'
+			|| equal_sign[i] == '$' || equal_sign[i] == '`')
+			ft_putstr_fd("\\", 1);
+		write(1, &equal_sign[i], 1);
+		i++;
+	}
 	ft_putstr_fd("\"\n", 1);
 }
 
-void	print_export(t_shell *shell)
+void	no_arg_print_export(t_shell *shell)
 {
 	char	**env;
 	int		i;
@@ -105,8 +85,24 @@ void	print_export(t_shell *shell)
 	i = 0;
 	while (env[i])
 	{
-		print_line(env[i]);
+		display_export(env[i]);
 		i++;
 	}
 	free(env);
+}
+
+int	check_format_is_valid(char *s)
+{
+	int	i;
+
+	if (!s || (!ft_isalpha(s[0]) && s[0] != '_'))
+		return (0);
+	i = 1;
+	while (s[i] && s[i] != '=')
+	{
+		if (!ft_isalnum(s[i]) && s[i] != '_')
+			return (0);
+		i++;
+	}
+	return (1);
 }
