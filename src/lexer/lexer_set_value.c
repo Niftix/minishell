@@ -6,7 +6,7 @@
 /*   By: vcucuiet <vita@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/10 11:25:35 by vcucuiet          #+#    #+#             */
-/*   Updated: 2026/03/24 11:35:12 by vcucuiet         ###   ########.fr       */
+/*   Updated: 2026/04/13 14:50:13 by vcucuiet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static ssize_t	lex_quote_verif(char *quote)
 {
 	if (*quote == 'x')
 		return (0);
-	ft_putstr_fd("Minishell: lexer: error: unclosed quote\n", 2);
+	ft_putstr_fd("minishell: lexer: error: unclosed quote\n", 2);
 	return (*quote = 'x', -1);
 }
 
@@ -64,7 +64,7 @@ static char	*lex_cpy_value_from_input(char *buf, char *input, size_t idx)
 		if (t_cpy != LEXER_BUF)
 		{
 			if (lex_set_buf(NULL, NULL, 0) == -1)
-				return (free(val), NULL);
+				return (val);
 			break ;
 		}
 	}
