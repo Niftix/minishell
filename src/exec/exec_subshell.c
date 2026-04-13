@@ -18,9 +18,9 @@ static void	sub_child(t_shell *shell, t_ast *ast)
 
 	gest_signal();
 	if (ast->redirects && all_redirects(ast->redirects))
-		exit(1);
+		child_exit(shell, 1);
 	status = ast_dispatch(shell, ast->left);
-	exit(status);
+	child_exit(shell, status);
 }
 
 int	exec_subshell(t_shell *shell, t_ast *ast)

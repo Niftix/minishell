@@ -53,28 +53,13 @@ static int	redir_out(char *target, int append)
 	return (0);
 }
 
-static int	redir_heredoc(char *delimiter)
+static int	redir_heredoc(t_redirect *redirect)
 {
-	int		fd[2];
-	char	*line;
-
-	if (pipe(fd) == -1)
+	if (redirect->fd < 0)
 		return (1);
-	while (1)
-	{
-		line = readline("heredoc> ");
-		if (!line || ft_strcmp(line, delimiter) == 0)
-		{
-			free(line);
-			break ;
-		}
-		ft_putstr_fd(line, fd[1]);
-		ft_putstr_fd("\n", fd[1]);
-		free(line);
-	}
-	close(fd[1]);
-	dup2(fd[0], STDIN_FILENO);
-	close(fd[0]);
+	dup2(redirect->fd, STDIN_FILENO);
+	close(redirect->fd);
+	redirect->fd = -1;
 	return (0);
 }
 
@@ -99,7 +84,7 @@ int	all_redirects(t_redirect *redirects)
 		}
 		else if (redirects->type == REDIR_HEREDOC)
 		{
-			if (redir_heredoc(redirects->target))
+			if (redir_heredoc(redirects))
 				return (1);
 		}
 		redirects = redirects->next;

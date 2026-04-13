@@ -6,7 +6,7 @@
 /*   By: mville <mville@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/07 12:58:32 by mville            #+#    #+#             */
-/*   Updated: 2026/04/07 14:02:41 by mville           ###   ########.fr       */
+/*   Updated: 2026/04/10 12:23:14 by mville           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,8 @@ void	ast_free(t_ast *ast)
 	while (redir)
 	{
 		tmp = redir->next;
+		if (redir->fd != -1)
+			close(redir->fd);
 		free(redir->target);
 		free(redir);
 		redir = tmp;

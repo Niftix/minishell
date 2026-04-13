@@ -25,7 +25,7 @@ int	exec_builtins(t_shell *shell, t_ast *ast)
 	if (ft_strcmp(ast->args_cmd[0], "echo") == 0)
 		return (builtin_echo(ast));
 	if (ft_strcmp(ast->args_cmd[0], "env") == 0)
-		return (builtin_env(shell));
+		return (builtin_env(shell, ast));
 	if (ft_strcmp(ast->args_cmd[0], "export") == 0)
 		return (builtin_export(shell, ast));
 	return (1);

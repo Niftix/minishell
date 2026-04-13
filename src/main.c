@@ -6,7 +6,7 @@
 /*   By: mville <mville@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/05 16:35:00 by mville            #+#    #+#             */
-/*   Updated: 2026/04/07 13:56:32 by mville           ###   ########.fr       */
+/*   Updated: 2026/04/10 13:10:17 by mville           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,20 +16,19 @@
 
 static int	process_input(t_shell *shell, char *input, char **av)
 {
-	t_lexer	*lexer;
-	t_ast	*ast;
-
-	lexer = lexer_creat(input, av[0], &shell->status_exit);
-	if (!lexer)
+	shell->current_input = input;
+	shell->t_current_lexer = lexer_creat(input, av[0], &shell->status_exit);
+	if (!shell->t_current_lexer)
 		return (1);
-	ast = check_parse(lexer, shell);
-	if (ast)
+	if (shell->t_current_lexer->type == TOKEN_ERROR && !isatty(STDIN_FILENO))
+		shell->run = 0;
+	shell->t_current_ast = check_parse(shell->t_current_lexer, shell);
+	if (shell->t_current_ast)
 	{
-		hd_resolve(ast, shell);
-		shell->status_exit = ast_dispatch(shell, ast);
-		ast_free(ast);
+		hd_resolve(shell->t_current_ast, shell);
+		shell->status_exit = ast_dispatch(shell, shell->t_current_ast);
 	}
-	lex_lexclear(&lexer, free);
+	clean_loop(shell);
 	return (0);
 }
 
@@ -46,9 +45,11 @@ int	main(int ac, char **av, char **envp)
 	{
 		input = get_input(&shell);
 		if (input && process_input(&shell, input, av))
-			return (free(input), 1);
-		free(input);
+		{
+			free_shell(&shell);
+			return (1);
+		}
 	}
-	free_and_clean_history(&shell);
+	free_shell(&shell);
 	return (shell.status_exit);
 }

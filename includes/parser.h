@@ -38,8 +38,14 @@ t_ast			*parse_and_or(t_lexer **cur, t_shell *shell);
 t_ast			*check_parse(t_lexer *lex, t_shell *shell);
 
 /* PARSER->HD_RESOLVE.C */
-char			*remove_quote(char *str);
 int				read_hd(t_redirect *redir, t_shell *shell);
 int				hd_resolve(t_ast *ast, t_shell *shell);
+
+/* PARSER->HD_UTILS.C */
+char			*remove_quote(char *str);
+char			*add_res(char *res, char *str);
+int				write_line_hd(t_redirect *redir, t_shell *shell,
+					char *line, int exp);
+int				close_hd(t_redirect *redir, char *name);
 
 #endif

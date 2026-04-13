@@ -37,10 +37,34 @@ static char	**add_expanded_args(char **args, char **words, int *count)
 	return (new);
 }
 
-static t_ast	*fill_simple_cmd(t_ast *node, t_lexer **cur, t_shell *shell)
+static int	add_arg(t_ast *node, t_lexer *cur, t_shell *shell, int *count)
 {
 	char	**words;
-	int		count;
+	char	*tmp;
+	char	*home;
+
+	tmp = ft_strdup(cur->value);
+	if (cur->value[0] == '~' && (!cur->value[1] || cur->value[1] == '/'))
+	{
+		home = find_home(shell);
+		if (home)
+		{
+			free(tmp);
+			tmp = ft_strjoin(home, cur->value + 1);
+		}
+	}
+	words = expand(tmp, shell->env, shell->status_exit);
+	if (!words)
+		return (1);
+	node->args_cmd = add_expanded_args(node->args_cmd, words, count);
+	if (!node->args_cmd)
+		return (1);
+	return (0);
+}
+
+static t_ast	*fill_simple_cmd(t_ast *node, t_lexer **cur, t_shell *shell)
+{
+	int	count;
 
 	count = 0;
 	node->args_cmd = malloc(sizeof(char *));
@@ -49,19 +73,13 @@ static t_ast	*fill_simple_cmd(t_ast *node, t_lexer **cur, t_shell *shell)
 	node->args_cmd[0] = NULL;
 	while (*cur && cmd_token_checker((*cur)->type))
 	{
-		if ((*cur)->type == TOKEN_WORD)
-		{
-			words = expand(ft_strdup((*cur)->value), shell->env,
-					shell->status_exit);
-			if (!words)
-				return (ast_free(node), NULL);
-			node->args_cmd = add_expanded_args(node->args_cmd, words, &count);
-			if (!node->args_cmd)
-				return (ast_free(node), NULL);
-			*cur = (*cur)->next;
-		}
-		else if (parse_one_redirect(cur, &node->redirects))
+		if ((*cur)->type == TOKEN_WORD && add_arg(node, *cur, shell, &count))
 			return (ast_free(node), NULL);
+		else if ((*cur)->type != TOKEN_WORD
+			&& parse_one_redirect(cur, &node->redirects))
+			return (ast_free(node), NULL);
+		if (*cur && (*cur)->type == TOKEN_WORD)
+			*cur = (*cur)->next;
 	}
 	return (node);
 }
