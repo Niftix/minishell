@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exp_cringe_dolars.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vcucuiet <vcucuiet@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vcucuiet <vita@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/10 16:59:18 by vcucuiet          #+#    #+#             */
-/*   Updated: 2026/04/10 18:02:14 by vcucuiet         ###   ########.fr       */
+/*   Updated: 2026/04/13 14:12:38 by vcucuiet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,12 @@ char	*exp_cringe_dolars(char *str)
 {
 	size_t	i;
 	char	quote;
+	size_t	len;
 
+	len = ft_strlen(str);
 	i = 0;
 	quote = 'x';
-	while (str[i])
+	while (i < len)
 	{
 		if ((str[i] == '\"' || str[i] == '\'') && quote == 'x')
 			quote = str[i];

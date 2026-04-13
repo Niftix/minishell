@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vcucuiet <vcucuiet@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vcucuiet <vita@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/28 13:57:54 by vcucuiet          #+#    #+#             */
-/*   Updated: 2026/04/10 18:07:48 by vcucuiet         ###   ########.fr       */
+/*   Updated: 2026/04/13 14:09:22 by vcucuiet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,7 @@ char	**expand(char *str, char **env, int exit_status)
 
 	if (!str)
 		return (NULL);
-	//str = exp_cringe_dolars(str);
+	str = exp_cringe_dolars(str);
 	idx = 0;
 	res = exp_chr(str, env, idx, exit_status);
 	free(str);
