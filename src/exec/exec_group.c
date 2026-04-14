@@ -1,42 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec_subshell.c                                    :+:      :+:    :+:   */
+/*   exec_group.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mville <mville@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/10 17:12:18 by mville            #+#    #+#             */
-/*   Updated: 2026/04/07 14:02:25 by mville           ###   ########.fr       */
+/*   Updated: 2026/04/14 17:25:27 by mville           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	sub_child(t_shell *shell, t_ast *ast)
-{
-	int	status;
-
-	gest_signal();
-	if (ast->redirects && all_redirects(ast->redirects))
-		child_exit(shell, 1);
-	status = ast_dispatch(shell, ast->left);
-	child_exit(shell, status);
-}
-
-int	exec_subshell(t_shell *shell, t_ast *ast)
+int	exec_group(t_shell *shell, t_ast *ast)
 {
 	pid_t	pid;
 	int		status;
 
 	pid = fork();
 	if (pid == -1)
+	{
+		perror("minishell: fork");
 		return (1);
+	}
 	if (pid == 0)
-		sub_child(shell, ast);
+	{
+		gest_signal(); 
+		if (ast->redirects && all_redirects(ast->redirects))
+			child_exit(shell, 1);
+		status = ast_dispatch(shell, ast->left);
+		child_exit(shell, status);
+	}
 	waitpid(pid, &status, 0);
-	if (WIFSIGNALED(status))
-		shell->status_exit = 128 + WTERMSIG(status);
-	else
+	if (WIFEXITED(status))
 		shell->status_exit = WEXITSTATUS(status);
+	else if (WIFSIGNALED(status))
+		shell->status_exit = 128 + WTERMSIG(status);
 	return (shell->status_exit);
 }

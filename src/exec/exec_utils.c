@@ -6,7 +6,7 @@
 /*   By: mville <mville@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/06 15:21:48 by mville            #+#    #+#             */
-/*   Updated: 2026/04/07 14:02:26 by mville           ###   ########.fr       */
+/*   Updated: 2026/04/14 17:25:28 by mville           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ void	gest_signal(void)
 {
 	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_DFL);
+	signal(SIGPIPE, SIG_DFL);
 }
 
 int	ft_strcmp(const char *s1, const char *s2)

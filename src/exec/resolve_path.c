@@ -1,19 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   path.c                                             :+:      :+:    :+:   */
+/*   resolve_path.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mville <mville@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/09 19:12:06 by mville            #+#    #+#             */
-/*   Updated: 2026/04/07 14:02:31 by mville           ###   ########.fr       */
+/*   Updated: 2026/04/14 17:27:49 by mville           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include <sys/stat.h>
 
-int	check_dir(char *path)
+int	check_if_directory(char *path)
 {
 	struct stat	st;
 
@@ -22,7 +22,7 @@ int	check_dir(char *path)
 	return (S_ISDIR(st.st_mode));
 }
 
-static char	**find_path(t_shell *shell)
+static char	**get_path_in_env(t_shell *shell)
 {
 	int		i;
 	char	**path;
@@ -42,7 +42,7 @@ static char	**find_path(t_shell *shell)
 	return (NULL);
 }
 
-static char	*join_path(char *dir, char *cmd)
+static char	*build_full_path(char *dir, char *cmd)
 {
 	char	*tmp;
 	char	*ttmp;
@@ -55,7 +55,7 @@ static char	*join_path(char *dir, char *cmd)
 	return (ttmp);
 }
 
-char	*find_cmd_path(t_shell *shell, t_ast *ast)
+char	*resolve_cmd_path(t_shell *shell, t_ast *ast)
 {
 	char	*tmp;
 	char	**path;
@@ -67,16 +67,16 @@ char	*find_cmd_path(t_shell *shell, t_ast *ast)
 			return (NULL);
 		return (ft_strdup(ast->args_cmd[0]));
 	}
-	path = find_path(shell);
+	path = get_path_in_env(shell);
 	if (!path)
 		return (NULL);
 	i = 0;
 	while (path[i])
 	{
-		tmp = join_path(path[i], ast->args_cmd[0]);
+		tmp = build_full_path(path[i], ast->args_cmd[0]);
 		if (!tmp)
 			return (ft_free_tab(path), NULL);
-		if (access(tmp, X_OK) == 0 && !check_dir(tmp))
+		if (access(tmp, X_OK) == 0 && !check_if_directory(tmp))
 			return (ft_free_tab(path), tmp);
 		free(tmp);
 		i++;

@@ -26,32 +26,6 @@ static int	clean_fork(int *fd, pid_t lpid)
 	return (close_pipe(fd, 1));
 }
 
-static void	lchild(t_shell *shell, t_ast *ast, int *fd)
-{
-	int	status;
-
-	signal(SIGINT, SIG_DFL);
-	signal(SIGQUIT, SIG_DFL);
-	close(fd[0]);
-	dup2(fd[1], STDOUT_FILENO);
-	close(fd[1]);
-	status = ast_dispatch(shell, ast->left);
-	child_exit(shell, status);
-}
-
-static void	rchild(t_shell *shell, t_ast *ast, int *fd)
-{
-	int	status;
-
-	signal(SIGINT, SIG_DFL);
-	signal(SIGQUIT, SIG_DFL);
-	close(fd[1]);
-	dup2(fd[0], STDIN_FILENO);
-	close(fd[0]);
-	status = ast_dispatch(shell, ast->right);
-	child_exit(shell, status);
-}
-
 int	exec_pipe(t_shell *shell, t_ast *ast)
 {
 	pid_t	lpid;
@@ -65,14 +39,16 @@ int	exec_pipe(t_shell *shell, t_ast *ast)
 	if (lpid == -1)
 		return (close_pipe(fd, 1));
 	if (lpid == 0)
-		lchild(shell, ast, fd);
+		left_pipe_writer(shell, ast, fd);
 	rpid = fork();
 	if (rpid == -1)
 		return (clean_fork(fd, lpid));
 	if (rpid == 0)
-		rchild(shell, ast, fd);
+		right_pipe_reader(shell, ast, fd);
 	close_pipe(fd, 0);
 	waitpid(lpid, NULL, 0);
 	waitpid(rpid, &status, 0);
+	if (WIFSIGNALED(status))
+		return (128 + WTERMSIG(status));
 	return (WEXITSTATUS(status));
 }
