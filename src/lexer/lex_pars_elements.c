@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lex_pars_elements.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vcucuiet <vcucuiet@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vcucuiet <vita@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/14 20:43:27 by vcucuiet          #+#    #+#             */
-/*   Updated: 2026/03/17 15:24:18 by vcucuiet         ###   ########.fr       */
+/*   Updated: 2026/04/15 15:51:19 by vcucuiet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,24 @@ static int	valid_comp(t_lexer *prev, t_lexer *now)
 	if (prev == NULL)
 		return (1);
 	next = now->next;
-	if (next->type == TOKEN_EOF)
-		return (2);
-	if ((prev->type == TOKEN_RPAREN || prev->type == TOKEN_WORD)
-		&& (next->type == TOKEN_LPAREN || next->type == TOKEN_WORD))
-		return (0);
+	if (now->type == TOKEN_PIPE)
+	{
+		if (next->type == TOKEN_EOF)
+			return (2);
+		if ((prev->type == TOKEN_RPAREN || prev->type == TOKEN_WORD)
+			&& (next->type == TOKEN_LPAREN || next->type == TOKEN_WORD
+			|| next->type == TOKEN_IN || next->type == TOKEN_HERE_DOC
+			|| next->type == TOKEN_OUT || next->type == TOKEN_APPEND_OUT))
+			return (0);
+	}
+	else
+	{	
+		if (next->type == TOKEN_EOF)
+			return (2);
+		if ((prev->type == TOKEN_RPAREN || prev->type == TOKEN_WORD)
+			&& (next->type == TOKEN_LPAREN || next->type == TOKEN_WORD))
+			return (0);
+	}
 	return (1);
 }
 
