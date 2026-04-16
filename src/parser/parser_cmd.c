@@ -15,7 +15,7 @@
 static int	add_token(t_ast *node, t_lexer **cur, t_shell *shell, int *count)
 {
 	if ((*cur)->type != TOKEN_WORD)
-		return (parse_one_redirect(cur, &node->redirects));
+		return (parse_one_redirect(cur, &node->redirects, shell));
 	if (add_arg_cmd(node, *cur, shell, count))
 		return (1);
 	*cur = (*cur)->next;
@@ -66,7 +66,7 @@ t_ast	*parse_cmd(t_lexer **cur, t_shell *shell)
 		return (ast_free(node), NULL);
 	*cur = (*cur)->next;
 	while (*cur && redirect_checker((*cur)->type))
-		if (parse_one_redirect(cur, &node->redirects))
+		if (parse_one_redirect(cur, &node->redirects, shell))
 			return (ast_free(node), NULL);
 	return (node);
 }

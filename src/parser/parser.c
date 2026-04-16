@@ -67,6 +67,8 @@ t_ast	*check_parse(t_lexer *lex, t_shell *shell)
 		return (NULL);
 	}
 	ast = parse_and_or(&lex, shell);
+	if (!ast && shell->status_exit == 1)
+		return (NULL);
 	if (!ast || (lex && lex->type != TOKEN_EOF))
 	{
 		parser_put_error(lex);

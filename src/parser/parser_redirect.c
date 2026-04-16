@@ -12,13 +12,6 @@
 
 #include "parser.h"
 
-static int	redir_fd_target(t_redirect_type type)
-{
-	if (type == REDIR_IN || type == REDIR_HEREDOC)
-		return (STDIN_FILENO);
-	return (STDOUT_FILENO);
-}
-
 int	redirect_checker(t_token type)
 {
 	return (type == TOKEN_IN || type == TOKEN_OUT
@@ -41,7 +34,32 @@ t_redirect_type	token_to_redir(t_token type)
 	return (REDIR_HEREDOC);
 }
 
-int	parse_one_redirect(t_lexer **cur, t_redirect **list)
+static char	*get_redir_target(t_lexer *cur, t_shell *shell)
+{
+	char	**words;
+	char	*tmp;
+	char	*target;
+
+	tmp = ft_strdup(cur->value);
+	if (!tmp)
+		return (NULL);
+	words = expand(tmp, shell->env, shell->status_exit);
+	if (!words)
+		return (NULL);
+	if (!words[0] || words[1] || words[0][0] == '\0')
+	{
+		ft_putstr_fd("minishell: ", 2);
+		ft_putstr_fd(cur->value, 2);
+		ft_putstr_fd(": ambiguous redirect\n", 2);
+		shell->status_exit = 1;
+		return (ft_free_tab(words), NULL);
+	}
+	target = remove_quote(words[0]);
+	ft_free_tab(words);
+	return (target);
+}
+
+int	parse_one_redirect(t_lexer **cur, t_redirect **list, t_shell *shell)
 {
 	t_redirect_type	rtype;
 	t_redirect		*redir;
@@ -54,8 +72,13 @@ int	parse_one_redirect(t_lexer **cur, t_redirect **list)
 	if (rtype == REDIR_HEREDOC)
 		target = ft_strdup((*cur)->value);
 	else
-		target = remove_quote((*cur)->value);
-	redir = redirect_new(rtype, target, redir_fd_target(rtype));
+		target = get_redir_target(*cur, shell);
+	if (!target)
+		return (1);
+	if (rtype == REDIR_IN || rtype == REDIR_HEREDOC)
+		redir = redirect_new(rtype, target, STDIN_FILENO);
+	else
+		redir = redirect_new(rtype, target, STDOUT_FILENO);
 	free(target);
 	if (!redir)
 		return (1);
