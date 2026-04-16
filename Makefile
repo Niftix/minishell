@@ -10,47 +10,53 @@ SRC_DIR		= src
 LIBFT_DIR	= libft
 OBJ_DIR		= obj
 
-SRC_FILES   = main.c \
-            builtins/builtins.c \
-            builtins/builtin_assign.c \
-            builtins/builtin_echo.c \
-            builtins/builtin_export.c \
-            builtins/builtin_export_utils.c \
-            builtins/builtins_cd_utils.c \
-            builtins/builtin_unset.c \
-            exec/exec_and_or.c \
-            exec/exec_builtins.c \
-            exec/exec.c \
-            exec/exec_cmd.c \
-            exec/exec_pipe.c \
-            exec/exec_redir.c \
-            exec/exec_group.c \
-            exec/exec_utils.c \
-            exec/path.c \
-            expand/exp_env_var.c \
-            expand/exp_none_var.c \
-            expand/exp_utils.c \
-            expand/expand.c \
-            lexer/lexer.c \
-            lexer/lexer_utils.c \
-            lexer/lexer_tokeniser.c \
-            lexer/lexer_set_value.c \
-            lexer/lex_pars.c \
+SRC_FILES	= main.c \
+			builtins/blt_cd.c \
+			builtins/blt_echo.c \
+			builtins/blt_env.c \
+			builtins/blt_exit.c \
+			builtins/blt_export.c \
+			builtins/blt_pwd.c \
+			builtins/blt_unset.c \
+			builtins/utils_blt_export.c \
+			builtins/utils_error.c \
+			exec/build_env.c \
+			exec/exec_and_or.c \
+			exec/exec_cmd.c \
+			exec/exec_cmd_child.c \
+			exec/exec_core.c \
+			exec/exec_core_blt.c \
+			exec/exec_group.c \
+			exec/exec_pipe.c \
+			exec/exec_pipe_child.c \
+			exec/exec_redir.c \
+			exec/exec_utils.c \
+			exec/resolve_path.c \
+			expand/exp_cringe_dolars.c \
+			expand/exp_env_var.c \
+			expand/exp_none_var.c \
+			expand/exp_utils.c \
+			expand/expand.c \
+			lexer/lex_pars.c \
+			lexer/lex_pars_elements.c \
+			lexer/lexer.c \
 			lexer/lexer_debug.c \
-            lexer/lex_pars_elements.c \
-            parser/ast.c \
-            parser/parser_io.c \
-            parser/hd_utils.c \
-            parser/hd_resolve.c \
-            parser/parser.c \
-            parser/parser_cmd.c \
-            parser/parser_cmd_utils.c \
-            parser/parser_redirect.c \
-            utils/free.c \
-            utils/initializer.c \
-            utils/readline_utils.c \
-            utils/signal_utils.c \
-            utils/verif_if_need_expand.c
+			lexer/lexer_set_value.c \
+			lexer/lexer_tokeniser.c \
+			lexer/lexer_utils.c \
+			parser/ast.c \
+			parser/hd_resolve.c \
+			parser/hd_utils.c \
+			parser/parser.c \
+			parser/parser_cmd.c \
+			parser/parser_cmd_utils.c \
+			parser/parser_error.c \
+			parser/parser_redirect.c \
+			utils/free.c \
+			utils/init_env.c \
+			utils/readline_utils.c \
+			utils/signals.c \
+			utils/verif_if_need_expand.c
 
 SRC			= $(addprefix $(SRC_DIR)/, $(SRC_FILES))
 

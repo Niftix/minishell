@@ -27,7 +27,7 @@ t_ast	*create_ast_node(t_ast_type type)
 	return (node);
 }
 
-t_redirect	*redirect_new(t_redirect_type type, char *target)
+t_redirect	*redirect_new(t_redirect_type type, char *target, int fd_target)
 {
 	t_redirect	*redir;
 
@@ -36,6 +36,7 @@ t_redirect	*redirect_new(t_redirect_type type, char *target)
 		return (NULL);
 	redir->type = type;
 	redir->fd = -1;
+	redir->fd_target = fd_target;
 	redir->target = ft_strdup(target);
 	if (!redir->target)
 		return (free(redir), NULL);

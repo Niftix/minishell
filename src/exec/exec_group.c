@@ -25,7 +25,7 @@ int	exec_group(t_shell *shell, t_ast *ast)
 	}
 	if (pid == 0)
 	{
-		gest_signal(); 
+		gest_signal();
 		if (ast->redirects && all_redirects(ast->redirects))
 			child_exit(shell, 1);
 		status = ast_dispatch(shell, ast->left);

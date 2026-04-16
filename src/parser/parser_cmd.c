@@ -14,18 +14,8 @@
 
 static int	add_token(t_ast *node, t_lexer **cur, t_shell *shell, int *count)
 {
-	t_lexer	*tmp;
-
-	if (is_io_nb(*cur))
-	{
-		tmp = (*cur)->next;
-		if (parse_one_redirect(&tmp, &node->redirects, ft_atoi((*cur)->value)))
-			return (1);
-		*cur = tmp;
-		return (0);
-	}
 	if ((*cur)->type != TOKEN_WORD)
-		return (parse_one_redirect(cur, &node->redirects, -1));
+		return (parse_one_redirect(cur, &node->redirects));
 	if (add_arg_cmd(node, *cur, shell, count))
 		return (1);
 	*cur = (*cur)->next;
@@ -66,7 +56,7 @@ t_ast	*parse_cmd(t_lexer **cur, t_shell *shell)
 	if (!*cur)
 		return (NULL);
 	if ((*cur)->type != TOKEN_LPAREN)
-		return (NULL);
+		return (parse_simple_cmd(cur, shell));
 	*cur = (*cur)->next;
 	node = create_ast_node(AST_GROUP);
 	if (!node)
