@@ -26,6 +26,8 @@
 # include <readline/history.h>
 # include "libft.h"
 
+extern volatile sig_atomic_t	g_status;
+
 typedef struct s_shell
 {
 	char			**env;
