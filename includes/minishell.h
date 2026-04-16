@@ -140,6 +140,8 @@ int		blt_cd(t_shell *shell, t_ast *ast);
 int		blt_echo(t_shell *shell, t_ast *ast);
 int		blt_env(t_shell *shell, t_ast *ast);
 int		blt_exit(t_shell *shell, t_ast *ast);
+int		blt_exit_num_error(char *arg);
+int		blt_exit_parse_status(char *str);
 int		blt_export(t_shell *shell, t_ast *ast);
 int		blt_pwd(void);
 int		blt_unset(t_shell *shell, t_ast *ast);
