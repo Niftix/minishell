@@ -1,33 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec_and_or.c                                      :+:      :+:    :+:   */
+/*   exec_core.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mville <mville@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/03/09 20:42:34 by mville            #+#    #+#             */
-/*   Updated: 2026/04/14 17:25:20 by mville           ###   ########.fr       */
+/*   Created: 2026/03/06 13:31:33 by mville            #+#    #+#             */
+/*   Updated: 2026/04/14 17:25:24 by mville           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	exec_and(t_shell *shell, t_ast *ast)
+int	ast_dispatch(t_shell *shell, t_ast *ast)
 {
-	int	status;
-
-	status = ast_dispatch(shell, ast->left);
-	if (status == 0)
-		status = ast_dispatch(shell, ast->right);
-	return (status);
-}
-
-int	exec_or(t_shell *shell, t_ast *ast)
-{
-	int	status;
-
-	status = ast_dispatch(shell, ast->left);
-	if (status != 0)
-		status = ast_dispatch(shell, ast->right);
-	return (status);
+	if (!ast)
+		return (0);
+	if (ast->type == AST_CMD)
+		return (exec_cmd(shell, ast));
+	else if (ast->type == AST_PIPE)
+		return (exec_pipe(shell, ast));
+	else if (ast->type == AST_AND)
+		return (exec_and(shell, ast));
+	else if (ast->type == AST_OR)
+		return (exec_or(shell, ast));
+	else if (ast->type == AST_GROUP)
+		return (exec_group(shell, ast));
+	return (1);
 }

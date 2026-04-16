@@ -12,6 +12,13 @@
 
 #include "parser.h"
 
+static int	redir_fd_target(t_redirect_type type)
+{
+	if (type == REDIR_IN || type == REDIR_HEREDOC)
+		return (STDIN_FILENO);
+	return (STDOUT_FILENO);
+}
+
 int	redirect_checker(t_token type)
 {
 	return (type == TOKEN_IN || type == TOKEN_OUT
@@ -48,7 +55,7 @@ int	parse_one_redirect(t_lexer **cur, t_redirect **list)
 		target = ft_strdup((*cur)->value);
 	else
 		target = remove_quote((*cur)->value);
-	redir = redirect_new(rtype, target);
+	redir = redirect_new(rtype, target, redir_fd_target(rtype));
 	free(target);
 	if (!redir)
 		return (1);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vcucuiet <vita@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mville <mville@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/05 16:37:12 by mville            #+#    #+#             */
-/*   Updated: 2026/04/06 11:30:07 by vcucuiet         ###   ########.fr       */
+/*   Updated: 2026/04/16 10:23:20 by mville           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include "libft.h"
+
+extern volatile sig_atomic_t	g_status;
 
 typedef struct s_shell
 {
@@ -45,7 +47,7 @@ typedef enum e_ast_type
 	AST_CMD,
 	AST_PIPE,
 	AST_AND,
-	AST_SUBSHELL,
+	AST_GROUP,
 	AST_OR
 }	t_ast_type;
 
@@ -62,6 +64,7 @@ typedef struct s_redirect
 	t_redirect_type		type;
 	char				*target;
 	int					fd;
+	int					fd_target;
 	struct s_redirect	*next;
 }	t_redirect;
 
@@ -98,9 +101,12 @@ int		ast_dispatch(t_shell *shell, t_ast *ast);
 
 /* EXEC->EXEC_CMD.C */
 int		exec_cmd(t_shell *shell, t_ast *ast);
+void	exec_fork_child(t_shell *shell, t_ast *ast);
 
 /* EXEC->EXEC_PIPE.C */
 int		exec_pipe(t_shell *shell, t_ast *ast);
+void	left_pipe_writer(t_shell *shell, t_ast *ast, int *fd);
+void	right_pipe_reader(t_shell *shell, t_ast *ast, int *fd);
 
 /* EXEC->EXEC_AND_OR.C */
 int		exec_and(t_shell *shell, t_ast *ast);
@@ -120,30 +126,29 @@ int		update_env(t_shell *shell, char *old_pwd, char *new_pwd);
 /* EXEC->EXEC_REDIR.C */
 int		all_redirects(t_redirect *redirects);
 
-/* EXEC->EXEC_SUBSHELL.C */
-int		exec_subshell(t_shell *shell, t_ast *ast);
+/* EXEC->EXEC_GROUP.C */
+int		exec_group(t_shell *shell, t_ast *ast);
 
-/* BUILTINS->EXEC_BUILTINS.C */
+/* EXEC->BUILD_ENV.C */
+char	**build_exec_env(t_shell *shell);
+
+/* EXEC->EXEC_CORE_BLT.C */
 int		exec_builtins(t_shell *shell, t_ast *ast);
 
-/* BUILTINS->BUILTINS.C */
-int		builtin_echo(t_ast *ast);
-int		builtin_pwd(void);
-int		builtin_cd(t_shell *shell, t_ast *ast);
-int		builtin_env(t_shell *shell, t_ast *ast);
-int		builtin_exit(t_shell *shell, t_ast *ast);
-void	print_export(t_shell *shell);
-int		exp_opt(char *arg);
+/* BUILTINS */
+int		blt_cd(t_shell *shell, t_ast *ast);
+int		blt_echo(t_shell *shell, t_ast *ast);
+int		blt_env(t_shell *shell, t_ast *ast);
+int		blt_exit(t_shell *shell, t_ast *ast);
+int		blt_export(t_shell *shell, t_ast *ast);
+int		blt_pwd(void);
+int		blt_unset(t_shell *shell, t_ast *ast);
+void	no_arg_print_export(t_shell *shell);
+int		check_format_is_valid(char *s);
 
-/* BUILTINS->BUILTIN_EXPORT.C */
-int		builtin_export(t_shell *shell, t_ast *ast);
-
-/* BUILTINS->BUILTIN_UNSET.C */
-int		builtin_unset(t_shell *shell, t_ast *ast);
-
-/* EXEC->PATH.C */
-char	*find_cmd_path(t_shell *shell, t_ast *ast);
-int		check_dir(char *path);
+/* EXEC->RESOLVE_PATH.C */
+char	*resolve_cmd_path(t_shell *shell, t_ast *ast);
+int		check_if_directory(char *path);
 
 /* LIBFT */
 int		ft_strcmp(const char *s1, const char *s2);

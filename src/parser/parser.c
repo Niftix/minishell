@@ -6,65 +6,72 @@
 /*   By: mville <mville@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/07 12:31:35 by mville            #+#    #+#             */
-/*   Updated: 2026/04/07 14:02:43 by mville           ###   ########.fr       */
+/*   Updated: 2026/04/15 09:57:11 by mville           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
 
-static t_ast	*parse_pipeline(t_lexer **cur, t_shell *shell)
+static t_ast	*build_ast_node(t_ast_type type, t_ast *left, t_ast *right)
 {
-	t_ast	*left;
 	t_ast	*node;
 
-	left = parse_cmd(cur, shell);
-	if (!left)
-		return (NULL);
-	while (*cur && (*cur)->type == TOKEN_PIPE)
-	{
-		*cur = (*cur)->next;
-		node = create_ast_node(AST_PIPE);
-		if (!node)
-			return (ast_free(left), NULL);
-		node->left = left;
-		node->right = parse_cmd(cur, shell);
-		if (!node->right)
-			return (ast_free(node), NULL);
-		left = node;
-	}
-	return (left);
+	node = create_ast_node(type);
+	if (!node)
+		return (ast_free(left), ast_free(right), NULL);
+	node->left = left;
+	node->right = right;
+	return (node);
 }
 
-t_ast	*parse_and_or(t_lexer **cur, t_shell *shell)
+static t_ast	*parse_pipeline(t_lexer **current, t_shell *shell)
 {
-	t_ast		*left;
+	t_ast	*node;
+
+	node = parse_cmd(current, shell);
+	while (node && *current && (*current)->type == TOKEN_PIPE)
+	{
+		*current = (*current)->next;
+		node = build_ast_node(AST_PIPE, node, parse_cmd(current, shell));
+	}
+	return (node);
+}
+
+t_ast	*parse_and_or(t_lexer **current, t_shell *shell)
+{
 	t_ast		*node;
 	t_ast_type	type;
 
-	left = parse_pipeline(cur, shell);
-	if (!left)
-		return (NULL);
-	while (*cur && ((*cur)->type == TOKEN_AND || (*cur)->type == TOKEN_OR))
+	node = parse_pipeline(current, shell);
+	while (node && *current && ((*current)->type == TOKEN_AND
+			|| (*current)->type == TOKEN_OR))
 	{
 		type = AST_OR;
-		if ((*cur)->type == TOKEN_AND)
+		if ((*current)->type == TOKEN_AND)
 			type = AST_AND;
-		*cur = (*cur)->next;
-		node = create_ast_node(type);
-		if (!node)
-			return (ast_free(left), NULL);
-		node->left = left;
-		node->right = parse_pipeline(cur, shell);
-		if (!node->right)
-			return (ast_free(node), NULL);
-		left = node;
+		*current = (*current)->next;
+		node = build_ast_node(type, node, parse_pipeline(current, shell));
 	}
-	return (left);
+	return (node);
 }
 
 t_ast	*check_parse(t_lexer *lex, t_shell *shell)
 {
-	if (!lex || lex->type == TOKEN_ERROR || lex->type == TOKEN_EOF)
+	t_ast	*ast;
+
+	if (!lex || lex->type == TOKEN_EOF)
 		return (NULL);
-	return (parse_and_or(&lex, shell));
+	if (lex->type == TOKEN_ERROR)
+	{
+		shell->status_exit = 2;
+		return (NULL);
+	}
+	ast = parse_and_or(&lex, shell);
+	if (!ast || (lex && lex->type != TOKEN_EOF))
+	{
+		parser_put_error(lex);
+		shell->status_exit = 2;
+		return (ast_free(ast), NULL);
+	}
+	return (ast);
 }

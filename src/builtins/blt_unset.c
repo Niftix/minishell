@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_unset.c                                    :+:      :+:    :+:   */
+/*   blt_unset.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mville <mville@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/10 17:28:31 by mville            #+#    #+#             */
-/*   Updated: 2026/04/10 13:41:35 by mville           ###   ########.fr       */
+/*   Updated: 2026/04/13 23:01:23 by mville           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,8 @@ static void	unset_exec(t_shell *shell, char *name)
 	while (shell->env[i])
 	{
 		if (ft_strncmp(shell->env[i], name, name_len) == 0
-			&& shell->env[i][name_len] == '=')
+			&& (shell->env[i][name_len] == '='
+			|| shell->env[i][name_len] == '\0'))
 		{
 			remove_exec(shell, i);
 			return ;
@@ -42,7 +43,7 @@ static void	unset_exec(t_shell *shell, char *name)
 	}
 }
 
-int	builtin_unset(t_shell *shell, t_ast *ast)
+int	blt_unset(t_shell *shell, t_ast *ast)
 {
 	int	i;
 

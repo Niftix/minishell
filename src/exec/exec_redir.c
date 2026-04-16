@@ -6,13 +6,13 @@
 /*   By: mville <mville@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/10 10:52:17 by mville            #+#    #+#             */
-/*   Updated: 2026/04/07 14:02:24 by mville           ###   ########.fr       */
+/*   Updated: 2026/04/14 17:25:28 by mville           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	redir_in(char *target)
+static int	redir_in(char *target, int fd_target)
 {
 	int	fd;
 
@@ -24,12 +24,12 @@ static int	redir_in(char *target)
 		ft_putstr_fd(": No such file or directory\n", 2);
 		return (1);
 	}
-	dup2(fd, STDIN_FILENO);
+	dup2(fd, fd_target);
 	close(fd);
 	return (0);
 }
 
-static int	redir_out(char *target, int append)
+static int	redir_out(char *target, int append, int fd_target)
 {
 	int	fd;
 	int	flags;
@@ -48,7 +48,7 @@ static int	redir_out(char *target, int append)
 		ft_putstr_fd("\n", 2);
 		return (1);
 	}
-	dup2(fd, STDOUT_FILENO);
+	dup2(fd, fd_target);
 	close(fd);
 	return (0);
 }
@@ -57,37 +57,35 @@ static int	redir_heredoc(t_redirect *redirect)
 {
 	if (redirect->fd < 0)
 		return (1);
-	dup2(redirect->fd, STDIN_FILENO);
+	dup2(redirect->fd, redirect->fd_target);
 	close(redirect->fd);
 	redirect->fd = -1;
 	return (0);
 }
 
+static int	apply_one_redirect(t_redirect *current)
+{
+	if (current->type == REDIR_IN)
+		return (redir_in(current->target, current->fd_target));
+	if (current->type == REDIR_OUT)
+		return (redir_out(current->target, 0, current->fd_target));
+	if (current->type == REDIR_APPEND)
+		return (redir_out(current->target, 1, current->fd_target));
+	if (current->type == REDIR_HEREDOC)
+		return (redir_heredoc(current));
+	return (0);
+}
+
 int	all_redirects(t_redirect *redirects)
 {
-	while (redirects)
+	t_redirect	*current;
+
+	current = redirects;
+	while (current)
 	{
-		if (redirects->type == REDIR_IN)
-		{
-			if (redir_in(redirects->target))
-				return (1);
-		}
-		else if (redirects->type == REDIR_OUT)
-		{
-			if (redir_out(redirects->target, 0))
-				return (1);
-		}
-		else if (redirects->type == REDIR_APPEND)
-		{
-			if (redir_out(redirects->target, 1))
-				return (1);
-		}
-		else if (redirects->type == REDIR_HEREDOC)
-		{
-			if (redir_heredoc(redirects))
-				return (1);
-		}
-		redirects = redirects->next;
+		if (apply_one_redirect(current))
+			return (1);
+		current = current->next;
 	}
 	return (0);
 }

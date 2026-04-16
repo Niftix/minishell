@@ -1,30 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec.c                                             :+:      :+:    :+:   */
+/*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mville <mville@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/03/06 13:31:33 by mville            #+#    #+#             */
-/*   Updated: 2026/04/07 14:02:30 by mville           ###   ########.fr       */
+/*   Created: 2026/03/05 17:23:26 by mville            #+#    #+#             */
+/*   Updated: 2026/04/14 14:30:26 by mville           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ast_dispatch(t_shell *shell, t_ast *ast)
+volatile sig_atomic_t	g_status;
+
+static void	sigint_handle(int sigint)
 {
-	if (!ast)
-		return (0);
-	if (ast->type == AST_CMD)
-		return (exec_cmd(shell, ast));
-	else if (ast->type == AST_PIPE)
-		return (exec_pipe(shell, ast));
-	else if (ast->type == AST_AND)
-		return (exec_and(shell, ast));
-	else if (ast->type == AST_OR)
-		return (exec_or(shell, ast));
-	else if (ast->type == AST_SUBSHELL)
-		return (exec_subshell(shell, ast));
-	return (1);
+	(void)sigint;
+	g_status = 2;
+	write(1, "\n", 1);
+	rl_on_new_line();
+	rl_replace_line("", 0);
+	rl_redisplay();
+}
+
+void	signal_init(void)
+{
+	g_status = 0;
+	signal(SIGINT, sigint_handle);
+	signal(SIGQUIT, SIG_IGN);
 }

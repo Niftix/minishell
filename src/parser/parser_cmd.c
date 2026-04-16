@@ -12,53 +12,13 @@
 
 #include "parser.h"
 
-static char	**add_expanded_args(char **args, char **words, int *count)
+static int	add_token(t_ast *node, t_lexer **cur, t_shell *shell, int *count)
 {
-	char	**new;
-	int		i;
-
-	i = 0;
-	while (words[i])
-		i++;
-	new = ft_realloc(args, sizeof(char *) * (*count + 1),
-			sizeof(char *) * (*count + i + 1));
-	if (!new)
-		return (ft_free_tab(words), NULL);
-	i = 0;
-	while (words[i])
-	{
-		if (words[i][0] != '\0')
-			new[(*count)++] = remove_quote(words[i]);
-		free(words[i]);
-		i++;
-	}
-	new[*count] = NULL;
-	free(words);
-	return (new);
-}
-
-static int	add_arg(t_ast *node, t_lexer *cur, t_shell *shell, int *count)
-{
-	char	**words;
-	char	*tmp;
-	char	*home;
-
-	tmp = ft_strdup(cur->value);
-	if (cur->value[0] == '~' && (!cur->value[1] || cur->value[1] == '/'))
-	{
-		home = find_home(shell);
-		if (home)
-		{
-			free(tmp);
-			tmp = ft_strjoin(home, cur->value + 1);
-		}
-	}
-	words = expand(tmp, shell->env, shell->status_exit);
-	if (!words)
+	if ((*cur)->type != TOKEN_WORD)
+		return (parse_one_redirect(cur, &node->redirects));
+	if (add_arg_cmd(node, *cur, shell, count))
 		return (1);
-	node->args_cmd = add_expanded_args(node->args_cmd, words, count);
-	if (!node->args_cmd)
-		return (1);
+	*cur = (*cur)->next;
 	return (0);
 }
 
@@ -72,15 +32,8 @@ static t_ast	*fill_simple_cmd(t_ast *node, t_lexer **cur, t_shell *shell)
 		return (ast_free(node), NULL);
 	node->args_cmd[0] = NULL;
 	while (*cur && cmd_token_checker((*cur)->type))
-	{
-		if ((*cur)->type == TOKEN_WORD && add_arg(node, *cur, shell, &count))
+		if (add_token(node, cur, shell, &count))
 			return (ast_free(node), NULL);
-		else if ((*cur)->type != TOKEN_WORD
-			&& parse_one_redirect(cur, &node->redirects))
-			return (ast_free(node), NULL);
-		if (*cur && (*cur)->type == TOKEN_WORD)
-			*cur = (*cur)->next;
-	}
 	return (node);
 }
 
@@ -105,15 +58,12 @@ t_ast	*parse_cmd(t_lexer **cur, t_shell *shell)
 	if ((*cur)->type != TOKEN_LPAREN)
 		return (parse_simple_cmd(cur, shell));
 	*cur = (*cur)->next;
-	node = create_ast_node(AST_SUBSHELL);
+	node = create_ast_node(AST_GROUP);
 	if (!node)
 		return (NULL);
 	node->left = parse_and_or(cur, shell);
 	if (!node->left || !*cur || (*cur)->type != TOKEN_RPAREN)
 		return (ast_free(node), NULL);
 	*cur = (*cur)->next;
-	while (*cur && redirect_checker((*cur)->type))
-		if (parse_one_redirect(cur, &node->redirects))
-			return (ast_free(node), NULL);
 	return (node);
 }

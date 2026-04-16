@@ -1,33 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec_and_or.c                                      :+:      :+:    :+:   */
+/*   blt_pwd.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mville <mville@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/03/09 20:42:34 by mville            #+#    #+#             */
-/*   Updated: 2026/04/14 17:25:20 by mville           ###   ########.fr       */
+/*   Created: 2026/04/13 18:13:42 by mville            #+#    #+#             */
+/*   Updated: 2026/04/13 23:01:22 by mville           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	exec_and(t_shell *shell, t_ast *ast)
+int	blt_pwd(void)
 {
-	int	status;
+	char	pwd_result[PATH_MAX];
 
-	status = ast_dispatch(shell, ast->left);
-	if (status == 0)
-		status = ast_dispatch(shell, ast->right);
-	return (status);
-}
-
-int	exec_or(t_shell *shell, t_ast *ast)
-{
-	int	status;
-
-	status = ast_dispatch(shell, ast->left);
-	if (status != 0)
-		status = ast_dispatch(shell, ast->right);
-	return (status);
+	if (!getcwd(pwd_result, PATH_MAX))
+		return (1);
+	ft_putstr_fd(pwd_result, 1);
+	ft_putstr_fd("\n", 1);
+	return (0);
 }
