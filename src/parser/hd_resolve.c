@@ -48,6 +48,21 @@ static char	*create_hd(t_redirect *redir)
 	return (name);
 }
 
+static char	*read_hd_line(void)
+{
+	char	*line;
+	char	*trimmed;
+
+	if (isatty(STDIN_FILENO))
+		return (readline("heredoc > "));
+	line = get_next_line(STDIN_FILENO);
+	if (!line)
+		return (NULL);
+	trimmed = ft_strtrim(line, "\n");
+	free(line);
+	return (trimmed);
+}
+
 int	read_hd(t_redirect *redir, t_shell *shell)
 {
 	char	*line;
@@ -60,7 +75,7 @@ int	read_hd(t_redirect *redir, t_shell *shell)
 		return (1);
 	while (1)
 	{
-		line = readline("heredoc > ");
+		line = read_hd_line();
 		if (!line || ft_strcmp(line, redir->target) == 0)
 		{
 			free(line);
