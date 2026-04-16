@@ -6,7 +6,7 @@
 /*   By: vcucuiet <vita@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/10 16:59:18 by vcucuiet          #+#    #+#             */
-/*   Updated: 2026/04/16 15:30:12 by vcucuiet         ###   ########.fr       */
+/*   Updated: 2026/04/16 15:56:23 by vcucuiet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ char	*exp_cringe_dolars(char *str)
 	{
 		if ((str[i] == '\"' || str[i] == '\'') && quote == 'x')
 			quote = str[i];
-		if (str[i] == quote)
+		else if (str[i] == quote)
 			quote = 'x';
 		if ((str[i] == '$' && quote == 'x')
 			&& ((str[i + 1] == '"' || str[i + 1] == '\'') && quote == 'x'))
