@@ -39,6 +39,7 @@ SRC_FILES	= main.c \
 			expand/expand.c \
 			lexer/lex_pars.c \
 			lexer/lex_pars_elements.c \
+			lexer/lex_pars_valid_word.c \
 			lexer/lexer.c \
 			lexer/lexer_debug.c \
 			lexer/lexer_set_value.c \

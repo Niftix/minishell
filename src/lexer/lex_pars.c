@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lex_pars.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mville <mville@student.42.fr>              +#+  +:+       +#+        */
+/*   By: vcucuiet <vita@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/14 20:07:59 by vcucuiet          #+#    #+#             */
-/*   Updated: 2026/04/07 14:02:33 by mville           ###   ########.fr       */
+/*   Updated: 2026/04/16 16:39:37 by vcucuiet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,20 +36,13 @@ static void	lex_print_token_error(t_token token, int check)
 		return (ft_putstr_fd("'>>'\n", 2));
 }
 
-static int	lex_pars_put_error(t_token token, int check, char *exec_name)
+static int	lex_pars_put_error(t_token token, int check)
 {
 	char	*error;
-	char	*ptr;
 
-	error = ft_strdup(exec_name);
-	if (!error)
-		return (1);
-	ptr = error;
-	error = ft_strrchr(error, '/') + 1;
-	error = ft_strjoin(error, ": syntax error near unexpected token ");
-	if (!error)
-		return (free(ptr), 1);
-	free(ptr);
+	if (check == 3)
+		return (0);
+	error = ft_strdup("minishell: syntax error near unexpected token ");
 	ft_putstr_fd(error, 2);
 	free(error);
 	lex_print_token_error(token, check);
@@ -73,13 +66,12 @@ static t_lexer	*cpy_hd_until_error(t_lexer *res, t_lexer *lexer, t_lexer *end)
 	return (res);
 }
 
-static t_lexer	*lex_pars_error(t_lexer *tmp, t_lexer *lex, int check,
-		char *exec_name)
+static t_lexer	*lex_pars_error(t_lexer *tmp, t_lexer *lex, int check)
 {
 	t_lexer	*tmp_lex;
 
 	tmp_lex = lex;
-	lex_pars_put_error(tmp->type, check, exec_name);
+	lex_pars_put_error(tmp->type, check);
 	lex = malloc(sizeof(t_lexer));
 	if (!lex)
 		return (NULL);
@@ -91,7 +83,7 @@ static t_lexer	*lex_pars_error(t_lexer *tmp, t_lexer *lex, int check,
 	return (lex);
 }
 
-t_lexer	*lex_pars(t_lexer *lex, char *exec_name, int *status_exit)
+t_lexer	*lex_pars(t_lexer *lex, int *status_exit)
 {
 	t_lexer	*tmp;
 	t_lexer	*prev;
@@ -103,7 +95,7 @@ t_lexer	*lex_pars(t_lexer *lex, char *exec_name, int *status_exit)
 	{
 		check = lex_pars_elements(lex, prev, tmp);
 		if (check)
-			return (lex_pars_error(tmp, lex, check, exec_name));
+			return (lex_pars_error(tmp, lex, check));
 		prev = tmp;
 		tmp = tmp->next;
 	}
