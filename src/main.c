@@ -46,7 +46,7 @@ int	main(int ac, char **av, char **envp)
 		input = get_input(&shell);
 		if (g_status != 0)
 		{
-			shell.status_exit = g_status;
+			shell.status_exit = 128 + g_status;
 			g_status = 0;
 		}
 		if (input && process_input(&shell, input, av))
