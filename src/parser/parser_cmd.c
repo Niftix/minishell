@@ -65,5 +65,8 @@ t_ast	*parse_cmd(t_lexer **cur, t_shell *shell)
 	if (!node->left || !*cur || (*cur)->type != TOKEN_RPAREN)
 		return (ast_free(node), NULL);
 	*cur = (*cur)->next;
+	while (*cur && redirect_checker((*cur)->type))
+		if (parse_one_redirect(cur, &node->redirects))
+			return (ast_free(node), NULL);
 	return (node);
 }
