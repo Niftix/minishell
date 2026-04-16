@@ -6,7 +6,7 @@
 /*   By: vcucuiet <vita@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/14 20:43:27 by vcucuiet          #+#    #+#             */
-/*   Updated: 2026/04/16 16:00:21 by vcucuiet         ###   ########.fr       */
+/*   Updated: 2026/04/16 16:45:22 by vcucuiet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,5 +109,7 @@ int	lex_pars_elements(t_lexer *lexer, t_lexer *prev, t_lexer *now)
 		check = valid_comp(prev, now);
 	if (now->type == TOKEN_LPAREN || now->type == TOKEN_RPAREN)
 		check = valid_parent(lexer, now);
+	if (now->type == TOKEN_WORD)
+		check = lex_pars_valid_word(now->value);
 	return (check);
 }
