@@ -44,17 +44,19 @@ static char	*get_redir_target(t_lexer *cur, t_shell *shell)
 	if (!tmp)
 		return (NULL);
 	words = expand(tmp, shell->env, shell->status_exit);
-	if (!words)
-		return (NULL);
-	if (!words[0] || words[1] || words[0][0] == '\0')
-	{
-		ft_putstr_fd("minishell: ", 2);
-		ft_putstr_fd(cur->value, 2);
-		ft_putstr_fd(": ambiguous redirect\n", 2);
-		shell->status_exit = 1;
-		return (ft_free_tab(words), NULL);
-	}
+	if (!words || !words[0] || words[1] || words[0][0] == '\0')
+		return (shell->status_exit = 1, ft_putstr_fd("minishell: ", 2),
+			ft_putstr_fd(cur->value, 2),
+			ft_putstr_fd(": ambiguous redirect\n", 2), ft_free_tab(words),
+			NULL);
 	target = remove_quote(words[0]);
+	if (ft_strchr(cur->value, '$') && !ft_strchr(cur->value, '\'')
+		&& !ft_strchr(cur->value, '"') && target && (ft_strchr(target, ' ')
+			|| ft_strchr(target, '\t')))
+		return (shell->status_exit = 1, ft_putstr_fd("minishell: ", 2),
+			ft_putstr_fd(cur->value, 2),
+			ft_putstr_fd(": ambiguous redirect\n", 2), free(target),
+			ft_free_tab(words), NULL);
 	ft_free_tab(words);
 	return (target);
 }
