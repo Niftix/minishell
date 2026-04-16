@@ -6,7 +6,7 @@
 /*   By: mville <mville@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/05 16:35:00 by mville            #+#    #+#             */
-/*   Updated: 2026/04/10 13:10:17 by mville           ###   ########.fr       */
+/*   Updated: 2026/04/16 10:32:34 by mville           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,11 @@ int	main(int ac, char **av, char **envp)
 	while (shell.run)
 	{
 		input = get_input(&shell);
+		if (g_status != 0)
+		{
+			shell.status_exit = g_status;
+			g_status = 0;
+		}
 		if (input && process_input(&shell, input, av))
 		{
 			free_shell(&shell);
