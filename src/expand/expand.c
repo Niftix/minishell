@@ -6,7 +6,7 @@
 /*   By: vcucuiet <vita@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/28 13:57:54 by vcucuiet          #+#    #+#             */
-/*   Updated: 2026/04/13 14:09:22 by vcucuiet         ###   ########.fr       */
+/*   Updated: 2026/04/16 17:24:23 by vcucuiet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static char	*exp_extract_var(char *str, char **env, size_t *idx,
 			quote = str[*idx];
 		else if (str[*idx] == quote)
 			quote = 'x';
-		if (str[*idx] == '$' && quote != '\'')
+		if (str[*idx] == '$' && quote != '\'' && str[*idx + 1] != '"')
 		{
 			in_v = 1;
 			return (exp_extract_none_var(str, start, *idx));
