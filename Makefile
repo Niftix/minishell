@@ -15,6 +15,7 @@ SRC_FILES	= main.c \
 			builtins/blt_echo.c \
 			builtins/blt_env.c \
 			builtins/blt_exit.c \
+			builtins/blt_exit_max.c \
 			builtins/blt_export.c \
 			builtins/blt_pwd.c \
 			builtins/blt_unset.c \
