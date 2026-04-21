@@ -6,7 +6,7 @@
 /*   By: vcucuiet <vita@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/28 13:57:54 by vcucuiet          #+#    #+#             */
-/*   Updated: 2026/04/16 17:24:23 by vcucuiet         ###   ########.fr       */
+/*   Updated: 2026/04/20 20:50:43 by vcucuiet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,11 @@ static char	*exp_extract_var(char *str, char **env, size_t *idx,
 			int exit_status)
 {
 	size_t		start;
-	static int	in_v = 0;
+	static int	in_v_quote = 0;
 	char		quote;
 
-	if (in_v)
-		return (in_v = 0, exp_chose_var(str, env, idx, exit_status));
+	if (in_v_quote)
+		return (in_v_quote = 0, exp_chose_var(str, env, idx, exit_status));
 	quote = 'x';
 	*idx = exp_skip_tab_space_nl(str, *idx);
 	start = *idx;
@@ -32,10 +32,10 @@ static char	*exp_extract_var(char *str, char **env, size_t *idx,
 			quote = 'x';
 		if (str[*idx] == '$' && quote != '\'' && str[*idx + 1] != '"')
 		{
-			in_v = 1;
+			in_v_quote = str[*idx];
 			return (exp_extract_none_var(str, start, *idx));
 		}
-		if (is_ifs(str[*idx]) && quote == 'x' && !in_v)
+		if (is_ifs(str[*idx]) && quote == 'x' && !in_v_quote)
 			return (exp_extract_none_var(str, start, *idx));
 		*idx += 1;
 	}
@@ -61,9 +61,9 @@ static char	**exp_var_append(char **res, int *r_len, char *var, int need_new)
 	if (!need_new && *r_len != 1)
 	{
 		res[*r_len - 2] = exp_var_append_to_last(res[*r_len - 2], var);
-		free(var);
 		if (!res[*r_len - 2])
 			return (ft_free2c(res), NULL);
+		res = exp_verif_expand(res, r_len, *r_len - 2);
 		return (res);
 	}
 	old_s = sizeof(char *) * (*r_len);
@@ -72,9 +72,9 @@ static char	**exp_var_append(char **res, int *r_len, char *var, int need_new)
 	if (!res)
 		return (free(var), NULL);
 	res[*r_len - 1] = ft_strdup(var);
-	free(var);
 	if (!res[*r_len - 1])
 		return (ft_free2c(res), NULL);
+	res = exp_verif_expand(res, r_len, *r_len - 1);
 	res[*r_len] = NULL;
 	*r_len += 1;
 	return (res);
@@ -99,9 +99,11 @@ static char	**exp_chr(char *str, char **env, size_t idx, int exit_status)
 		var = exp_extract_var(str, env, &idx, exit_status);
 		if (!var)
 			return (ft_free2c(res), NULL);
-		res = exp_var_append(res, &r_len, var, ifs);
+		if (var[0] != '\0')
+			res = exp_var_append(res, &r_len, var, ifs);
 		if (!res)
 			return (ft_free2c(res), NULL);
+		free(var);
 		var = NULL;
 	}
 	return (res);
