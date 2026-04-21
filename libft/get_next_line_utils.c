@@ -3,67 +3,97 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vcucuiet <vcucuiet@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mville <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/10 11:23:23 by vcucuiet          #+#    #+#             */
-/*   Updated: 2026/01/06 23:31:11 by vcucuiet         ###   ########.fr       */
+/*   Created: 2025/12/03 15:03:15 by mville            #+#    #+#             */
+/*   Updated: 2025/12/03 15:03:21 by mville           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_set_gnl_to_default(t_var_gnl *val, char **stash, int status)
+int	fft_strlen(const char *str)
 {
-	if (status == 0)
-	{
-		val->t_size = 0;
-		val->t_read = 0;
-		val->c_buf = 0;
-		val->res = NULL;
-		val->temp = NULL;
-		val->buf = malloc(sizeof(char) * (BUFFER_SIZE + 1));
-		if (!val->buf)
-			return ;
-		val->buf[BUFFER_SIZE] = '\0';
-	}
-	if (status == 1)
-	{
-		if (val->t_read < 0)
-		{
-			if (*stash)
-				free(*stash);
-			*stash = NULL;
-			if (val->res)
-				free(val->res);
-			val->res = NULL;
-		}
-	}
+	int	i;
+
+	if (!str)
+		return (0);
+	i = 0;
+	while (str[i])
+		i++;
+	return (i);
 }
 
-int	ft_gnl_check_break(t_var_gnl *val, int state)
+char	*fft_strchr(const char *str, int c)
 {
-	if (val->buf && state == 1)
+	if (!str)
+		return (NULL);
+	while (*str)
 	{
-		free(val->buf);
-		val->buf = NULL;
+		if (*str == (char)c)
+			return ((char *)str);
+		str++;
 	}
-	if (state == 0)
+	if ((char)c == '\0')
+		return ((char *)str);
+	return (NULL);
+}
+
+char	*fft_strdup(char *str)
+{
+	int		i;
+	char	*cpy;
+
+	if (!str)
+		return (NULL);
+	i = 0;
+	cpy = malloc(sizeof(char) * (ft_strlen(str) + 1));
+	if (!cpy)
+		return (NULL);
+	while (str[i])
 	{
-		if (val->res)
+		cpy[i] = str[i];
+		i++;
+	}
+	cpy[i] = '\0';
+	return (cpy);
+}
+
+char	*fft_strjoin(char const *s1, char const *s2)
+{
+	char	*str;
+	int		i;
+	int		j;
+
+	if (!s2)
+		return (NULL);
+	str = malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1));
+	if (!str)
+		return (NULL);
+	i = 0;
+	j = 0;
+	if (s1)
+	{
+		while (s1[i])
 		{
-			if (val->res[0] == '\0')
-			{
-				free(val->res);
-				val->res = NULL;
-				return (1);
-			}
-			if (val->res[val->t_size - 1] == '\n')
-				return (1);
+			str[i] = s1[i];
+			i++;
 		}
-		if (val->t_read <= 0)
-			return (1);
 	}
-	if (state == -1 && val->t_read < 0 && !val->res)
-		val->res = NULL;
-	return (0);
+	while (s2[j])
+		str[i++] = s2[j++];
+	str[i] = '\0';
+	return (str);
+}
+
+char	*fft_free_exit(char *buffer, char **bag)
+{
+	if (buffer)
+		free(buffer);
+	if (bag && *bag)
+	{
+		free(*bag);
+		*bag = NULL;
+	}
+	return (NULL);
 }

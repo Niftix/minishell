@@ -152,9 +152,12 @@ typedef struct s_get_next_line
 char	*get_next_line(int fd);
 /*get_next_line.c-end*/
 /*get_next_line_utils.c*/
-void	ft_set_gnl_to_default(t_var_gnl *val, char **stash, int status);
-size_t	ft_strlen(const char *tab);
-int		ft_gnl_check_break(t_var_gnl *val, int state);
+int		fft_strlen(const char *str);
+char	*fft_strchr(const char *str, int c);
+char	*fft_strdup(char *str);
+char	*fft_strjoin(char const *s1, char const *s2);
+char	*get_next_line(int fd);
+char	*fft_free_exit(char *buffer, char **bag);
 /*get_next_line_utils.c-end*/
 //---end_get_next_line---//
 //-------------------//

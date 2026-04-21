@@ -66,6 +66,7 @@ void	clean_loop(t_shell *shell)
 void	free_shell(t_shell *shell)
 {
 	clean_loop(shell);
+	get_next_line(-1);
 	rl_clear_history();
 	if (shell->env)
 	{
@@ -77,5 +78,8 @@ void	free_shell(t_shell *shell)
 void	child_exit(t_shell *shell, int status)
 {
 	free_shell(shell);
+	close(STDIN_FILENO);
+	close(STDOUT_FILENO);
+	close(STDERR_FILENO);
 	exit(status);
 }
