@@ -37,6 +37,7 @@ SRC_FILES	= main.c \
 			expand/exp_env_var.c \
 			expand/exp_none_var.c \
 			expand/exp_utils.c \
+			expand/exp_verif_expand.c \
 			expand/expand.c \
 			lexer/lex_pars.c \
 			lexer/lex_pars_elements.c \
