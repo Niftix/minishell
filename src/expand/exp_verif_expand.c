@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exp_verif_expand.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vcucuiet <vita@student.42.fr>              +#+  +:+       +#+        */
+/*   By: vcucuiet <vcucuiet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/17 12:48:46 by vcucuiet          #+#    #+#             */
-/*   Updated: 2026/04/20 21:10:40 by vcucuiet         ###   ########.fr       */
+/*   Updated: 2026/04/22 16:50:22 by vcucuiet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ static char	**exp_append_new_str(char **res, char *str, size_t *i, int *r_len)
 	return (res);
 }
 
-static char	**exp_splited_var(char *str)
+static char	**exp_splited_var(char *str, int *need_new)
 {
 	size_t	i;
 	int		r_len;
@@ -75,37 +75,56 @@ static char	**exp_splited_var(char *str)
 		if (str[i] == ' ' && quote == 'x')
 			res = exp_append_new_str(res, str, &i, &r_len);
 	}
+	if (i > 0 && is_ifs(str[i - 1]))
+		*need_new = 2;
 	if (i)
 		res = exp_append_new_str(res, str, &i, &r_len);
 	return (res);
 }
 
-//need to split and append char ** at **var
-char	**exp_verif_expand(char **var, int *len_var, int pos)
+static char	**exp_append_tmp_to_var(char **var, char **tmp, int pos,
+		 int *need_new)
+{
+	int		tmp_len;
+	int		idx;
+
+	idx = -1;
+	if (!*need_new && var[0])
+	{
+		var[pos] = tmp[0];
+		if (!var[pos])
+			return (ft_free2c(var), NULL);
+		idx++;
+	}
+	tmp_len = ft_str2dlen(tmp);
+	while (++idx < tmp_len)
+		var[pos + idx] = tmp[idx];
+	var[pos + idx] = NULL;
+	free(tmp);
+	return (var);
+}
+
+char	** exp_verif_expand(char **var, int *len_var, int pos, int *need_new)
 {
 	char	**tmp;
 	int		tmp_len;
-	int		idx;
 	size_t	old_len;
 	size_t	new_len;
 
 	if (exp_verif_if_space_without_q(var[pos])) //dont work propely
 	{
-		tmp = exp_splited_var(var[pos]);
+		tmp = exp_splited_var(var[pos], need_new);
 		if (!tmp)
 			return (ft_free2c(var), NULL);
 		tmp_len = ft_str2dlen(tmp);
+		if(!need_new)
+			tmp_len--;
 		old_len = sizeof(char *) * *len_var;
 		new_len = sizeof(char *) * (*len_var + tmp_len + 1);
 		var = ft_realloc(var, old_len, new_len);
-		idx = -1;
 		free(var[pos]);
-		while (++idx < tmp_len)
-			var[pos + idx] = tmp[idx];
-		var[*len_var + idx] = NULL;
-		free(tmp);
+		var = exp_append_tmp_to_var(var, tmp, pos, need_new);
 		*len_var += tmp_len;
-		var[*len_var - 1] = NULL;
 	}
 	return (var);
 }
