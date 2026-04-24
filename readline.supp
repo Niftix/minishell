@@ -1,19 +1,42 @@
 {
-   readline_reachable
+   <Readline>
    Memcheck:Leak
    match-leak-kinds: reachable
    ...
    fun:readline
-   fun:get_input
-   fun:main
+   ...
 }
-
 {
-   add_history_reachable
+   <Readline>
+   Memcheck:Leak
+   match-leak-kinds: definite
+   fun:malloc
+   fun:xmalloc
+   fun:rl_add_undo
+   fun:rl_insert_text
+   fun:_rl_insert_char
+   fun:rl_insert
+   fun:_rl_dispatch_subseq
+   fun:readline_internal_char
+   fun:readline
+   ...
+}
+{
+   <AddHistory>
    Memcheck:Leak
    match-leak-kinds: reachable
-   ...
+   fun:malloc
+   fun:xmalloc
    fun:add_history
-   fun:get_input
-   fun:main
+   fun:alloc_history_entry
+   ...
+}
+{
+  <Readline/AddHistory>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:xmalloc
+   fun:add_history
+   ...
 }
