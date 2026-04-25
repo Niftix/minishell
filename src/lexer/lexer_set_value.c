@@ -6,7 +6,7 @@
 /*   By: vcucuiet <vita@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/10 11:25:35 by vcucuiet          #+#    #+#             */
-/*   Updated: 2026/04/25 18:31:22 by vcucuiet         ###   ########.fr       */
+/*   Updated: 2026/04/25 18:50:53 by vcucuiet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ ssize_t	lex_set_buf(char *buf, char *input, size_t *idx)
 
 	if (!buf && !input&& !idx)
 		return (quote = 'x', 0);
-	if (!buf || !input)
+	if (!buf && !input)
 		return (lex_quote_verif(&quote));
 	i = -1;
 	while (++i < LEXER_BUF && input[*idx])
@@ -65,7 +65,7 @@ static char	*lex_cpy_value_from_input(char *buf, char *input, size_t idx)
 			return (NULL);
 		if (t_cpy != LEXER_BUF)
 		{
-			if (lex_set_buf(NULL, NULL, 0) == -1)
+			if (lex_set_buf(NULL, NULL, &idx) == -1)
 				return (val);
 			break ;
 		}
