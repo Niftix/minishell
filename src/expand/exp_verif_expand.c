@@ -6,7 +6,7 @@
 /*   By: vcucuiet <vita@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/17 12:48:46 by vcucuiet          #+#    #+#             */
-/*   Updated: 2026/04/24 21:49:02 by vcucuiet         ###   ########.fr       */
+/*   Updated: 2026/04/25 17:00:28 by vcucuiet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,8 @@ static char	**exp_splited_var(char *str)
             quote = 'x';
 		if (str[i] == ' ' && quote == 'x')
 			res = exp_append_new_str(res, str, &i, &r_len);
+		if (!res)
+			return (NULL);
 	}
 	if (i)
 		res = exp_append_new_str(res, str, &i, &r_len);

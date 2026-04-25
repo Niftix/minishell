@@ -6,7 +6,7 @@
 /*   By: vcucuiet <vita@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/10 11:25:35 by vcucuiet          #+#    #+#             */
-/*   Updated: 2026/04/13 14:50:13 by vcucuiet         ###   ########.fr       */
+/*   Updated: 2026/04/25 18:31:22 by vcucuiet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,13 @@ static ssize_t	lex_quote_verif(char *quote)
 	return (*quote = 'x', -1);
 }
 
-static ssize_t	lex_set_buf(char *buf, char *input, size_t *idx)
+ssize_t	lex_set_buf(char *buf, char *input, size_t *idx)
 {
 	size_t		i;
 	static char	quote = 'x';
 
+	if (!buf && !input&& !idx)
+		return (quote = 'x', 0);
 	if (!buf || !input)
 		return (lex_quote_verif(&quote));
 	i = -1;

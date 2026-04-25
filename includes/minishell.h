@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mville <mville@student.42.fr>              +#+  +:+       +#+        */
+/*   By: vcucuiet <vita@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/05 16:37:12 by mville            #+#    #+#             */
-/*   Updated: 2026/04/16 10:23:20 by mville           ###   ########.fr       */
+/*   Updated: 2026/04/25 18:12:37 by vcucuiet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,10 @@ char	*get_input(t_shell *shell);
 void	clean_loop(t_shell *shell);
 void	free_shell(t_shell *shell);
 void	child_exit(t_shell *shell, int status);
+
+/* UTILS->CLEAN_STATIC_VAR.C */
+
+void	clean_static_var(void);
 
 /* UTILS->SIGNAL_UTILS.C */
 void	signal_init(void);

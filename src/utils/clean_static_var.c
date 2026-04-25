@@ -1,32 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exp_set_exp_extract_var.c                          :+:      :+:    :+:   */
+/*   clean_static_var.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vcucuiet <vita@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/04/22 14:52:43 by vcucuiet          #+#    #+#             */
-/*   Updated: 2026/04/25 17:48:47 by vcucuiet         ###   ########.fr       */
+/*   Created: 2026/04/25 17:53:48 by vcucuiet          #+#    #+#             */
+/*   Updated: 2026/04/25 18:29:29 by vcucuiet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "expand.h"
+#include "static_var_cleaner.h"
 
-void	exp_set_exp_extract_var(char *quote, size_t *start, char *str,
-			size_t *idx)
+void	clean_static_var(void)
 {
-	size_t i;
-
-	*quote = 'x';
-	*start = *idx;
-	i = -1;
-	while (++i < *idx)
-	{
-		if (*quote == 'x' && (str[i] == '\'' || str[i] == '\"'))
-			*quote = str[i];
-		else if (str[i] == *quote)
-			*quote = 'x';
-	}
-	if (*quote == 'x')
-		*idx = exp_skip_tab_space_nl(str, *idx);
+	lex_set_buf(NULL, NULL, NULL);
+	exp_chr(NULL, NULL, 0, 0);
+	exp_extract_var(NULL, NULL, NULL, 0);
 }

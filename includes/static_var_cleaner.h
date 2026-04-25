@@ -1,32 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exp_set_exp_extract_var.c                          :+:      :+:    :+:   */
+/*   static_var_cleaner.h                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vcucuiet <vita@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/04/22 14:52:43 by vcucuiet          #+#    #+#             */
-/*   Updated: 2026/04/25 17:48:47 by vcucuiet         ###   ########.fr       */
+/*   Created: 2026/04/25 18:11:14 by vcucuiet          #+#    #+#             */
+/*   Updated: 2026/04/25 18:20:19 by vcucuiet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "expand.h"
+#ifndef STATIC_VAR_CLEANER_H
+# define STATIC_VAR_CLEANER_H
+# include <unistd.h>
 
-void	exp_set_exp_extract_var(char *quote, size_t *start, char *str,
-			size_t *idx)
-{
-	size_t i;
+ssize_t	lex_set_buf(char *buf, char *input, size_t *idx);
+char	**exp_chr(char *str, char **env, size_t idx, int exit_status);
+char	*exp_extract_var(char *str, char **env, size_t *idx, int exit_status);
 
-	*quote = 'x';
-	*start = *idx;
-	i = -1;
-	while (++i < *idx)
-	{
-		if (*quote == 'x' && (str[i] == '\'' || str[i] == '\"'))
-			*quote = str[i];
-		else if (str[i] == *quote)
-			*quote = 'x';
-	}
-	if (*quote == 'x')
-		*idx = exp_skip_tab_space_nl(str, *idx);
-}
+#endif

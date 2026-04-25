@@ -6,7 +6,7 @@
 /*   By: vcucuiet <vita@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/14 20:07:59 by vcucuiet          #+#    #+#             */
-/*   Updated: 2026/04/16 16:39:37 by vcucuiet         ###   ########.fr       */
+/*   Updated: 2026/04/25 16:56:08 by vcucuiet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ static t_lexer	*cpy_hd_until_error(t_lexer *res, t_lexer *lexer, t_lexer *end)
 		if (lexer->type == TOKEN_HERE_DOC && lexer->next->type == TOKEN_WORD)
 		{
 			if (lex_lexadd_back(&res, lex_cpy_node(lexer)))
-				return (free(res), NULL);
+				return (lex_lexclear(&res, free), NULL);
 			lexer = lexer->next;
 			if (lex_lexadd_back(&res, lex_cpy_node(lexer)))
 				return (free(res), NULL);

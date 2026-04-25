@@ -59,6 +59,7 @@ SRC_FILES	= main.c \
 			parser/parser_cmd_utils.c \
 			parser/parser_error.c \
 			parser/parser_redirect.c \
+			utils/clean_static_var.c \
 			utils/free.c \
 			utils/init_env.c \
 			utils/readline_utils.c \
