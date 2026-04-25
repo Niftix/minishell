@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vcucuiet <vcucuiet@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vcucuiet <vita@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/28 13:57:54 by vcucuiet          #+#    #+#             */
-/*   Updated: 2026/04/22 15:04:16 by vcucuiet         ###   ########.fr       */
+/*   Updated: 2026/04/24 22:48:22 by vcucuiet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ static char	**exp_chr(char *str, char **env, size_t idx, int exit_status)
 	res[r_len - 1] = NULL;
 	while (str[idx])
 	{
-		need_new = exp_calc_if_need_new_var(str[idx], need_new);
+		need_new = exp_calc_if_need_new_var(str[idx], need_new, str, idx);
 		var = exp_extract_var(str, env, &idx, exit_status);
 		if (!var)
 			return (ft_free2c(res), need_new = 0, NULL);

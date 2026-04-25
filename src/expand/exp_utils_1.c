@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exp_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mville <mville@student.42.fr>              +#+  +:+       +#+        */
+/*   By: vcucuiet <vita@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/06 18:13:05 by vcucuiet          #+#    #+#             */
-/*   Updated: 2026/04/07 14:02:32 by mville           ###   ########.fr       */
+/*   Updated: 2026/04/24 22:04:48 by vcucuiet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,9 @@ int	is_ifs(char c)
 
 int	exp_is_var_sep(char c)
 {
-	if (c == '$' || c == ';' || c == '"' || c == '\'' || c == '\\' || c == '}'
-		|| c == ' ' || c == '\t' || c == '\n' || c == '=')
-		return (1);
-	return (0);
+	if (ft_isalnum(c) || c == '_')
+		return (0);
+	return (1);
 }
 
 size_t	exp_skip_tab_space_nl(char *str, size_t start)

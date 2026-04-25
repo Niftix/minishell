@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exp_verif_expand.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vcucuiet <vcucuiet@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vcucuiet <vita@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/17 12:48:46 by vcucuiet          #+#    #+#             */
-/*   Updated: 2026/04/22 16:50:22 by vcucuiet         ###   ########.fr       */
+/*   Updated: 2026/04/24 21:49:02 by vcucuiet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ static char	**exp_append_new_str(char **res, char *str, size_t *i, int *r_len)
 	return (res);
 }
 
-static char	**exp_splited_var(char *str, int *need_new)
+static char	**exp_splited_var(char *str)
 {
 	size_t	i;
 	int		r_len;
@@ -75,8 +75,6 @@ static char	**exp_splited_var(char *str, int *need_new)
 		if (str[i] == ' ' && quote == 'x')
 			res = exp_append_new_str(res, str, &i, &r_len);
 	}
-	if (i > 0 && is_ifs(str[i - 1]))
-		*need_new = 2;
 	if (i)
 		res = exp_append_new_str(res, str, &i, &r_len);
 	return (res);
@@ -111,20 +109,20 @@ char	** exp_verif_expand(char **var, int *len_var, int pos, int *need_new)
 	size_t	old_len;
 	size_t	new_len;
 
-	if (exp_verif_if_space_without_q(var[pos])) //dont work propely
+	if (exp_verif_if_space_without_q(var[pos]))
 	{
-		tmp = exp_splited_var(var[pos], need_new);
+		if (ft_strlen(var[pos]) && is_ifs(var[pos][ft_strlen(var[pos]) - 1]))
+			*need_new = 2;
+		tmp = exp_splited_var(var[pos]);
 		if (!tmp)
 			return (ft_free2c(var), NULL);
 		tmp_len = ft_str2dlen(tmp);
-		if(!need_new)
-			tmp_len--;
 		old_len = sizeof(char *) * *len_var;
 		new_len = sizeof(char *) * (*len_var + tmp_len + 1);
 		var = ft_realloc(var, old_len, new_len);
 		free(var[pos]);
 		var = exp_append_tmp_to_var(var, tmp, pos, need_new);
-		*len_var += tmp_len;
+		*len_var += (tmp_len - 1);
 	}
 	return (var);
 }

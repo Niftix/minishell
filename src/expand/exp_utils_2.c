@@ -1,27 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exp_calc_if_need_new_var.c                         :+:      :+:    :+:   */
+/*   exp_utils_2.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vcucuiet <vita@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/04/22 14:32:47 by vcucuiet          #+#    #+#             */
-/*   Updated: 2026/04/24 22:51:12 by vcucuiet         ###   ########.fr       */
+/*   Created: 2026/04/24 22:43:26 by vcucuiet          #+#    #+#             */
+/*   Updated: 2026/04/24 22:43:53 by vcucuiet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "expand.h"
 
-
-
-int	exp_calc_if_need_new_var(char c, int need_new, char *str, size_t idx)
+char	exp_get_quote_state(char *str, size_t idx)
 {
-	int	new;
+	size_t	i;
+	char	quote;
 
-	if (need_new == 2)
-		return (1);
-	new = is_ifs(c);
-	if (exp_get_quote_state(str, idx) != 'x')
-		new = 0;
-	return (new);
+	i = 0;
+	quote = 'x';
+	while (i < idx)
+	{
+		if (quote == 'x' && (str[i] == '\'' || str[i] == '\"'))
+			quote = str[i];
+		else if (str[i] == quote)
+			quote = 'x';
+		i++;
+	}
+	return (quote);
 }

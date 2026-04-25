@@ -38,7 +38,8 @@ SRC_FILES	= main.c \
 			expand/exp_env_var.c \
 			expand/exp_none_var.c \
 			expand/exp_set_exp_extract_var.c \
-			expand/exp_utils.c \
+			expand/exp_utils_1.c \
+			expand/exp_utils_2.c \
 			expand/exp_var_append_without_new_idx.c \
 			expand/exp_verif_expand.c \
 			expand/expand.c \
