@@ -6,7 +6,7 @@
 /*   By: mville <mville@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/07 12:31:23 by mville            #+#    #+#             */
-/*   Updated: 2026/04/10 12:23:11 by mville           ###   ########.fr       */
+/*   Updated: 2026/04/23 18:43:49 by mville           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,17 @@
 
 static int	check_quote(t_redirect *redir)
 {
-	char	*stripped;
+	char	*clean_target;
 	int		expand;
 
 	expand = 1;
 	if (ft_strchr(redir->target, '\'') || ft_strchr(redir->target, '\"'))
 	{
-		stripped = remove_quote(redir->target);
-		if (!stripped)
+		clean_target = remove_quote(redir->target);
+		if (!clean_target)
 			return (expand);
 		free(redir->target);
-		redir->target = stripped;
+		redir->target = clean_target;
 		expand = 0;
 	}
 	return (expand);
@@ -51,16 +51,16 @@ static char	*create_hd(t_redirect *redir)
 static char	*read_hd_line(void)
 {
 	char	*line;
-	char	*trimmed;
+	char	*clean_line;
 
 	if (isatty(STDIN_FILENO))
 		return (readline("heredoc > "));
 	line = get_next_line(STDIN_FILENO);
 	if (!line)
 		return (NULL);
-	trimmed = ft_strtrim(line, "\n");
+	clean_line = ft_strtrim(line, "\n");
 	free(line);
-	return (trimmed);
+	return (clean_line);
 }
 
 int	read_hd(t_redirect *redir, t_shell *shell)

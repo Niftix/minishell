@@ -3,126 +3,107 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vcucuiet <vcucuiet@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mville <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/12 14:43:53 by vcucuiet          #+#    #+#             */
-/*   Updated: 2025/12/31 17:06:25 by vcucuiet         ###   ########.fr       */
+/*   Created: 2025/12/03 14:55:38 by mville            #+#    #+#             */
+/*   Updated: 2025/12/03 15:00:46 by mville           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static void	get_remain(char *str, int status, char **stash, t_var_gnl val)
+static char	*ft_extract_line(char **bag, char *new)
 {
-	int	j;
+	char	*new_bag;
+	char	*line;
 
-	if (status == 1)
+	new_bag = NULL;
+	if (*(new + 1))
 	{
-		j = -1;
-		while ((*stash)[++j] && ((*stash)[j] != '\n'))
-			str[j] = (*stash)[j];
-		if ((*stash)[j] == '\n')
-			str[j++] = '\n';
-		str[j] = '\0';
-		if (str[0] == '\0')
-			str = NULL;
-		if ((*stash)[j] == '\0')
+		new_bag = ft_strdup(new + 1);
+		if (!new_bag)
 		{
-			free(*stash);
-			*stash = NULL;
-			return ;
+			free(*bag);
+			*bag = NULL;
+			return (NULL);
 		}
-		val.temp = *stash;
-		*stash = ft_strdup(*stash + j);
-		free(val.temp);
-		val.temp = NULL;
 	}
-	else if (status == 2)
-		*stash = ft_strdup(str);
+	*(new + 1) = '\0';
+	line = *bag;
+	*bag = new_bag;
+	return (line);
 }
 
-static char	*get_n(char *buf, ssize_t c_buf)
+static char	*ft_cutter(char **bag)
 {
-	ssize_t	i;
-	char	*tab;
+	char	*line;
+	char	*new;
 
-	tab = malloc(sizeof(char) * (c_buf + 1));
-	i = 0;
-	while (i < c_buf)
+	new = ft_strchr(*bag, '\n');
+	if (new)
+		return (ft_extract_line(bag, new));
+	line = *bag;
+	*bag = NULL;
+	if (!line || line[0] == '\0')
 	{
-		tab[i] = buf[i];
-		i++;
+		free(line);
+		return (NULL);
 	}
-	tab[i] = '\0';
-	return (tab);
+	return (line);
 }
 
-static void	ft_diff_cbuf_read(t_var_gnl *val, char **stash)
+static int	ft_helper(char **bag, char *buffer)
 {
-	get_remain(val->buf + val->c_buf + 1, 2, stash, *val);
-	val->temp = get_n(val->buf, val->c_buf + 1);
-	val->res = ft_strdupcat(val->res, val->temp, &val->t_size, val->c_buf + 1);
-	if (val->res[0] == '\0')
+	char	*tmp;
+
+	tmp = *bag;
+	*bag = ft_strjoin(*bag, buffer);
+	free(tmp);
+	if (!*bag)
+		return (0);
+	return (1);
+}
+
+static char	*get_next_line_core(int fd, char *buffer, char **bag)
+{
+	int	read_bytes;
+
+	if (!*bag)
 	{
-		if (*stash)
-			free(*stash);
-		*stash = NULL;
-		val->res = NULL;
+		*bag = ft_strdup("");
+		if (!*bag)
+			return (NULL);
 	}
-}
-
-static char	*get_str(int fd, t_var_gnl *val, char **stash)
-{
 	while (1)
 	{
-		val->t_read = read(fd, val->buf, BUFFER_SIZE);
-		if (val->t_read > 0)
-		{
-			val->buf[val->t_read] = '\0';
-			val->c_buf = 0;
-			while (val->buf[val->c_buf] && (val->buf[val->c_buf] != '\n'))
-				val->c_buf += 1;
-			if (val->buf[val->c_buf] == '\n')
-			{
-				ft_diff_cbuf_read(val, stash);
-				free(val->temp);
-				val->temp = NULL;
-				break ;
-			}
-			else
-				val->res = ft_strdupcat(val->res,
-						val->buf, &val->t_size, val->t_read);
-		}
-		if (ft_gnl_check_break(val, 0))
+		if (ft_strchr(*bag, '\n'))
 			break ;
+		read_bytes = read(fd, buffer, BUFFER_SIZE);
+		if (read_bytes == -1)
+			return (fft_free_exit(NULL, bag));
+		if (read_bytes == 0)
+			break ;
+		buffer[read_bytes] = '\0';
+		if (!ft_helper(bag, buffer))
+			return (NULL);
 	}
-	ft_gnl_check_break(val, -1);
-	return (val->res);
+	return (ft_cutter(bag));
 }
 
 char	*get_next_line(int fd)
 {
-	t_var_gnl	val;
-	static char	*stashs[OPEN_MAX];
+	char		*buffer;
+	static char	*bag;
+	char		*line;
 
-	if (fd < 0 || fd >= OPEN_MAX || BUFFER_SIZE <= 0)
+	if (fd == -1)
+		return (fft_free_exit(NULL, &bag));
+	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
-	ft_set_gnl_to_default(&val, &stashs[fd], 0);
-	if (!val.buf)
-		return (NULL);
-	if (stashs[fd] != NULL)
-	{
-		val.c_buf = 0;
-		get_remain(val.buf, 1, &stashs[fd], val);
-		val.res = ft_strdupcat(val.res,
-				val.buf, &val.t_size, ft_strlen(val.buf));
-		while (val.buf[val.c_buf] && (val.buf[val.c_buf] != '\n'))
-			val.c_buf += 1;
-		if (val.res[val.c_buf] == '\n')
-			return (ft_gnl_check_break(&val, 1), val.res);
-	}
-	val.res = get_str(fd, &val, &stashs[fd]);
-	ft_gnl_check_break(&val, 1);
-	ft_set_gnl_to_default(&val, &stashs[fd], 1);
-	return (val.res);
+	buffer = malloc(BUFFER_SIZE + 1);
+	if (!buffer)
+		return (fft_free_exit(NULL, &bag));
+	line = get_next_line_core(fd, buffer, &bag);
+	free(buffer);
+	return (line);
 }

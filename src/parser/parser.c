@@ -6,7 +6,7 @@
 /*   By: mville <mville@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/07 12:31:35 by mville            #+#    #+#             */
-/*   Updated: 2026/04/15 09:57:11 by mville           ###   ########.fr       */
+/*   Updated: 2026/04/23 17:51:14 by mville           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,18 @@ t_ast	*parse_and_or(t_lexer **current, t_shell *shell)
 	return (node);
 }
 
+static void	token_error_check_hd(t_lexer *lex, t_shell *shell)
+{
+	if (resolve_token_error_with_hd(lex, shell))
+		shell->status_exit = 1;
+	else
+	{
+		if (lex->value)
+			parser_put_error(NULL);
+		shell->status_exit = 2;
+	}
+}
+
 t_ast	*check_parse(t_lexer *lex, t_shell *shell)
 {
 	t_ast	*ast;
@@ -63,7 +75,7 @@ t_ast	*check_parse(t_lexer *lex, t_shell *shell)
 		return (NULL);
 	if (lex->type == TOKEN_ERROR)
 	{
-		shell->status_exit = 2;
+		token_error_check_hd(lex, shell);
 		return (NULL);
 	}
 	ast = parse_and_or(&lex, shell);

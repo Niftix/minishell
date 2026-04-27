@@ -46,6 +46,7 @@ void			parser_put_error(t_lexer *lex);
 /* PARSER->HD_RESOLVE.C */
 int				read_hd(t_redirect *redir, t_shell *shell);
 int				hd_resolve(t_ast *ast, t_shell *shell);
+int				resolve_token_error_with_hd(t_lexer *lex, t_shell *shell);
 
 /* PARSER->HD_UTILS.C */
 char			*remove_quote(char *str);

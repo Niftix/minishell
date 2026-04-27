@@ -2,7 +2,7 @@ NAME		= minishell
 
 CC			= cc
 
-CFLAGS		= -Wextra -Werror -Wall -Iincludes -Ilibft -g3
+CFLAGS		= -Wextra -Werror -Wall -Iincludes -Ilibft -g3 
 
 READLFLAGS	= -lreadline
 
@@ -53,6 +53,7 @@ SRC_FILES	= main.c \
 			lexer/lexer_utils.c \
 			parser/ast.c \
 			parser/hd_resolve.c \
+			parser/hd_resolve_token_error.c \
 			parser/hd_utils.c \
 			parser/parser.c \
 			parser/parser_cmd.c \
@@ -62,6 +63,7 @@ SRC_FILES	= main.c \
 			utils/clean_static_var.c \
 			utils/free.c \
 			utils/init_env.c \
+			utils/readline_stash.c \
 			utils/readline_utils.c \
 			utils/signals.c \
 			utils/verif_if_need_expand.c

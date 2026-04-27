@@ -6,7 +6,7 @@
 /*   By: mville <mville@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/10 21:13:44 by mville            #+#    #+#             */
-/*   Updated: 2026/04/11 00:01:47 by mville           ###   ########.fr       */
+/*   Updated: 2026/04/18 09:27:44 by mville           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,7 @@ char	**add_args(char **args, char **words, int *count)
 	i = 0;
 	while (words[i])
 	{
-		if (words[i][0] != '\0')
-			new[(*count)++] = remove_quote(words[i]);
+		new[(*count)++] = remove_quote(words[i]);
 		free(words[i]);
 		i++;
 	}

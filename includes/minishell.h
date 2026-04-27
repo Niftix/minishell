@@ -28,6 +28,12 @@
 
 extern volatile sig_atomic_t	g_status;
 
+typedef struct s_input_stash
+{
+	char	*stash;
+	size_t	idx;
+}	t_input_stash;
+
 typedef struct s_shell
 {
 	char			**env;
@@ -38,6 +44,7 @@ typedef struct s_shell
 	int				stdout_backup;
 	pid_t			last_pid;
 	char			*current_input;
+	t_input_stash	input_stash;
 	struct s_lexer	*t_current_lexer;
 	struct s_ast	*t_current_ast;
 }	t_shell;
@@ -85,6 +92,9 @@ void	ft_free_tab(char **res);
 
 /* UTILS->READLINE_UTILS.C */
 char	*get_input(t_shell *shell);
+char	*get_stash_line(t_input_stash *input_stash);
+char	*check_multi_line(t_input_stash *input_stash, char *input);
+void	clean_stash(t_input_stash *input_stash);
 void	clean_loop(t_shell *shell);
 void	free_shell(t_shell *shell);
 void	child_exit(t_shell *shell, int status);

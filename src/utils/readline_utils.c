@@ -27,7 +27,7 @@ static char	*input_gnl(void)
 	return (input);
 }
 
-char	*get_input(t_shell *shell)
+static char	*read_input(t_shell *shell)
 {
 	char	*input;
 
@@ -40,8 +40,28 @@ char	*get_input(t_shell *shell)
 		if (isatty(STDIN_FILENO))
 			write(1, "exit\n", 5);
 		shell->run = 0;
-		return (NULL);
 	}
+	return (input);
+}
+
+char	*get_input(t_shell *shell)
+{
+	char	*input;
+
+	input = get_stash_line(&shell->input_stash);
+	if (input)
+	{
+		if (isatty(STDIN_FILENO) && input[0] != '\0')
+			add_history(input);
+		return (input);
+	}
+	input = read_input(shell);
+	if (!input)
+		return (NULL);
+	if (isatty(STDIN_FILENO))
+		input = check_multi_line(&shell->input_stash, input);
+	if (!input)
+		return (shell->run = 0, NULL);
 	if (isatty(STDIN_FILENO) && input[0] != '\0')
 		add_history(input);
 	return (input);
@@ -67,6 +87,8 @@ void	clean_loop(t_shell *shell)
 void	free_shell(t_shell *shell)
 {
 	clean_loop(shell);
+	clean_stash(&shell->input_stash);
+	get_next_line(-1);
 	rl_clear_history();
 	if (shell->env)
 	{
@@ -78,5 +100,8 @@ void	free_shell(t_shell *shell)
 void	child_exit(t_shell *shell, int status)
 {
 	free_shell(shell);
+	close(STDIN_FILENO);
+	close(STDOUT_FILENO);
+	close(STDERR_FILENO);
 	exit(status);
 }

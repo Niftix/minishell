@@ -96,6 +96,8 @@ int	shell_init(t_shell *shell, char **envp)
 	shell->stdout_backup = -1;
 	shell->last_pid = -1;
 	shell->current_input = NULL;
+	shell->input_stash.stash = NULL;
+	shell->input_stash.idx = 0;
 	shell->t_current_lexer = NULL;
 	shell->t_current_ast = NULL;
 	shell->env = malloc(sizeof(char *) * (count + 1));
