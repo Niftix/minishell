@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exp_env_var.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mville <mville@student.42.fr>              +#+  +:+       +#+        */
+/*   By: vcucuiet <vita@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/06 18:05:01 by vcucuiet          #+#    #+#             */
-/*   Updated: 2026/04/07 14:02:32 by mville           ###   ########.fr       */
+/*   Updated: 2026/04/25 19:16:48 by vcucuiet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,13 @@ static char	*exp_grab_var(char *str)
 	size_t	idx;
 
 	var_len = 0;
-	while (str[var_len] && !exp_is_var_sep(str[var_len]))
-		var_len++;
+	if (!ft_isalpha(str[0]) && str[0] != '_' && str[0] != '{')
+		;
+	else
+	{
+		while (str[var_len] && !exp_is_var_sep(str[var_len]))
+			var_len++;
+	}
 	if (str[var_len] == '}')
 		var_len++;
 	idx = 0;
@@ -65,7 +70,7 @@ static char	*exp_chr_var_in_env(char **env, char *var)
 	return (ft_strdup(""));
 }
 
-static void	exp_strip_braces(char *var)
+static void	exp_stkip_braces(char *var)
 {
 	size_t	i;
 
@@ -93,7 +98,7 @@ char	*exp_chr_var_and_exp(char *str, char **env, size_t *idx)
 	if (str[*idx] == '}')
 		*idx += 1;
 	if (var[0] == '{')
-		exp_strip_braces(var);
+		exp_stkip_braces(var);
 	expanded_var = exp_chr_var_in_env(env, var);
 	free(var);
 	return (expanded_var);

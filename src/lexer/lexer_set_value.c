@@ -6,7 +6,7 @@
 /*   By: vcucuiet <vita@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/10 11:25:35 by vcucuiet          #+#    #+#             */
-/*   Updated: 2026/04/13 14:50:13 by vcucuiet         ###   ########.fr       */
+/*   Updated: 2026/04/26 15:59:10 by vcucuiet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,17 +20,19 @@ static ssize_t	lex_quote_verif(char *quote)
 	return (*quote = 'x', -1);
 }
 
-static ssize_t	lex_set_buf(char *buf, char *input, size_t *idx)
+ssize_t	lex_set_buf(char *buf, char *input, size_t *idx)
 {
 	size_t		i;
 	static char	quote = 'x';
 
-	if (!buf || !input)
+	if (!buf && !input&& !idx)
+		return (quote = 'x', 0);
+	if (!buf && !input)
 		return (lex_quote_verif(&quote));
 	i = -1;
 	while (++i < LEXER_BUF && input[*idx])
 	{
-		if (quote == 'x' && (input[*idx] == '\'' || input[*idx] == '\"'))
+		if (quote == 'x' && (input[*idx] == 34 || input[*idx] == 39))
 			quote = input[*idx];
 		else if (input[*idx] == quote)
 			quote = 'x';
@@ -63,7 +65,7 @@ static char	*lex_cpy_value_from_input(char *buf, char *input, size_t idx)
 			return (NULL);
 		if (t_cpy != LEXER_BUF)
 		{
-			if (lex_set_buf(NULL, NULL, 0) == -1)
+			if (lex_set_buf(NULL, NULL, &idx) == -1)
 				return (val);
 			break ;
 		}

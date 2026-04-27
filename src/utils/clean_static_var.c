@@ -1,32 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lex_pars_valid_word.c                              :+:      :+:    :+:   */
+/*   clean_static_var.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vcucuiet <vita@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/04/16 16:41:08 by vcucuiet          #+#    #+#             */
-/*   Updated: 2026/04/26 15:58:22 by vcucuiet         ###   ########.fr       */
+/*   Created: 2026/04/25 17:53:48 by vcucuiet          #+#    #+#             */
+/*   Updated: 2026/04/25 18:29:29 by vcucuiet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "lexer.h"
+#include "static_var_cleaner.h"
 
-int	lex_pars_valid_word(char *str)
+void	clean_static_var(void)
 {
-	size_t	i;
-	char	quote;
-
-	quote = 'x';
-	i = -1;
-	while (str[++i])
-	{
-		if (quote == 'x' && (str[i] == 34 || str[i] == 39))
-			quote = str[i];
-		else if (str[i] == quote)
-			quote = 'x';
-	}
-	if (quote == 'x')
-		return (0);
-	return (3);
+	lex_set_buf(NULL, NULL, NULL);
+	exp_chr(NULL, NULL, 0, 0);
+	exp_extract_var(NULL, NULL, NULL, 0);
 }

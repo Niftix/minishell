@@ -1,32 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lex_pars_valid_word.c                              :+:      :+:    :+:   */
+/*   exp_utils_2.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vcucuiet <vita@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/04/16 16:41:08 by vcucuiet          #+#    #+#             */
-/*   Updated: 2026/04/26 15:58:22 by vcucuiet         ###   ########.fr       */
+/*   Created: 2026/04/24 22:43:26 by vcucuiet          #+#    #+#             */
+/*   Updated: 2026/04/26 15:56:26 by vcucuiet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "lexer.h"
+#include "expand.h"
 
-int	lex_pars_valid_word(char *str)
+char	exp_get_quote_state(char *str, size_t idx)
 {
 	size_t	i;
 	char	quote;
 
+	i = 0;
 	quote = 'x';
-	i = -1;
-	while (str[++i])
+	while (i < idx)
 	{
-		if (quote == 'x' && (str[i] == 34 || str[i] == 39))
+		if (quote == 'x' && (str[i] == 39 || str[i] == 34))
 			quote = str[i];
 		else if (str[i] == quote)
 			quote = 'x';
+		i++;
 	}
-	if (quote == 'x')
-		return (0);
-	return (3);
+	return (quote);
 }

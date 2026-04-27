@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   readline_core.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mville <mville@student.42.fr>              +#+  +:+       +#+        */
+/*   By: vcucuiet <vita@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/05 17:15:14 by mville            #+#    #+#             */
-/*   Updated: 2026/04/14 15:02:16 by mville           ###   ########.fr       */
+/*   Updated: 2026/04/25 18:39:06 by vcucuiet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,22 +28,6 @@ char	*get_input(t_shell *shell)
 	if (input[0] != '\0')
 		add_history(input);
 	return (input);
-}
-
-void	clean_loop(t_shell *shell)
-{
-	if (shell->t_current_ast)
-	{
-		ast_free(shell->t_current_ast);
-		shell->t_current_ast = NULL;
-	}
-	if (shell->t_current_lexer)
-		lex_lexclear(&shell->t_current_lexer, free);
-	if (shell->current_input)
-	{
-		free(shell->current_input);
-		shell->current_input = NULL;
-	}
 }
 
 void	free_shell(t_shell *shell)

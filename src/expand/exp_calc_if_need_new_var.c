@@ -1,32 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lex_pars_valid_word.c                              :+:      :+:    :+:   */
+/*   exp_calc_if_need_new_var.c                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vcucuiet <vita@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/04/16 16:41:08 by vcucuiet          #+#    #+#             */
-/*   Updated: 2026/04/26 15:58:22 by vcucuiet         ###   ########.fr       */
+/*   Created: 2026/04/22 14:32:47 by vcucuiet          #+#    #+#             */
+/*   Updated: 2026/04/26 15:10:12 by vcucuiet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "lexer.h"
+#include "expand.h"
 
-int	lex_pars_valid_word(char *str)
+
+
+int	exp_calc_if_need_new_var(char c, int need_new, char *str, size_t idx)
 {
-	size_t	i;
-	char	quote;
+	int	new;
 
-	quote = 'x';
-	i = -1;
-	while (str[++i])
-	{
-		if (quote == 'x' && (str[i] == 34 || str[i] == 39))
-			quote = str[i];
-		else if (str[i] == quote)
-			quote = 'x';
-	}
-	if (quote == 'x')
-		return (0);
-	return (3);
+	if (need_new > 1)
+		return (need_new - 1);
+	new = is_ifs(c);
+	if (exp_get_quote_state(str, idx) != 'x')
+		new = 0;
+	return (new);
 }

@@ -33,10 +33,15 @@ SRC_FILES	= main.c \
 			exec/exec_redir.c \
 			exec/exec_utils.c \
 			exec/resolve_path.c \
+			expand/exp_calc_if_need_new_var.c \
 			expand/exp_cringe_dolars.c \
 			expand/exp_env_var.c \
 			expand/exp_none_var.c \
-			expand/exp_utils.c \
+			expand/exp_set_exp_extract_var.c \
+			expand/exp_utils_1.c \
+			expand/exp_utils_2.c \
+			expand/exp_var_append_without_new_idx.c \
+			expand/exp_verif_expand.c \
 			expand/expand.c \
 			lexer/lex_pars.c \
 			lexer/lex_pars_elements.c \
@@ -55,6 +60,7 @@ SRC_FILES	= main.c \
 			parser/parser_cmd_utils.c \
 			parser/parser_error.c \
 			parser/parser_redirect.c \
+			utils/clean_static_var.c \
 			utils/free.c \
 			utils/init_env.c \
 			utils/readline_stash.c \

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   readline_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mville <mville@student.42.fr>              +#+  +:+       +#+        */
+/*   By: vcucuiet <vita@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/05 17:15:14 by mville            #+#    #+#             */
-/*   Updated: 2026/04/24 20:20:07 by mville           ###   ########.fr       */
+/*   Updated: 2026/04/25 18:40:30 by vcucuiet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,7 @@ void	clean_loop(t_shell *shell)
 		free(shell->current_input);
 		shell->current_input = NULL;
 	}
+	clean_static_var();
 }
 
 void	free_shell(t_shell *shell)

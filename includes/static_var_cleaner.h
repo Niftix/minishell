@@ -1,32 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lex_pars_valid_word.c                              :+:      :+:    :+:   */
+/*   static_var_cleaner.h                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vcucuiet <vita@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/04/16 16:41:08 by vcucuiet          #+#    #+#             */
-/*   Updated: 2026/04/26 15:58:22 by vcucuiet         ###   ########.fr       */
+/*   Created: 2026/04/25 18:11:14 by vcucuiet          #+#    #+#             */
+/*   Updated: 2026/04/25 18:20:19 by vcucuiet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "lexer.h"
+#ifndef STATIC_VAR_CLEANER_H
+# define STATIC_VAR_CLEANER_H
+# include <unistd.h>
 
-int	lex_pars_valid_word(char *str)
-{
-	size_t	i;
-	char	quote;
+ssize_t	lex_set_buf(char *buf, char *input, size_t *idx);
+char	**exp_chr(char *str, char **env, size_t idx, int exit_status);
+char	*exp_extract_var(char *str, char **env, size_t *idx, int exit_status);
 
-	quote = 'x';
-	i = -1;
-	while (str[++i])
-	{
-		if (quote == 'x' && (str[i] == 34 || str[i] == 39))
-			quote = str[i];
-		else if (str[i] == quote)
-			quote = 'x';
-	}
-	if (quote == 'x')
-		return (0);
-	return (3);
-}
+#endif
