@@ -6,7 +6,7 @@
 /*   By: vcucuiet <vita@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/17 12:48:46 by vcucuiet          #+#    #+#             */
-/*   Updated: 2026/04/25 17:00:28 by vcucuiet         ###   ########.fr       */
+/*   Updated: 2026/04/26 15:56:51 by vcucuiet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static int		exp_verif_if_space_without_q(char *str)
 	i = -1;
 	while (str[++i])
 	{
-		if ((str[i] == '\"' || str[i] == '\'') && quote == 'x')
+		if ((str[i] == 34 || str[i] == 39) && quote == 'x')
 			quote = str[i];
 		else if (str[i] == quote)
 			quote = 'x';
@@ -68,7 +68,7 @@ static char	**exp_splited_var(char *str)
 	res[r_len - 1] = NULL;
 	while(str[++i])
 	{
-		if ((str[i] == '\"' || str[i] == '\'') && quote == 'x')
+		if ((str[i] == 39 || str[i] == 34) && quote == 'x')
             quote = str[i];
         else if (str[i] == quote)
             quote = 'x';
@@ -79,7 +79,7 @@ static char	**exp_splited_var(char *str)
 	}
 	if (i)
 		res = exp_append_new_str(res, str, &i, &r_len);
-	return (res);
+ 	return (res);
 }
 
 static char	**exp_append_tmp_to_var(char **var, char **tmp, int pos,
@@ -114,7 +114,7 @@ char	** exp_verif_expand(char **var, int *len_var, int pos, int *need_new)
 	if (exp_verif_if_space_without_q(var[pos]))
 	{
 		if (ft_strlen(var[pos]) && is_ifs(var[pos][ft_strlen(var[pos]) - 1]))
-			*need_new = 2;
+			*need_new = 3;
 		tmp = exp_splited_var(var[pos]);
 		if (!tmp)
 			return (ft_free2c(var), NULL);

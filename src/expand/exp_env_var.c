@@ -6,7 +6,7 @@
 /*   By: vcucuiet <vita@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/06 18:05:01 by vcucuiet          #+#    #+#             */
-/*   Updated: 2026/04/24 22:06:05 by vcucuiet         ###   ########.fr       */
+/*   Updated: 2026/04/25 19:16:48 by vcucuiet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static char	*exp_grab_var(char *str)
 	size_t	idx;
 
 	var_len = 0;
-	if (!ft_isalpha(str[0]) && str[0] != '_')
+	if (!ft_isalpha(str[0]) && str[0] != '_' && str[0] != '{')
 		;
 	else
 	{
