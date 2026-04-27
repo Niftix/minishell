@@ -6,7 +6,7 @@
 /*   By: vcucuiet <vita@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/10 11:25:35 by vcucuiet          #+#    #+#             */
-/*   Updated: 2026/04/25 18:50:53 by vcucuiet         ###   ########.fr       */
+/*   Updated: 2026/04/26 15:59:10 by vcucuiet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ ssize_t	lex_set_buf(char *buf, char *input, size_t *idx)
 	i = -1;
 	while (++i < LEXER_BUF && input[*idx])
 	{
-		if (quote == 'x' && (input[*idx] == '\'' || input[*idx] == '\"'))
+		if (quote == 'x' && (input[*idx] == 34 || input[*idx] == 39))
 			quote = input[*idx];
 		else if (input[*idx] == quote)
 			quote = 'x';

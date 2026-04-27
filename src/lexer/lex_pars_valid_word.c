@@ -6,7 +6,7 @@
 /*   By: vcucuiet <vita@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/16 16:41:08 by vcucuiet          #+#    #+#             */
-/*   Updated: 2026/04/16 16:45:03 by vcucuiet         ###   ########.fr       */
+/*   Updated: 2026/04/26 15:58:22 by vcucuiet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	lex_pars_valid_word(char *str)
 	i = -1;
 	while (str[++i])
 	{
-		if (quote == 'x' && (str[i] == '\'' || str[i] == '\"'))
+		if (quote == 'x' && (str[i] == 34 || str[i] == 39))
 			quote = str[i];
 		else if (str[i] == quote)
 			quote = 'x';
