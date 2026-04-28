@@ -6,7 +6,7 @@
 /*   By: mville <mville@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/10 17:27:21 by mville            #+#    #+#             */
-/*   Updated: 2026/04/11 00:08:46 by mville           ###   ########.fr       */
+/*   Updated: 2026/04/28 16:45:36 by mville           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,4 +42,12 @@ void	parser_put_error(t_lexer *lex)
 {
 	ft_putstr_fd("minishell: syntax error near unexpected token ", 2);
 	print_token(lex);
+}
+
+void	error_ambiguous_redirect(char *value, t_shell *shell)
+{
+	shell->status_exit = 1;
+	ft_putstr_fd("minishell: ", 2);
+	ft_putstr_fd(value, 2);
+	ft_putstr_fd(": ambiguous redirect\n", 2);
 }

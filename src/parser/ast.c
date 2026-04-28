@@ -6,7 +6,7 @@
 /*   By: mville <mville@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/07 12:58:32 by mville            #+#    #+#             */
-/*   Updated: 2026/04/10 12:23:14 by mville           ###   ########.fr       */
+/*   Updated: 2026/04/28 16:45:38 by mville           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,16 +44,16 @@ t_redirect	*redirect_new(t_redirect_type type, char *target, int fd_target)
 	return (redir);
 }
 
-void	redirect_add_end(t_redirect **lst, t_redirect *new)
+void	redirect_add_end(t_redirect **list, t_redirect *new)
 {
 	t_redirect	*tmp;
 
-	if (!*lst)
+	if (!*list)
 	{
-		*lst = new;
+		*list = new;
 		return ;
 	}
-	tmp = *lst;
+	tmp = *list;
 	while (tmp->next)
 		tmp = tmp->next;
 	tmp->next = new;

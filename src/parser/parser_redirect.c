@@ -6,7 +6,7 @@
 /*   By: mville <mville@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/07 12:31:30 by mville            #+#    #+#             */
-/*   Updated: 2026/04/10 12:23:02 by mville           ###   ########.fr       */
+/*   Updated: 2026/04/28 16:45:34 by mville           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,18 +45,19 @@ static char	*get_redir_target(t_lexer *cur, t_shell *shell)
 		return (NULL);
 	words = expand(tmp, shell->env, shell->status_exit);
 	if (!words || !words[0] || words[1] || words[0][0] == '\0')
-		return (shell->status_exit = 1, ft_putstr_fd("minishell: ", 2),
-			ft_putstr_fd(cur->value, 2),
-			ft_putstr_fd(": ambiguous redirect\n", 2), ft_free_tab(words),
-			NULL);
+	{
+		error_ambiguous_redirect(cur->value, shell);
+		return (ft_free_tab(words), NULL);
+	}
 	target = remove_quote(words[0]);
 	if (ft_strchr(cur->value, '$') && !ft_strchr(cur->value, '\'')
 		&& !ft_strchr(cur->value, '"') && target && (ft_strchr(target, ' ')
 			|| ft_strchr(target, '\t')))
-		return (shell->status_exit = 1, ft_putstr_fd("minishell: ", 2),
-			ft_putstr_fd(cur->value, 2),
-			ft_putstr_fd(": ambiguous redirect\n", 2), free(target),
-			ft_free_tab(words), NULL);
+	{
+		error_ambiguous_redirect(cur->value, shell);
+		free(target);
+		return (ft_free_tab(words), NULL);
+	}
 	ft_free_tab(words);
 	return (target);
 }
