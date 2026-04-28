@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   readline_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vcucuiet <vita@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mville <mville@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/05 17:15:14 by mville            #+#    #+#             */
-/*   Updated: 2026/04/25 18:40:30 by vcucuiet         ###   ########.fr       */
+/*   Updated: 2026/04/28 12:39:04 by mville           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,43 +65,4 @@ char	*get_input(t_shell *shell)
 	if (isatty(STDIN_FILENO) && input[0] != '\0')
 		add_history(input);
 	return (input);
-}
-
-void	clean_loop(t_shell *shell)
-{
-	if (shell->t_current_ast)
-	{
-		ast_free(shell->t_current_ast);
-		shell->t_current_ast = NULL;
-	}
-	if (shell->t_current_lexer)
-		lex_lexclear(&shell->t_current_lexer, free);
-	if (shell->current_input)
-	{
-		free(shell->current_input);
-		shell->current_input = NULL;
-	}
-	clean_static_var();
-}
-
-void	free_shell(t_shell *shell)
-{
-	clean_loop(shell);
-	clean_stash(&shell->input_stash);
-	get_next_line(-1);
-	rl_clear_history();
-	if (shell->env)
-	{
-		ft_free_tab(shell->env);
-		shell->env = NULL;
-	}
-}
-
-void	child_exit(t_shell *shell, int status)
-{
-	free_shell(shell);
-	close(STDIN_FILENO);
-	close(STDOUT_FILENO);
-	close(STDERR_FILENO);
-	exit(status);
 }
