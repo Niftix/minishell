@@ -6,11 +6,13 @@
 /*   By: mville <mville@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/05 16:36:29 by mville            #+#    #+#             */
-/*   Updated: 2026/04/26 20:54:19 by mville           ###   ########.fr       */
+/*   Updated: 2026/04/28 12:33:20 by mville           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include "parser.h"
+#include "lexer.h"
 
 void	ft_free_tab(char **res)
 {
