@@ -81,7 +81,7 @@ $(NAME): $(LIBFT) $(OBJ)
 	@$(CC) $(CFLAGS) $(OBJ) $(LIBFT) $(READLFLAGS) -o $(NAME)
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
-	@mkdir -p $(OBJ_DIR) $(OBJ_DIR)/builtins $(OBJ_DIR)/lexer $(OBJ_DIR)/exec $(OBJ_DIR)/utils $(OBJ_DIR)/expand $(OBJ_DIR)/parser
+	@mkdir -p $(OBJ_DIR) $(OBJ_DIR)/builtins $(OBJ_DIR)/lexer $(OBJ_DIR)/exec $(OBJ_DIR)/utils $(OBJ_DIR)/expand $(OBJ_DIR)/parser $(OBJ_DIR)/heredoc
 	@$(CC) $(CFLAGS) -MMD -MP -c $< -o $@
 
 $(LIBFT):
