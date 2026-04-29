@@ -6,18 +6,11 @@
 /*   By: mville <mville@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/24 14:27:17 by mville            #+#    #+#             */
-/*   Updated: 2026/04/24 19:58:51 by mville           ###   ########.fr       */
+/*   Updated: 2026/04/29 15:13:14 by mville           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void	clean_stash(t_input_stash *input_stash)
-{
-	free(input_stash->stash);
-	input_stash->stash = NULL;
-	input_stash->idx = 0;
-}
 
 static char	*add_to_stash(t_input_stash *input_stash)
 {

@@ -61,6 +61,8 @@ SRC_FILES	= main.c \
 			parser/parser_error.c \
 			parser/parser_redirect.c \
 			utils/clean_static_var.c \
+			utils/add_shlvl_env.c \
+			utils/add_pwd_env.c \
 			utils/free.c \
 			utils/init_env.c \
 			utils/readline_stash.c \
