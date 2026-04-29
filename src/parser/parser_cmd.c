@@ -6,21 +6,11 @@
 /*   By: mville <mville@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/07 12:31:28 by mville            #+#    #+#             */
-/*   Updated: 2026/04/07 14:02:41 by mville           ###   ########.fr       */
+/*   Updated: 2026/04/28 16:45:36 by mville           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
-
-static int	add_token(t_ast *node, t_lexer **cur, t_shell *shell, int *count)
-{
-	if ((*cur)->type != TOKEN_WORD)
-		return (parse_one_redirect(cur, &node->redirects, shell));
-	if (add_arg_cmd(node, *cur, shell, count))
-		return (1);
-	*cur = (*cur)->next;
-	return (0);
-}
 
 static t_ast	*fill_simple_cmd(t_ast *node, t_lexer **cur, t_shell *shell)
 {
@@ -32,8 +22,16 @@ static t_ast	*fill_simple_cmd(t_ast *node, t_lexer **cur, t_shell *shell)
 		return (ast_free(node), NULL);
 	node->args_cmd[0] = NULL;
 	while (*cur && cmd_token_checker((*cur)->type))
-		if (add_token(node, cur, shell, &count))
+	{
+		if ((*cur)->type == TOKEN_WORD)
+		{
+			if (add_word_to_cmd(node, *cur, shell, &count))
+				return (ast_free(node), NULL);
+			*cur = (*cur)->next;
+		}
+		else if (parse_one_redirect(cur, &node->redirects, shell))
 			return (ast_free(node), NULL);
+	}
 	return (node);
 }
 

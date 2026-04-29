@@ -6,7 +6,7 @@
 /*   By: mville <mville@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/07 12:31:35 by mville            #+#    #+#             */
-/*   Updated: 2026/04/23 17:51:14 by mville           ###   ########.fr       */
+/*   Updated: 2026/04/28 19:34:33 by mville           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,12 +27,18 @@ static t_ast	*build_ast_node(t_ast_type type, t_ast *left, t_ast *right)
 static t_ast	*parse_pipeline(t_lexer **current, t_shell *shell)
 {
 	t_ast	*node;
+	t_ast	*left;
+	t_ast	*right;
 
 	node = parse_cmd(current, shell);
 	while (node && *current && (*current)->type == TOKEN_PIPE)
 	{
+		left = node;
 		*current = (*current)->next;
-		node = build_ast_node(AST_PIPE, node, parse_cmd(current, shell));
+		right = parse_cmd(current, shell);
+		if (!right)
+			return (ast_free(left), NULL);
+		node = build_ast_node(AST_PIPE, left, right);
 	}
 	return (node);
 }
@@ -40,6 +46,8 @@ static t_ast	*parse_pipeline(t_lexer **current, t_shell *shell)
 t_ast	*parse_and_or(t_lexer **current, t_shell *shell)
 {
 	t_ast		*node;
+	t_ast		*left;
+	t_ast		*right;
 	t_ast_type	type;
 
 	node = parse_pipeline(current, shell);
@@ -49,8 +57,12 @@ t_ast	*parse_and_or(t_lexer **current, t_shell *shell)
 		type = AST_OR;
 		if ((*current)->type == TOKEN_AND)
 			type = AST_AND;
+		left = node;
 		*current = (*current)->next;
-		node = build_ast_node(type, node, parse_pipeline(current, shell));
+		right = parse_pipeline(current, shell);
+		if (!right)
+			return (ast_free(left), NULL);
+		node = build_ast_node(type, left, right);
 	}
 	return (node);
 }

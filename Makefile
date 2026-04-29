@@ -51,16 +51,18 @@ SRC_FILES	= main.c \
 			lexer/lexer_set_value.c \
 			lexer/lexer_tokeniser.c \
 			lexer/lexer_utils.c \
+			heredoc/hd_resolve.c \
+			heredoc/hd_resolve_token_error.c \
+			heredoc/hd_utils.c \
 			parser/ast.c \
-			parser/hd_resolve.c \
-			parser/hd_resolve_token_error.c \
-			parser/hd_utils.c \
 			parser/parser.c \
 			parser/parser_cmd.c \
 			parser/parser_cmd_utils.c \
 			parser/parser_error.c \
 			parser/parser_redirect.c \
 			utils/clean_static_var.c \
+			utils/add_shlvl_env.c \
+			utils/add_pwd_env.c \
 			utils/free.c \
 			utils/init_env.c \
 			utils/readline_stash.c \
@@ -81,7 +83,7 @@ $(NAME): $(LIBFT) $(OBJ)
 	@$(CC) $(CFLAGS) $(OBJ) $(LIBFT) $(READLFLAGS) -o $(NAME)
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
-	@mkdir -p $(OBJ_DIR) $(OBJ_DIR)/builtins $(OBJ_DIR)/lexer $(OBJ_DIR)/exec $(OBJ_DIR)/utils $(OBJ_DIR)/expand $(OBJ_DIR)/parser
+	@mkdir -p $(OBJ_DIR) $(OBJ_DIR)/builtins $(OBJ_DIR)/lexer $(OBJ_DIR)/exec $(OBJ_DIR)/utils $(OBJ_DIR)/expand $(OBJ_DIR)/parser $(OBJ_DIR)/heredoc
 	@$(CC) $(CFLAGS) -MMD -MP -c $< -o $@
 
 $(LIBFT):
