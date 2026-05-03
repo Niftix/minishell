@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: mville <mville@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/04/03 13:15:11 by mville            #+#    #+#             */
-/*   Updated: 2026/05/03 14:14:52 by mville           ###   ########.fr       */
+/*   Created: 2026/05/02 13:15:11 by mville            #+#    #+#             */
+/*   Updated: 2026/05/03 21:32:20 by mville           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,18 +30,19 @@ static int	check_end_pattern(char *pattern, int i)
 	return (0);
 }
 
-static void init_struct(t_wildcard *wild)
+static	void	init_struct(t_wildcard *wild)
 {
-    wild->i_pattern = 0;
+	wild->i_pattern = 0;
 	wild->i_file = 0;
 	wild->last_star = -1;
 	wild->save_file = -1;
 }
+
 int	find_match(char *pattern, char *filename)
 {
 	t_wildcard	wild;
 
-    init_struct(&wild);
+	init_struct(&wild);
 	while (filename[wild.i_file])
 	{
 		if (pattern[wild.i_pattern] == filename[wild.i_file])

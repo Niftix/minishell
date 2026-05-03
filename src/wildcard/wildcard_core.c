@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: mville <mville@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/04/03 12:34:55 by mville            #+#    #+#             */
-/*   Updated: 2026/05/03 14:37:20 by mville           ###   ########.fr       */
+/*   Created: 2026/05/02 12:34:55 by mville            #+#    #+#             */
+/*   Updated: 2026/05/03 21:33:30 by mville           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,26 @@
 #include "minishell.h"
 #include <dirent.h>
 
-static int	wildcard_checker(char *str)
+int	wildcard_checker(char *str)
 {
-	if (!str)
-		return (0);
-	if (ft_strchr(str, '*'))
-		return (1);
+	int		i;
+	char	quote;
+
+	i = 0;
+	quote = 0;
+	while (str[i])
+	{
+		if (!quote && (str[i] == '\'' || str[i] == '"'))
+			quote = str[i];
+		else if (quote && str[i] == quote)
+			quote = 0;
+		else if (str[i] == '*' && !quote)
+			return (1);
+		i++;
+	}
 	return (0);
 }
+
 
 static int	skip_usless_file(char *pattern, char *filename)
 {
