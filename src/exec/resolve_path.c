@@ -6,7 +6,7 @@
 /*   By: mville <mville@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/09 19:12:06 by mville            #+#    #+#             */
-/*   Updated: 2026/04/14 17:27:49 by mville           ###   ########.fr       */
+/*   Updated: 2026/05/04 18:39:45 by mville           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,11 @@
 
 int	check_if_directory(char *path)
 {
-	struct stat	st;
+	struct stat	file;
 
-	if (stat(path, &st))
+	if (stat(path, &file) != 0)
 		return (0);
-	return (S_ISDIR(st.st_mode));
+	return (S_ISDIR(file.st_mode));
 }
 
 static char	**get_path_in_env(t_shell *shell)
