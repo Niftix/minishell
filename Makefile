@@ -81,7 +81,7 @@ $(NAME): $(OBJ)
 	$(CC) $(CFLAGS) $(INCLUDES) $(OBJ) $(LIBFT) $(READLINE) -o $(NAME)
 
 clean:
-	rm -f $(OBJ)
+	rm -f $(OBJ) $(DEP)
 	make -C libft clean
 
 fclean: clean
