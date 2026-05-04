@@ -6,7 +6,7 @@
 /*   By: vcucuiet <vita@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/14 20:07:59 by vcucuiet          #+#    #+#             */
-/*   Updated: 2026/04/25 16:56:08 by vcucuiet         ###   ########.fr       */
+/*   Updated: 2026/05/01 17:50:12 by vcucuiet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,12 +71,17 @@ static t_lexer	*lex_pars_error(t_lexer *tmp, t_lexer *lex, int check)
 	t_lexer	*tmp_lex;
 
 	tmp_lex = lex;
-	lex_pars_put_error(tmp->type, check);
 	lex = malloc(sizeof(t_lexer));
 	if (!lex)
 		return (NULL);
 	lex->next = NULL;
 	lex->value = NULL;
+	if (check == -1)
+	{
+		ft_putstr_fd("minishell: maximum here_document count exceeded\n", 2);
+		return (lex->type = ERROR_MAX_HD, lex_lexclear(&tmp_lex, free), lex);
+	}
+	lex_pars_put_error(tmp->type, check);
 	lex->type = TOKEN_ERROR;
 	lex = cpy_hd_until_error(lex, tmp_lex, tmp);
 	lex_lexclear(&tmp_lex, free);
@@ -88,11 +93,17 @@ t_lexer	*lex_pars(t_lexer *lex, int *status_exit)
 	t_lexer	*tmp;
 	t_lexer	*prev;
 	int		check;
+	int		nb_hd;
 
 	prev = NULL;
 	tmp = lex;
+	nb_hd = 0;
 	while (tmp->type != TOKEN_EOF)
 	{
+		if (tmp->type == TOKEN_HERE_DOC)
+			nb_hd++;
+		if (nb_hd > 16)
+			return (lex_pars_error(tmp, lex, -1));
 		check = lex_pars_elements(lex, prev, tmp);
 		if (check)
 			return (lex_pars_error(tmp, lex, check));
