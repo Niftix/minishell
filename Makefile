@@ -69,11 +69,12 @@ SRC = src/main.c \
 	src/wildcard/wildcard_return.c
 
 OBJ = $(SRC:.c=.o)
+DEP = $(SRC:.c=.d)
 
 all: $(NAME)
 
 %.o: %.c
-	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
+	$(CC) $(CFLAGS) $(INCLUDES) -MMD -MP -c $< -o $@
 
 $(NAME): $(OBJ)
 	make -C libft
@@ -90,3 +91,5 @@ fclean: clean
 re: fclean all
 
 .PHONY: all clean fclean re
+
+-include $(DEP)
