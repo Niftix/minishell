@@ -6,7 +6,7 @@
 /*   By: vcucuiet <vita@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/05 16:35:00 by mville            #+#    #+#             */
-/*   Updated: 2026/04/16 16:47:28 by vcucuiet         ###   ########.fr       */
+/*   Updated: 2026/05/01 17:49:47 by vcucuiet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,11 @@ static int	process_input(t_shell *shell, char *input)
 	shell->t_current_lexer = lexer_creat(input, &shell->status_exit);
 	if (!shell->t_current_lexer)
 		return (1);
+	if (shell->t_current_lexer->type == ERROR_MAX_HD)
+	{
+		(clean_loop(shell), free_shell(shell));
+		exit(2);
+	}
 	if (shell->t_current_lexer->type == TOKEN_ERROR && !isatty(STDIN_FILENO))
 		shell->run = 0;
 	shell->t_current_ast = check_parse(shell->t_current_lexer, shell);
