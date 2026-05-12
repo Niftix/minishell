@@ -6,7 +6,7 @@
 /*   By: vcucuiet <vita@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/17 12:48:46 by vcucuiet          #+#    #+#             */
-/*   Updated: 2026/04/26 15:56:51 by vcucuiet         ###   ########.fr       */
+/*   Updated: 2026/05/12 11:33:28 by vcucuiet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,28 @@ static char	**exp_append_new_str(char **res, char *str, size_t *i, int *r_len)
 	return (res);
 }
 
+static char	*exp_skip_ifs(char *str)
+{
+	size_t	i;
+
+	i = 0;
+	while (str[i] && is_ifs(str[i]))
+		i++;
+	if (i > 0)
+		str = ft_memmove(str, str + i, ft_strlen(str + i) + 1);
+	return (str);
+}
+
+char **exp_verif_if_none_res(char **res, int r_len)
+{
+	if (r_len != 1)
+		return (res);
+	res = ft_realloc(res, sizeof(char *) * 1, sizeof(char *) * 2);
+	res[0] = ft_strdup("");
+	res[1] = NULL;
+	return (res);
+}
+
 static char	**exp_splited_var(char *str)
 {
 	size_t	i;
@@ -61,6 +83,7 @@ static char	**exp_splited_var(char *str)
 	char	quote;
 	char	**res;
 
+	str = exp_skip_ifs(str);
 	quote = 'x';
 	i = -1;
 	r_len = 1;
@@ -114,7 +137,7 @@ char	** exp_verif_expand(char **var, int *len_var, int pos, int *need_new)
 	if (exp_verif_if_space_without_q(var[pos]))
 	{
 		if (ft_strlen(var[pos]) && is_ifs(var[pos][ft_strlen(var[pos]) - 1]))
-			*need_new = 3;
+			*need_new = 1;
 		tmp = exp_splited_var(var[pos]);
 		if (!tmp)
 			return (ft_free2c(var), NULL);

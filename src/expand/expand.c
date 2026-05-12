@@ -6,7 +6,7 @@
 /*   By: vcucuiet <vita@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/28 13:57:54 by vcucuiet          #+#    #+#             */
-/*   Updated: 2026/04/26 16:02:31 by vcucuiet         ###   ########.fr       */
+/*   Updated: 2026/05/12 11:07:55 by vcucuiet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ static char	**exp_var_append(char **res, int *r_len, char *var, int *need_new)
 	res[*r_len - 1] = ft_strdup(var);
 	if (!res[*r_len - 1])
 		return (ft_free2c(res), NULL);
+	*need_new = 0;
 	res = exp_verif_expand(res, r_len, *r_len - 1, need_new);
 	res[*r_len] = NULL;
 	*r_len += 1;
