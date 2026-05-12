@@ -1,82 +1,102 @@
 NAME = minishell
+
 CC = cc
+
 CFLAGS = -Wall -Werror -Wextra
 INCLUDES = -I includes -I libft
+
 READLINE = -lreadline
-LIBFT = libft/libft.a
 
-SRC = src/main.c \
-	src/builtins/blt_cd.c \
-	src/builtins/blt_echo.c \
-	src/builtins/blt_env.c \
-	src/builtins/blt_exit.c \
-	src/builtins/blt_exit_max.c \
-	src/builtins/blt_export.c \
-	src/builtins/blt_pwd.c \
-	src/builtins/blt_unset.c \
-	src/builtins/utils_blt_export.c \
-	src/builtins/utils_error.c \
-	src/exec/build_env.c \
-	src/exec/exec_and_or.c \
-	src/exec/exec_cmd.c \
-	src/exec/exec_cmd_child.c \
-	src/exec/exec_core.c \
-	src/exec/exec_core_blt.c \
-	src/exec/exec_group.c \
-	src/exec/exec_pipe.c \
-	src/exec/exec_pipe_child.c \
-	src/exec/exec_redir.c \
-	src/exec/exec_utils.c \
-	src/exec/resolve_path.c \
-	src/expand/exp_calc_if_need_new_var.c \
-	src/expand/exp_cringe_dolars.c \
-	src/expand/exp_env_var.c \
-	src/expand/exp_none_var.c \
-	src/expand/exp_set_exp_extract_var.c \
-	src/expand/exp_utils_1.c \
-	src/expand/exp_utils_2.c \
-	src/expand/exp_var_append_without_new_idx.c \
-	src/expand/exp_verif_expand.c \
-	src/expand/expand.c \
-	src/lexer/lex_pars.c \
-	src/lexer/lex_pars_elements.c \
-	src/lexer/lex_pars_valid_word.c \
-	src/lexer/lexer.c \
-	src/lexer/lexer_debug.c \
-	src/lexer/lexer_set_value.c \
-	src/lexer/lexer_tokeniser.c \
-	src/lexer/lexer_utils.c \
-	src/heredoc/hd_resolve.c \
-	src/heredoc/hd_resolve_token_error.c \
-	src/heredoc/hd_utils.c \
-	src/parser/ast.c \
-	src/parser/parser.c \
-	src/parser/parser_cmd.c \
-	src/parser/parser_cmd_utils.c \
-	src/parser/parser_error.c \
-	src/parser/parser_redirect.c \
-	src/utils/add_pwd_env.c \
-	src/utils/add_shlvl_env.c \
-	src/utils/clean_static_var.c \
-	src/utils/free.c \
-	src/utils/init_env.c \
-	src/utils/readline_stash.c \
-	src/utils/readline_utils.c \
-	src/utils/signals.c \
-	src/utils/verif_if_need_expand.c \
-	src/wildcard/wildcard_compare.c \
-	src/wildcard/wildcard_core.c \
-	src/wildcard/wildcard_return.c
+LIBFT_DIR = libft
+OBJ_DIR	= obj
+SRC_DIR = src
 
-OBJ = $(SRC:.c=.o)
-DEP = $(SRC:.c=.d)
+SRC_FILES = main.c \
+		builtins/blt_cd.c \
+		builtins/blt_echo.c \
+		builtins/blt_env.c \
+		builtins/blt_exit.c \
+		builtins/blt_exit_max.c \
+		builtins/blt_export.c \
+		builtins/blt_pwd.c \
+		builtins/blt_unset.c \
+		builtins/utils_blt_export.c \
+		builtins/utils_error.c \
+		exec/build_env.c \
+		exec/exec_and_or.c \
+		exec/exec_cmd.c \
+		exec/exec_cmd_child.c \
+		exec/exec_core.c \
+		exec/exec_core_blt.c \
+		exec/exec_group.c \
+		exec/exec_pipe.c \
+		exec/exec_pipe_child.c \
+		exec/exec_redir.c \
+		exec/exec_utils.c \
+		exec/resolve_path.c \
+		expand/exp_calc_if_need_new_var.c \
+		expand/exp_cringe_dolars.c \
+		expand/exp_env_var.c \
+		expand/exp_none_var.c \
+		expand/exp_set_exp_extract_var.c \
+		expand/exp_utils_1.c \
+		expand/exp_utils_2.c \
+		expand/exp_var_append_without_new_idx.c \
+		expand/exp_verif_expand.c \
+		expand/expand.c \
+		lexer/lex_pars.c \
+		lexer/lex_pars_elements.c \
+		lexer/lex_pars_valid_word.c \
+		lexer/lexer.c \
+		lexer/lexer_debug.c \
+		lexer/lexer_set_value.c \
+		lexer/lexer_tokeniser.c \
+		lexer/lexer_utils.c \
+		heredoc/hd_resolve.c \
+		heredoc/hd_resolve_token_error.c \
+		heredoc/hd_utils.c \
+		parser/ast.c \
+		parser/parser.c \
+		parser/parser_cmd.c \
+		parser/parser_cmd_utils.c \
+		parser/parser_error.c \
+		parser/parser_redirect.c \
+		utils/add_pwd_env.c \
+		utils/add_shlvl_env.c \
+		utils/clean_static_var.c \
+		utils/free.c \
+		utils/init_env.c \
+		utils/readline_stash.c \
+		utils/readline_utils.c \
+		utils/signals.c \
+		utils/verif_if_need_expand.c \
+		wildcard/wildcard_compare.c \
+		wildcard/wildcard_core.c \
+		wildcard/wildcard_return.c
+
+SRC		= $(addprefix $(SRC_DIR)/, $(SRC_FILES))
+
+OBJ = $(SRC:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
+DEP = $(OBJ:.o=.d)
+
+OBJ_FOLD = $(OBJ_DIR) \
+			$(OBJ_DIR)/builtins \
+			$(OBJ_DIR)/lexer \
+			$(OBJ_DIR)/exec \
+			$(OBJ_DIR)/utils \
+			$(OBJ_DIR)/expand \
+			$(OBJ_DIR)/parser \
+			$(OBJ_DIR)/wildcard
+
+LIBFT	= $(LIBFT_DIR)/libft.a
 
 all: $(NAME)
 
-%.o: %.c
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
+	@mkdir -p $(dir $@)
 	@$(CC) $(CFLAGS) $(INCLUDES) -MMD -MP -c $< -o $@
 
-$(NAME): $(OBJ)
+$(NAME): $(LIBFT) $(OBJ)
 	@make --no-print-directory -C libft
 	@$(CC) $(CFLAGS) $(INCLUDES) $(OBJ) $(LIBFT) $(READLINE) -o $(NAME)
 	@echo ""
@@ -90,8 +110,11 @@ $(NAME): $(OBJ)
 	@printf "░░░░░     ░░░░░ ░░░░░ ░░░░ ░░░░░ ░░░░░ ░░░░░░  ░░░░ ░░░░░  ░░░░░░  ░░░░░ ░░░░░ \n"
 	@echo ""
 
+$(LIBFT):
+	@make -C $(LIBFT_DIR)
+
 clean:
-	@rm -f $(OBJ) $(DEP)
+	@rm -rf $(OBJ_DIR)
 	@make --no-print-directory -C libft clean
 	@echo ""
 	@printf "   █████████  ████                               \n"; sleep 0.08
