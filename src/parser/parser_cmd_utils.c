@@ -6,11 +6,26 @@
 /*   By: mville <mville@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/10 21:13:44 by mville            #+#    #+#             */
-/*   Updated: 2026/04/28 16:45:37 by mville           ###   ########.fr       */
+/*   Updated: 2026/05/14 22:47:52 by mville           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
+
+static char	**expand_and_wildcard(char *word, t_shell *shell)
+{
+	char	**new_words;
+	char	**wildcard_words;
+
+	new_words = expand(word, shell->env, shell->status_exit);
+	if (!new_words)
+		return (NULL);
+	if (!new_words[0] || new_words[1])
+		return (new_words);
+	wildcard_words = wildcard_core(new_words[0]);
+	ft_free_tab(new_words);
+	return (wildcard_words);
+}
 
 char	**join_args(char **args_cmd, char **new_words, int *nb_args)
 {
@@ -43,7 +58,7 @@ int	add_word_to_cmd(t_ast *node, t_lexer *cur, t_shell *shell, int *nb_args)
 	char	*word;
 
 	word = ft_strdup(cur->value);
-	new_words = expand(word, shell->env, shell->status_exit);
+	new_words = expand_and_wildcard(word, shell);
 	if (!new_words)
 		return (1);
 	node->args_cmd = join_args(node->args_cmd, new_words, nb_args);
