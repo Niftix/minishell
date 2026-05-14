@@ -3,16 +3,29 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vcucuiet <vita@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mville <mville@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/05 16:35:00 by mville            #+#    #+#             */
-/*   Updated: 2026/05/01 17:49:47 by vcucuiet         ###   ########.fr       */
+/*   Updated: 2026/05/14 21:32:55 by mville           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "lexer.h"
 #include "parser.h"
+
+static int	process_ast(t_shell *shell)
+{
+	if (!shell->t_current_ast)
+		return (0);
+	if (hd_resolve(shell->t_current_ast, shell))
+	{
+		shell->status_exit = 130;
+		return (1);
+	}
+	shell->status_exit = ast_dispatch(shell, shell->t_current_ast);
+	return (0);
+}
 
 static int	process_input(t_shell *shell, char *input)
 {
@@ -28,13 +41,11 @@ static int	process_input(t_shell *shell, char *input)
 	if (shell->t_current_lexer->type == TOKEN_ERROR && !isatty(STDIN_FILENO))
 		shell->run = 0;
 	shell->t_current_ast = check_parse(shell->t_current_lexer, shell);
-	if (shell->t_current_ast)
-	{
-		hd_resolve(shell->t_current_ast, shell);
-		shell->status_exit = ast_dispatch(shell, shell->t_current_ast);
-	}
+	if (process_ast(shell))
+		return (clean_loop(shell), 0);
 	clean_loop(shell);
 	return (0);
+
 }
 
 int	main(int ac, char **av, char **envp)

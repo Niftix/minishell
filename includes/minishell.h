@@ -40,6 +40,7 @@ typedef struct s_shell
 	int				status_exit;
 	int				run;
 	int				in_pipe;
+	int				in_subshell;
 	int				stdin_backup;
 	int				stdout_backup;
 	pid_t			last_pid;
@@ -178,5 +179,6 @@ char	**ft_split(const char *s, char c);
 size_t	ft_strlen(const char *s);
 void	ft_putstr_fd(char *s, int fd);
 int		ft_atoi(const char *str);
+void	sigint_handle(int sigint);
 
 #endif

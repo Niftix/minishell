@@ -6,7 +6,7 @@
 /*   By: mville <mville@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/07 12:31:23 by mville            #+#    #+#             */
-/*   Updated: 2026/04/28 13:44:22 by mville           ###   ########.fr       */
+/*   Updated: 2026/05/14 22:48:02 by mville           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,27 +63,55 @@ static char	*read_hd_line(void)
 	return (clean_line);
 }
 
-int	read_hd(t_redirect *redir, t_shell *shell)
+static int	read_hd_child(t_redirect *redir, t_shell *shell, int expand)
 {
 	char	*line;
+
+	signal(SIGINT, sigint_hd);
+	while (1)
+	{
+		line = read_hd_line();
+		if (g_status == 2)
+		{
+			free(line);
+			exit(130);
+		}
+		if (!line || ft_strcmp(line, redir->target) == 0)
+		{
+			free(line);
+			exit(0);
+		}
+		if (write_line_hd(redir, shell, line, expand))
+			exit(1);
+	}
+}
+
+int	read_hd(t_redirect *redir, t_shell *shell)
+{
 	char	*name;
 	int		expand;
+	int		status;
+	pid_t	pid;
 
 	expand = check_quote(redir);
 	name = create_hd(redir);
 	if (!name)
 		return (1);
-	while (1)
+	pid = fork();
+	if (pid < 0)
+		return (hd_fail(redir, name));
+	if (pid == 0)
+		read_hd_child(redir, shell, expand);
+	waitpid(pid, &status, 0);
+	if (WIFEXITED(status) && WEXITSTATUS(status) == 130)
 	{
-		line = read_hd_line();
-		if (!line || ft_strcmp(line, redir->target) == 0)
-		{
-			free(line);
-			break ;
-		}
-		if (write_line_hd(redir, shell, line, expand))
-			return (close(redir->fd), free(name), 1);
+		g_status = 2;
+		return (hd_fail(redir, name));
 	}
+	if (WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)
+		return (hd_fail(redir, name));
+	if (!WIFEXITED(status) || WEXITSTATUS(status) != 0)
+		return (hd_fail(redir, name));
 	return (close_hd(redir, name));
 }
 

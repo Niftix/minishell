@@ -51,10 +51,11 @@ SRC_FILES = main.c \
 		lexer/lexer_debug.c \
 		lexer/lexer_set_value.c \
 		lexer/lexer_tokeniser.c \
-		lexer/lexer_utils.c \
-		heredoc/hd_resolve.c \
-		heredoc/hd_resolve_token_error.c \
-		heredoc/hd_utils.c \
+			lexer/lexer_utils.c \
+			heredoc/hd_resolve.c \
+			heredoc/hd_sigint_verif.c \
+			heredoc/hd_resolve_token_error.c \
+			heredoc/hd_utils.c \
 		parser/ast.c \
 		parser/parser.c \
 		parser/parser_cmd.c \

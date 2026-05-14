@@ -16,6 +16,7 @@
 # include "minishell.h"
 # include "lexer.h"
 # include "expand.h"
+# include "wildcard.h"
 
 /* PARSER->AST.C */
 t_ast			*create_ast_node(t_ast_type type);
@@ -48,6 +49,8 @@ void			error_ambiguous_redirect(char *value, t_shell *shell);
 int				read_hd(t_redirect *redir, t_shell *shell);
 int				hd_resolve(t_ast *ast, t_shell *shell);
 int				resolve_token_error_with_hd(t_lexer *lex, t_shell *shell);
+int				hd_fail(t_redirect *redir, char *name);
+void			sigint_hd(int sig);
 
 /* PARSER->HD_UTILS.C */
 char			*remove_quote(char *str);
