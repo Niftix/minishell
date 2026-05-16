@@ -6,7 +6,7 @@
 /*   By: vcucuiet <vita@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/14 20:07:59 by vcucuiet          #+#    #+#             */
-/*   Updated: 2026/05/01 17:50:12 by vcucuiet         ###   ########.fr       */
+/*   Updated: 2026/05/16 15:11:47 by vcucuiet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,8 @@ static int	lex_pars_put_error(t_token token, int check)
 	if (check == 3)
 		return (0);
 	error = ft_strdup("minishell: syntax error near unexpected token ");
+	if (!error)
+		return (-1);
 	ft_putstr_fd(error, 2);
 	free(error);
 	lex_print_token_error(token, check);
@@ -81,7 +83,8 @@ static t_lexer	*lex_pars_error(t_lexer *tmp, t_lexer *lex, int check)
 		ft_putstr_fd("minishell: maximum here_document count exceeded\n", 2);
 		return (lex->type = ERROR_MAX_HD, lex_lexclear(&tmp_lex, free), lex);
 	}
-	lex_pars_put_error(tmp->type, check);
+	if (lex_pars_put_error(tmp->type, check))
+		return(lex_lexclear(&lex, free), lex_lexclear(&tmp_lex, free), NULL);
 	lex->type = TOKEN_ERROR;
 	lex = cpy_hd_until_error(lex, tmp_lex, tmp);
 	lex_lexclear(&tmp_lex, free);
