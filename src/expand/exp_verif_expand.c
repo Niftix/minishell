@@ -6,7 +6,7 @@
 /*   By: vcucuiet <vita@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/17 12:48:46 by vcucuiet          #+#    #+#             */
-/*   Updated: 2026/05/12 11:33:28 by vcucuiet         ###   ########.fr       */
+/*   Updated: 2026/05/16 17:30:48 by vcucuiet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static int		exp_verif_if_space_without_q(char *str)
 			quote = str[i];
 		else if (str[i] == quote)
 			quote = 'x';
-		if (str[i] == ' ' && quote == 'x')
+		if ((str[i] == ' ' || str[i] == '\t') && quote == 'x')
 			return (1);
 	}
 	return (0);
@@ -95,7 +95,7 @@ static char	**exp_splited_var(char *str)
             quote = str[i];
         else if (str[i] == quote)
             quote = 'x';
-		if (str[i] == ' ' && quote == 'x')
+		if ((str[i] == ' ' || str[i] == '\t') && quote == 'x')
 			res = exp_append_new_str(res, str, &i, &r_len);
 		if (!res)
 			return (NULL);

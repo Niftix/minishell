@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mville <mville@student.42.fr>              +#+  +:+       +#+        */
+/*   By: vcucuiet <vita@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/05 17:23:26 by mville            #+#    #+#             */
-/*   Updated: 2026/04/14 14:30:26 by mville           ###   ########.fr       */
+/*   Updated: 2026/05/16 13:36:54 by vcucuiet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 volatile sig_atomic_t	g_status;
 
-static void	sigint_handle(int sigint)
+void	sigint_handle(int sigint)
 {
 	(void)sigint;
 	g_status = 2;

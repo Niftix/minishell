@@ -6,11 +6,12 @@
 /*   By: vcucuiet <vita@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/14 20:43:27 by vcucuiet          #+#    #+#             */
-/*   Updated: 2026/04/16 17:20:36 by vcucuiet         ###   ########.fr       */
+/*   Updated: 2026/05/16 16:15:10 by vcucuiet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lexer.h"
+#include <stdio.h>
 
 static int	valid_redirect(t_lexer *now)
 {
@@ -36,15 +37,19 @@ static int	valid_comp(t_lexer *prev, t_lexer *now)
 	return (1);
 }
 
-static int	valid_open_parent(t_lexer *now)
+static int	valid_open_parent(t_lexer *prev, t_lexer *now)
 {
 	t_lexer	*tmp;
 	int		o_parent;
 
-	if (now->next->type == TOKEN_RPAREN)
-		return (0);
-	o_parent = 1;
 	tmp = now->next;
+	if (tmp->type == TOKEN_RPAREN)
+		return (1);
+	if (prev && (prev->type != TOKEN_AND && prev->type != TOKEN_OR
+		&& prev->type != TOKEN_PIPE
+		&& prev->type != TOKEN_LPAREN && prev->type != TOKEN_LPAREN))
+		return (1);
+	o_parent = 1;
 	while (1)
 	{
 		if (tmp->type == TOKEN_EOF || o_parent == 0)
@@ -60,27 +65,24 @@ static int	valid_open_parent(t_lexer *now)
 	return (2);
 }
 
-static int	valid_parent(t_lexer *lexer, t_lexer *now)
+static int	valid_parent(t_lexer *lexer, t_lexer *now, t_lexer *prev)
 {
 	t_lexer	*tmp;
 	int		c_parent;
 
 	if (now->type == TOKEN_LPAREN)
-		return (valid_open_parent(now));
+		return (valid_open_parent(prev, now));
 	tmp = lexer;
-	c_parent = -1;
+	c_parent = 1;
 	while (tmp != now)
 	{
 		if (tmp->type == TOKEN_RPAREN)
-			c_parent--;
-		if (tmp->type == TOKEN_LPAREN)
 			c_parent++;
-		if (tmp->next == now && c_parent == 0 && (tmp->type == TOKEN_LPAREN
-				&& now->type == TOKEN_RPAREN))
-			return (1);
+		if (tmp->type == TOKEN_LPAREN)
+			c_parent--;
 		tmp = tmp->next;
 	}
-	if (c_parent == 0)
+	if (c_parent <= 0)
 		return (0);
 	return (1);
 }
@@ -97,7 +99,7 @@ int	lex_pars_elements(t_lexer *lexer, t_lexer *prev, t_lexer *now)
 		|| now->type == TOKEN_PIPE)
 		check = valid_comp(prev, now);
 	if (now->type == TOKEN_LPAREN || now->type == TOKEN_RPAREN)
-		check = valid_parent(lexer, now);
+		check = valid_parent(lexer, now, prev);
 	if (now->type == TOKEN_WORD)
 		check = lex_pars_valid_word(now->value);
 	return (check);
