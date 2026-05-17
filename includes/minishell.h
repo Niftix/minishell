@@ -89,6 +89,7 @@ typedef struct s_ast
 int		shell_init(t_shell *shell, char **envp);
 int		check_if_shlvl_exist(t_shell *shell);
 int		check_if_pwd_exist(t_shell *shell);
+int		check_if_path_exist(t_shell *shell);
 
 /* UTILS->FREE.C */
 void	ft_free_tab(char **res);
