@@ -6,7 +6,7 @@
 /*   By: mville <mville@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/07 12:31:23 by mville            #+#    #+#             */
-/*   Updated: 2026/05/14 22:48:00 by mville           ###   ########.fr       */
+/*   Updated: 2026/05/17 15:35:11 by mville           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ char	*remove_quote(char *str)
 	j = 0;
 	while (str[i])
 	{
-		if (!quote && (str[i] == '\'' || str[i] == '\"'))
+		if (!quote && (str[i] == 39 || str[i] == 34))
 			quote = str[i];
 		else if (quote && str[i] == quote)
 			quote = 0;
@@ -53,20 +53,20 @@ static char	*expand_line(char *line, t_shell *shell)
 {
 	char	*res;
 	char	*str;
-	size_t	idx;
+	size_t		j;
 
 	res = ft_strdup("");
 	if (!res)
 		return (NULL);
-	idx = 0;
-	while (line[idx])
+	j = 0;
+	while (line[j])
 	{
-		if (line[idx] == '$')
-			str = exp_chose_var(line, shell->env, &idx, shell->status_exit);
+		if (line[j] == '$')
+			str = exp_chose_var(line, shell->env, &j, shell->status_exit);
 		else
 		{
-			str = exp_extract_none_var(line, idx, idx + 1);
-			idx++;
+			str = exp_extract_none_var(line, j, j + 1);
+			j++;
 		}
 		if (!str)
 			return (free(res), NULL);
@@ -92,14 +92,5 @@ int	write_line_hd(t_redirect *redir, t_shell *shell, char *line, int exp)
 	ft_putstr_fd(line, redir->fd);
 	ft_putstr_fd("\n", redir->fd);
 	free(line);
-	return (0);
-}
-
-int	close_hd(t_redirect *redir, char *name)
-{
-	close(redir->fd);
-	redir->fd = open(name, O_RDONLY);
-	unlink(name);
-	free(name);
 	return (0);
 }

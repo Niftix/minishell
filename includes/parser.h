@@ -51,6 +51,8 @@ int				hd_resolve(t_ast *ast, t_shell *shell);
 int				resolve_token_error_with_hd(t_lexer *lex, t_shell *shell);
 int				hd_fail(t_redirect *redir, char *name);
 void			sigint_hd(int sig);
+int				check_quote(t_redirect *redir);
+char			*create_hd(t_redirect *redir);
 
 /* PARSER->HD_UTILS.C */
 char			*remove_quote(char *str);

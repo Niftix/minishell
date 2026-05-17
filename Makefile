@@ -50,8 +50,10 @@ SRC_FILES = main.c \
 		lexer/lexer.c \
 		lexer/lexer_debug.c \
 		lexer/lexer_set_value.c \
-		lexer/lexer_tokeniser.c \
+			lexer/lexer_tokeniser.c \
 			lexer/lexer_utils.c \
+			heredoc/hd_file.c \
+			heredoc/hd_read.c \
 			heredoc/hd_resolve.c \
 			heredoc/hd_sigint_verif.c \
 			heredoc/hd_resolve_token_error.c \
