@@ -12,6 +12,11 @@
 
 #include "parser.h"
 
+static int	cmd_token_checker(t_token type)
+{
+	return (type == TOKEN_WORD || redirect_checker(type));
+}
+
 static t_ast	*fill_simple_cmd(t_ast *node, t_lexer **cur, t_shell *shell)
 {
 	int	count;

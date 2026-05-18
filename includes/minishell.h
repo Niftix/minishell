@@ -130,10 +130,14 @@ void	right_pipe_reader(t_shell *shell, t_ast *ast, int *fd);
 int		exec_and(t_shell *shell, t_ast *ast);
 int		exec_or(t_shell *shell, t_ast *ast);
 
-/* EXEC->EXEC_UTILS.C */
+/* EXEC->EXEC_BUILTIN_CHECK.C */
 int		check_builtins(char *cmd);
+
+/* EXEC->EXEC_FD.C */
 int		fd_save(t_shell *shell);
 void	fd_recovery(t_shell *shell);
+
+/* EXEC->EXEC_SIGNAL.C */
 void	gest_signal(void);
 int		is_valid_id(char *s);
 int		exit_is_num(char *s);

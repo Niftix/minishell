@@ -27,7 +27,6 @@ void			ast_free(t_ast *ast);
 
 /* PARSER->AST_REDIRECTION.C */
 int				redirect_checker(t_token type);
-int				cmd_token_checker(t_token type);
 t_redirect_type	token_to_redir(t_token type);
 int				parse_one_redirect(t_lexer **cur, t_redirect **list,
 					t_shell *shell);

@@ -6,7 +6,7 @@
 /*   By: mville <mville@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/02 12:34:55 by mville            #+#    #+#             */
-/*   Updated: 2026/05/03 21:33:30 by mville           ###   ########.fr       */
+/*   Updated: 2026/05/17 17:59:27 by mville           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	wildcard_checker(char *str)
 	quote = 0;
 	while (str[i])
 	{
-		if (!quote && (str[i] == '\'' || str[i] == '"'))
+		if (!quote && (str[i] == 39 || str[i] == 34))
 			quote = str[i];
 		else if (quote && str[i] == quote)
 			quote = 0;
@@ -33,7 +33,6 @@ int	wildcard_checker(char *str)
 	}
 	return (0);
 }
-
 
 static int	skip_usless_file(char *pattern, char *filename)
 {
@@ -62,7 +61,7 @@ char	**wildcard_core(char *str)
 	DIR				*dir;
 	struct dirent	*file;
 
-	if (wildcard_checker(str) == 0)
+	if (!wildcard_checker(str))
 		return (return_str(str));
 	dir = opendir(".");
 	if (!dir)

@@ -10,7 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "minishell.h"
 
 static int	add_path_env(t_shell *shell, char *path)
@@ -31,8 +30,6 @@ static int	add_path_env(t_shell *shell, char *path)
 		i++;
 	}
 	new_env[i] = path;
-	if (!new_env[i])
-		return (free(new_env), 1);
 	new_env[i + 1] = NULL;
 	free(shell->env);
 	shell->env = new_env;
@@ -51,10 +48,9 @@ int	check_if_path_exist(t_shell *shell)
 			return (0);
 		i++;
 	}
-	path = ft_strdup
-	("PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin");
+	path = ft_strdup("PATH=/usr/local/sbin:/usr/local/bin:"
+			"/usr/sbin:/usr/bin:/sbin:/bin");
 	if (!path)
 		return (1);
-	i = add_path_env(shell, path);
-	return (i);
+	return (add_path_env(shell, path));
 }

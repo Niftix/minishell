@@ -45,7 +45,6 @@ static int	process_input(t_shell *shell, char *input)
 		return (clean_loop(shell), 0);
 	clean_loop(shell);
 	return (0);
-
 }
 
 int	main(int ac, char **av, char **envp)

@@ -1,29 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   wildcard.h                                         :+:      :+:    :+:   */
+/*   exec_signal.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mville <mville@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/05/03 13:10:00 by mville            #+#    #+#             */
-/*   Updated: 2026/05/17 18:20:07 by mville           ###   ########.fr       */
+/*   Created: 2026/05/18 23:18:54 by mville            #+#    #+#             */
+/*   Updated: 2026/05/18 23:18:55 by mville           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef WILDCARD_H
-# define WILDCARD_H
+#include "minishell.h"
 
-typedef struct s_wildcard
+void	gest_signal(void)
 {
-	int	j;
-	int	i;
-	int	last_star;
-	int	save_file;
-}	t_wildcard;
-
-int		find_match(char *pattern, char *filename);
-char	**wildcard_core(char *str);
-char	**return_str(char *str);
-char	**add_file(char **res, char *name);
-
-#endif
+	signal(SIGINT, SIG_DFL);
+	signal(SIGQUIT, SIG_DFL);
+	signal(SIGPIPE, SIG_DFL);
+}

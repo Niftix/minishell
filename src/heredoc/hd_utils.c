@@ -6,7 +6,7 @@
 /*   By: mville <mville@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/07 12:31:23 by mville            #+#    #+#             */
-/*   Updated: 2026/05/17 15:35:11 by mville           ###   ########.fr       */
+/*   Updated: 2026/05/18 23:27:43 by mville           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ static char	*expand_line(char *line, t_shell *shell)
 {
 	char	*res;
 	char	*str;
-	size_t		j;
+	size_t	j;
 
 	res = ft_strdup("");
 	if (!res)

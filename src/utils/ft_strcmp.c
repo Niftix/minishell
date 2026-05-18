@@ -1,29 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   wildcard.h                                         :+:      :+:    :+:   */
+/*   ft_strcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mville <mville@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/05/03 13:10:00 by mville            #+#    #+#             */
-/*   Updated: 2026/05/17 18:20:07 by mville           ###   ########.fr       */
+/*   Created: 2026/05/18 23:27:11 by mville            #+#    #+#             */
+/*   Updated: 2026/05/18 23:28:03 by mville           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef WILDCARD_H
-# define WILDCARD_H
+#include "minishell.h"
 
-typedef struct s_wildcard
+int	ft_strcmp(const char *s1, const char *s2)
 {
-	int	j;
-	int	i;
-	int	last_star;
-	int	save_file;
-}	t_wildcard;
-
-int		find_match(char *pattern, char *filename);
-char	**wildcard_core(char *str);
-char	**return_str(char *str);
-char	**add_file(char **res, char *name);
-
-#endif
+	while (*s1 && *s1 == *s2)
+	{
+		s1++;
+		s2++;
+	}
+	return (*s1 - *s2);
+}

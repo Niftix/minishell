@@ -34,7 +34,7 @@ int	blt_exit(t_shell *shell, t_ast *ast)
 {
 	int	status;
 
-	if (isatty(STDIN_FILENO))
+	if (isatty(STDIN_FILENO) && !shell->in_subshell)
 		ft_putstr_fd("exit\n", 1);
 	if (!ast->args_cmd[1])
 		return (shell->run = 0, shell->status_exit);

@@ -66,5 +66,7 @@ int	shell_init(t_shell *shell, char **envp)
 		return (ft_free_tab(shell->env), 1);
 	if (check_if_pwd_exist(shell))
 		return (ft_free_tab(shell->env), 1);
+	if (check_if_path_exist(shell))
+		return (ft_free_tab(shell->env), 1);
 	return (0);
 }

@@ -26,13 +26,15 @@ SRC_FILES = main.c \
 		exec/exec_and_or.c \
 		exec/exec_cmd.c \
 		exec/exec_cmd_child.c \
+		exec/exec_builtin_check.c \
 		exec/exec_core.c \
 		exec/exec_core_blt.c \
+		exec/exec_fd.c \
 		exec/exec_group.c \
 		exec/exec_pipe.c \
 		exec/exec_pipe_child.c \
 		exec/exec_redir.c \
-		exec/exec_utils.c \
+		exec/exec_signal.c \
 		exec/resolve_path.c \
 		expand/exp_calc_if_need_new_var.c \
 		expand/exp_cringe_dolars.c \
@@ -69,6 +71,7 @@ SRC_FILES = main.c \
 		utils/add_shlvl_env.c \
 		utils/clean_static_var.c \
 		utils/free.c \
+		utils/ft_strcmp.c \
 		utils/init_env.c \
 		utils/readline_stash.c \
 		utils/readline_utils.c \

@@ -6,7 +6,7 @@
 /*   By: mville <mville@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/10 21:13:44 by mville            #+#    #+#             */
-/*   Updated: 2026/05/14 22:47:52 by mville           ###   ########.fr       */
+/*   Updated: 2026/05/18 19:14:04 by mville           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static char	**expand_and_wildcard(char *word, t_shell *shell)
 	return (wildcard_words);
 }
 
-char	**join_args(char **args_cmd, char **new_words, int *nb_args)
+char	**join_args(char **args_cmd, char **new_words, int *count)
 {
 	char	**args_new;
 	int		nb_words;
@@ -36,23 +36,23 @@ char	**join_args(char **args_cmd, char **new_words, int *nb_args)
 	nb_words = 0;
 	while (new_words[nb_words])
 		nb_words++;
-	args_new = ft_realloc(args_cmd, sizeof(char *) * (*nb_args + 1),
-			sizeof(char *) * (*nb_args + nb_words + 1));
+	args_new = ft_realloc(args_cmd, sizeof(char *) * (*count + 1),
+			sizeof(char *) * (*count + nb_words + 1));
 	if (!args_new)
 		return (ft_free_tab(new_words), NULL);
 	i = 0;
 	while (new_words[i])
 	{
-		args_new[(*nb_args)++] = remove_quote(new_words[i]);
+		args_new[(*count)++] = remove_quote(new_words[i]);
 		free(new_words[i]);
 		i++;
 	}
-	args_new[*nb_args] = NULL;
+	args_new[*count] = NULL;
 	free(new_words);
 	return (args_new);
 }
 
-int	add_word_to_cmd(t_ast *node, t_lexer *cur, t_shell *shell, int *nb_args)
+int	add_word_to_cmd(t_ast *node, t_lexer *cur, t_shell *shell, int *count)
 {
 	char	**new_words;
 	char	*word;
@@ -61,7 +61,7 @@ int	add_word_to_cmd(t_ast *node, t_lexer *cur, t_shell *shell, int *nb_args)
 	new_words = expand_and_wildcard(word, shell);
 	if (!new_words)
 		return (1);
-	node->args_cmd = join_args(node->args_cmd, new_words, nb_args);
+	node->args_cmd = join_args(node->args_cmd, new_words, count);
 	if (!node->args_cmd)
 		return (1);
 	return (0);

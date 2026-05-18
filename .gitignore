@@ -1,0 +1,9 @@
+minishell
+obj/
+libft/libft.a
+*.o
+*.dminishell
+obj/
+libft/libft.a
+*.o
+*.d

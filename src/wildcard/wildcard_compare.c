@@ -16,9 +16,9 @@
 
 static void	return_to_last_star(t_wildcard *wild)
 {
-	wild->i_pattern = wild->last_star + 1;
+	wild->j = wild->last_star + 1;
 	wild->save_file++;
-	wild->i_file = wild->save_file;
+	wild->i = wild->save_file;
 }
 
 static int	check_end_pattern(char *pattern, int i)
@@ -32,8 +32,8 @@ static int	check_end_pattern(char *pattern, int i)
 
 static	void	init_struct(t_wildcard *wild)
 {
-	wild->i_pattern = 0;
-	wild->i_file = 0;
+	wild->j = 0;
+	wild->i = 0;
 	wild->last_star = -1;
 	wild->save_file = -1;
 }
@@ -43,23 +43,23 @@ int	find_match(char *pattern, char *filename)
 	t_wildcard	wild;
 
 	init_struct(&wild);
-	while (filename[wild.i_file])
+	while (filename[wild.i])
 	{
-		if (pattern[wild.i_pattern] == filename[wild.i_file])
+		if (pattern[wild.j] == filename[wild.i])
 		{
-			wild.i_pattern++;
-			wild.i_file++;
+			wild.j++;
+			wild.i++;
 		}
-		else if (pattern[wild.i_pattern] == '*')
+		else if (pattern[wild.j] == '*')
 		{
-			wild.last_star = wild.i_pattern;
-			wild.save_file = wild.i_file;
-			wild.i_pattern++;
+			wild.last_star = wild.j;
+			wild.save_file = wild.i;
+			wild.j++;
 		}
 		else if (wild.last_star != -1)
 			return_to_last_star(&wild);
 		else
 			return (0);
 	}
-	return (check_end_pattern(pattern, wild.i_pattern));
+	return (check_end_pattern(pattern, wild.j));
 }
