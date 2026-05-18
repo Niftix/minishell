@@ -6,7 +6,7 @@
 /*   By: vcucuiet <vita@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/14 20:43:27 by vcucuiet          #+#    #+#             */
-/*   Updated: 2026/05/16 16:15:10 by vcucuiet         ###   ########.fr       */
+/*   Updated: 2026/05/18 09:36:37 by vcucuiet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,9 @@ static int	valid_redirect(t_lexer *now)
 {
 	if (now->next->type == TOKEN_WORD)
 		return (0);
-	return (2);
+	if (now->next->type == TOKEN_EOF)
+		return (2);
+	return (4);
 }
 
 static int	valid_comp(t_lexer *prev, t_lexer *now)
