@@ -6,7 +6,7 @@
 /*   By: mville <mville@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/17 14:43:40 by mville            #+#    #+#             */
-/*   Updated: 2026/05/17 15:16:59 by mville           ###   ########.fr       */
+/*   Updated: 2026/05/18 23:58:29 by mville           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ int	hd_fail(t_redirect *redir, char *name)
 	signal(SIGINT, sigint_handle);
 	close(redir->fd);
 	redir->fd = -1;
+	unlink(name);
 	free(name);
 	return (1);
 }

@@ -87,6 +87,7 @@ void	left_pipe_writer(t_shell *shell, t_ast *ast, int *fd)
 	close(fd[0]);
 	dup2(fd[1], STDOUT_FILENO);
 	close(fd[1]);
+	shell->in_pipe = 1;
 	if (ast->left && ast->left->type == AST_CMD)
 		status = exec_pipe_command(shell, ast->left);
 	else
@@ -104,6 +105,7 @@ void	right_pipe_reader(t_shell *shell, t_ast *ast, int *fd)
 	close(fd[1]);
 	dup2(fd[0], STDIN_FILENO);
 	close(fd[0]);
+	shell->in_pipe = 1;
 	if (ast->right && ast->right->type == AST_CMD)
 		status = exec_pipe_command(shell, ast->right);
 	else

@@ -20,7 +20,10 @@ static int	process_ast(t_shell *shell)
 		return (0);
 	if (hd_resolve(shell->t_current_ast, shell))
 	{
-		shell->status_exit = 130;
+		if (g_status == 2)
+			shell->status_exit = 130;
+		else
+			shell->status_exit = 1;
 		return (1);
 	}
 	shell->status_exit = ast_dispatch(shell, shell->t_current_ast);
