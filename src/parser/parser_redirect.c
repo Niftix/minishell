@@ -6,7 +6,7 @@
 /*   By: mville <mville@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/07 12:31:30 by mville            #+#    #+#             */
-/*   Updated: 2026/05/18 18:16:36 by mville           ###   ########.fr       */
+/*   Updated: 2026/05/19 23:31:52 by mville           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ t_redirect_type	token_to_redir(t_token type)
 static char	*get_redir_target(t_lexer *cur, t_shell *shell)
 {
 	char	**words;
+	char	**wild_words;
 	char	*tmp;
 	char	*target;
 
@@ -40,12 +41,17 @@ static char	*get_redir_target(t_lexer *cur, t_shell *shell)
 		return (NULL);
 	words = expand(tmp, shell->env, shell->status_exit);
 	if (!words || !words[0] || words[1] || words[0][0] == '\0')
-	{
-		error_ambiguous_redirect(cur->value, shell);
-		return (ft_free_tab(words), NULL);
-	}
-	target = remove_quote(words[0]);
+		return (error_ambiguous_redirect(cur->value, shell),
+			ft_free_tab(words), NULL);
+	wild_words = wildcard_core(words[0]);
 	ft_free_tab(words);
+	if (!wild_words)
+		return (NULL);
+	if (!wild_words[0] || wild_words[1] || wild_words[0][0] == '\0')
+		return (error_ambiguous_redirect(cur->value, shell),
+			ft_free_tab(wild_words), NULL);
+	target = remove_quote(wild_words[0]);
+	ft_free_tab(wild_words);
 	return (target);
 }
 
