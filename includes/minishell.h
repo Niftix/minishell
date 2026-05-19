@@ -174,6 +174,8 @@ char	*check_home(t_shell *shell);
 /* EXEC->RESOLVE_PATH.C */
 char	*resolve_cmd_path(t_shell *shell, t_ast *ast);
 int		check_if_directory(char *path);
+char	*build_full_path(char *dir, char *cmd);
+char	*resolve_without_path(char *cmd);
 
 /* LIBFT */
 int		ft_strcmp(const char *s1, const char *s2);

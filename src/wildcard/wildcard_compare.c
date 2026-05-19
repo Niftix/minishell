@@ -6,7 +6,7 @@
 /*   By: mville <mville@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/02 13:15:11 by mville            #+#    #+#             */
-/*   Updated: 2026/05/03 21:32:20 by mville           ###   ########.fr       */
+/*   Updated: 2026/05/19 23:09:18 by mville           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,16 +45,16 @@ int	find_match(char *pattern, char *filename)
 	init_struct(&wild);
 	while (filename[wild.i])
 	{
-		if (pattern[wild.j] == filename[wild.i])
-		{
-			wild.j++;
-			wild.i++;
-		}
-		else if (pattern[wild.j] == '*')
+		if (pattern[wild.j] == '*')
 		{
 			wild.last_star = wild.j;
 			wild.save_file = wild.i;
 			wild.j++;
+		}
+		else if (pattern[wild.j] == filename[wild.i])
+		{
+			wild.j++;
+			wild.i++;
 		}
 		else if (wild.last_star != -1)
 			return_to_last_star(&wild);

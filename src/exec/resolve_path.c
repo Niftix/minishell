@@ -6,7 +6,7 @@
 /*   By: mville <mville@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/09 19:12:06 by mville            #+#    #+#             */
-/*   Updated: 2026/05/04 18:39:45 by mville           ###   ########.fr       */
+/*   Updated: 2026/05/19 22:37:56 by mville           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ static char	**get_path_in_env(t_shell *shell)
 	return (NULL);
 }
 
-static char	*build_full_path(char *dir, char *cmd)
+char	*build_full_path(char *dir, char *cmd)
 {
 	char	*tmp;
 	char	*ttmp;
@@ -55,6 +55,15 @@ static char	*build_full_path(char *dir, char *cmd)
 	return (ttmp);
 }
 
+static char	*resolve_slash_cmd(char *cmd)
+{
+	if (check_if_directory(cmd))
+		return (NULL);
+	if (access(cmd, X_OK) != 0)
+		return (NULL);
+	return (ft_strdup(cmd));
+}
+
 char	*resolve_cmd_path(t_shell *shell, t_ast *ast)
 {
 	char	*tmp;
@@ -62,14 +71,10 @@ char	*resolve_cmd_path(t_shell *shell, t_ast *ast)
 	int		i;
 
 	if (ft_strchr(ast->args_cmd[0], '/'))
-	{
-		if (access(ast->args_cmd[0], X_OK) != 0)
-			return (NULL);
-		return (ft_strdup(ast->args_cmd[0]));
-	}
+		return (resolve_slash_cmd(ast->args_cmd[0]));
 	path = get_path_in_env(shell);
 	if (!path)
-		return (NULL);
+		return (resolve_without_path(ast->args_cmd[0]));
 	i = 0;
 	while (path[i])
 	{

@@ -32,8 +32,9 @@ SRC_FILES = main.c \
 		exec/exec_fd.c \
 		exec/exec_group.c \
 		exec/exec_pipe.c \
-		exec/exec_pipe_child.c \
-		exec/exec_redir.c \
+			exec/exec_pipe_child.c \
+			exec/exec_no_path.c \
+			exec/exec_redir.c \
 		exec/exec_signal.c \
 		exec/resolve_path.c \
 		expand/exp_calc_if_need_new_var.c \

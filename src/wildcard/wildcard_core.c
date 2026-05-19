@@ -6,13 +6,40 @@
 /*   By: mville <mville@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/02 12:34:55 by mville            #+#    #+#             */
-/*   Updated: 2026/05/17 17:59:27 by mville           ###   ########.fr       */
+/*   Updated: 2026/05/19 23:07:31 by mville           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "wildcard.h"
 #include "minishell.h"
 #include <dirent.h>
+
+static char	*remove_quote(char *str)
+{
+	char	*new;
+	char	quote;
+	int		i;
+	int		j;
+
+	new = malloc(ft_strlen(str) + 1);
+	if (!new)
+		return (NULL);
+	quote = 0;
+	i = 0;
+	j = 0;
+	while (str[i])
+	{
+		if (!quote && (str[i] == 39 || str[i] == 34))
+			quote = str[i];
+		else if (quote && str[i] == quote)
+			quote = 0;
+		else
+			new[j++] = str[i];
+		i++;
+	}
+	new[j] = '\0';
+	return (new);
+}
 
 int	wildcard_checker(char *str)
 {
@@ -45,9 +72,17 @@ static int	skip_usless_file(char *pattern, char *filename)
 
 static int	add_match(char ***res, char *pattern, char *filename)
 {
+	char	*clean_pattern;
+	int		match;
+
 	if (skip_usless_file(pattern, filename))
 		return (0);
-	if (!find_match(pattern, filename))
+	clean_pattern = remove_quote(pattern);
+	if (!clean_pattern)
+		return (1);
+	match = find_match(clean_pattern, filename);
+	free(clean_pattern);
+	if (!match)
 		return (0);
 	*res = add_file(*res, filename);
 	if (!*res)

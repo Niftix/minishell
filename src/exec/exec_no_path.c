@@ -1,28 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils_error.c                                      :+:      :+:    :+:   */
+/*   exec_no_path.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mville <mville@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/05/19 11:00:45 by mville            #+#    #+#             */
-/*   Updated: 2026/05/19 21:15:03 by mville           ###   ########.fr       */
+/*   Created: 2026/05/19 22:34:35 by mville            #+#    #+#             */
+/*   Updated: 2026/05/19 22:37:58 by mville           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include <sys/stat.h>
 
-int	cd_error(char *path)
+char	*resolve_without_path(char *cmd)
 {
-	ft_putstr_fd("minishell: cd: ", 2);
-	perror(path);
-	return (1);
-}
+	char	*tmp;
 
-int	unset_error(char *name)
-{
-	ft_putstr_fd("minishell: unset: ", 2);
-	ft_putstr_fd(name, 2);
-	ft_putstr_fd("': not a valid identifier\n", 2);
-	return (1);
+	tmp = build_full_path(".", cmd);
+	if (!tmp)
+		return (NULL);
+	if (access(tmp, X_OK) == 0 && !check_if_directory(tmp))
+		return (tmp);
+	free(tmp);
+	return (NULL);
 }
