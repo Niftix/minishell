@@ -6,7 +6,7 @@
 /*   By: mville <mville@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/10 17:11:41 by mville            #+#    #+#             */
-/*   Updated: 2026/04/13 23:47:04 by mville           ###   ########.fr       */
+/*   Updated: 2026/05/19 12:01:30 by mville           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static int	find_env_index(t_shell *shell, char *name)
 	return (-1);
 }
 
-static int	add_env_entry(t_shell *shell, char *entry)
+static int	add_new_value_to_env(t_shell *shell, char *new_value)
 {
 	char	**new_env;
 	int		i;
@@ -47,7 +47,7 @@ static int	add_env_entry(t_shell *shell, char *entry)
 		new_env[i] = shell->env[i];
 		i++;
 	}
-	new_env[i] = ft_strdup(entry);
+	new_env[i] = ft_strdup(new_value);
 	if (!new_env[i])
 		return (free(new_env), 1);
 	new_env[i + 1] = NULL;
@@ -77,7 +77,7 @@ static int	set_env_value(t_shell *shell, char *name, char *value)
 		shell->env[index] = arg;
 		return (0);
 	}
-	status = add_env_entry(shell, arg);
+	status = add_new_value_to_env(shell, arg);
 	free(arg);
 	return (status);
 }
@@ -99,19 +99,17 @@ int	blt_cd(t_shell *shell, t_ast *ast)
 	char	*old_pwd;
 	int		pwd_index;
 
+	if (ast->args_cmd[1] && ast->args_cmd[2])
+		return (ft_putstr_fd
+			("minishell: cd: too many arguments\n", 2), 1);
 	path = ast->args_cmd[1];
 	if (!path)
-		return (0);
-	if (ast->args_cmd[2])
-	{
-		ft_putstr_fd("minishell: cd: too many arguments\n", 2);
-		return (1);
-	}
+		path = check_home(shell);
+	if (!path)
+		return (ft_putstr_fd("minishell: cd: HOME not set\n", 2), 1);
 	if (chdir(path) == -1)
 	{
-		ft_putstr_fd("minishell: cd: ", 2);
-		ft_putstr_fd(path, 2);
-		ft_putstr_fd(": No such file or directory\n", 2);
+		cd_error(path);
 		return (1);
 	}
 	old_pwd = NULL;

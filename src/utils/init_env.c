@@ -6,7 +6,7 @@
 /*   By: mville <mville@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/05 16:36:14 by mville            #+#    #+#             */
-/*   Updated: 2026/04/29 17:38:11 by mville           ###   ########.fr       */
+/*   Updated: 2026/05/19 10:40:33 by mville           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ static void	init_shell_value(t_shell *shell)
 	shell->status_exit = 0;
 	shell->run = 1;
 	shell->in_pipe = 0;
+	shell->in_subshell = 0;
 	shell->stdin_backup = -1;
 	shell->stdout_backup = -1;
 	shell->last_pid = -1;

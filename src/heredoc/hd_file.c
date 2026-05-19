@@ -6,7 +6,7 @@
 /*   By: mville <mville@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/17 14:43:25 by mville            #+#    #+#             */
-/*   Updated: 2026/05/17 15:08:15 by mville           ###   ########.fr       */
+/*   Updated: 2026/05/19 10:59:01 by mville           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,8 @@ int	close_hd(t_redirect *redir, char *name)
 {
 	close(redir->fd);
 	redir->fd = open(name, O_RDONLY);
+	if (redir->fd < 0)
+		return (free(name), 1);
 	unlink(name);
 	free(name);
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: mville <mville@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/14 15:20:00 by mville            #+#    #+#             */
-/*   Updated: 2026/04/14 15:20:03 by mville           ###   ########.fr       */
+/*   Updated: 2026/05/19 10:57:37 by mville           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	cd_error(char *path)
 
 int	unset_error(char *name)
 {
-	ft_putstr_fd("minishell: unset: `", 2);
+	ft_putstr_fd("minishell: unset: ", 2);
 	ft_putstr_fd(name, 2);
 	ft_putstr_fd("': not a valid identifier\n", 2);
 	return (1);

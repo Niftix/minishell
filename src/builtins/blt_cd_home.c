@@ -1,34 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec_builtin_check.c                               :+:      :+:    :+:   */
+/*   blt_cd_home.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mville <mville@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/05/18 23:18:26 by mville            #+#    #+#             */
-/*   Updated: 2026/05/18 23:18:57 by mville           ###   ########.fr       */
+/*   Created: 2026/05/19 11:36:51 by mville            #+#    #+#             */
+/*   Updated: 2026/05/19 11:41:15 by mville           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	check_builtins(char *cmd)
+char	*check_home(t_shell *shell)
 {
-	if (cmd == NULL)
-		return (0);
-	if (ft_strcmp(cmd, "echo") == 0)
-		return (1);
-	if (ft_strcmp(cmd, "cd") == 0)
-		return (1);
-	if (ft_strcmp(cmd, "pwd") == 0)
-		return (1);
-	if (ft_strcmp(cmd, "export") == 0)
-		return (1);
-	if (ft_strcmp(cmd, "unset") == 0)
-		return (1);
-	if (ft_strcmp(cmd, "env") == 0)
-		return (1);
-	if (ft_strcmp(cmd, "exit") == 0)
-		return (1);
-	return (0);
+	int	i;
+
+	i = 0;
+	while (shell->env[i])
+	{
+		if (ft_strncmp(shell->env[i], "HOME=", 5) == 0)
+			return (shell->env[i] + 5);
+		i++;
+	}
+	return (NULL);
 }

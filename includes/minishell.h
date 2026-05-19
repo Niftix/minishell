@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vcucuiet <vita@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mville <mville@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/05 16:37:12 by mville            #+#    #+#             */
-/*   Updated: 2026/04/25 18:12:37 by vcucuiet         ###   ########.fr       */
+/*   Updated: 2026/05/19 11:39:17 by mville           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,8 +130,6 @@ void	right_pipe_reader(t_shell *shell, t_ast *ast, int *fd);
 int		exec_and(t_shell *shell, t_ast *ast);
 int		exec_or(t_shell *shell, t_ast *ast);
 
-/* EXEC->EXEC_BUILTIN_CHECK.C */
-int		check_builtins(char *cmd);
 
 /* EXEC->EXEC_FD.C */
 int		fd_save(t_shell *shell);
@@ -156,6 +154,7 @@ char	**build_exec_env(t_shell *shell);
 
 /* EXEC->EXEC_CORE_BLT.C */
 int		exec_builtins(t_shell *shell, t_ast *ast);
+int		check_builtins(char *cmd);
 
 /* BUILTINS */
 int		blt_cd(t_shell *shell, t_ast *ast);
@@ -169,6 +168,9 @@ int		blt_pwd(void);
 int		blt_unset(t_shell *shell, t_ast *ast);
 void	no_arg_print_export(t_shell *shell);
 int		check_format_is_valid(char *s);
+int		cd_error(char *path);
+int		unset_error(char *name);
+char	*check_home(t_shell *shell);
 
 /* EXEC->RESOLVE_PATH.C */
 char	*resolve_cmd_path(t_shell *shell, t_ast *ast);
