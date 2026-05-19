@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_set_value.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vcucuiet <vita@student.42.fr>              +#+  +:+       +#+        */
+/*   By: vcucuiet <vcucuiet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/10 11:25:35 by vcucuiet          #+#    #+#             */
-/*   Updated: 2026/05/16 15:48:11 by vcucuiet         ###   ########.fr       */
+/*   Updated: 2026/05/19 19:01:10 by vcucuiet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ ssize_t	lex_set_buf(char *buf, char *input, size_t *idx)
 	size_t		i;
 	static char	quote = 'x';
 
-	if (!buf && !input&& !idx)
+	if (!buf && !input && !idx)
 		return (quote = 'x', 0);
 	if (!buf && !input)
 		return (lex_quote_verif(&quote));
@@ -37,7 +37,7 @@ ssize_t	lex_set_buf(char *buf, char *input, size_t *idx)
 		else if (input[*idx] == quote)
 			quote = 'x';
 		if (quote == 'x' && ((input[*idx] == ' ' || input[*idx] == '\t')
-			|| (quote == 'x' && lex_tokeniser(input, idx) != TOKEN_WORD)))
+				|| (quote == 'x' && lex_tokeniser(input, idx) != TOKEN_WORD)))
 			return (*idx += 1, i);
 		buf[i] = input[*idx];
 		*idx += 1;

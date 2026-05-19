@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vcucuiet <vita@student.42.fr>              +#+  +:+       +#+        */
+/*   By: vcucuiet <vcucuiet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/06 18:02:33 by vcucuiet          #+#    #+#             */
-/*   Updated: 2026/04/25 18:31:04 by vcucuiet         ###   ########.fr       */
+/*   Updated: 2026/05/19 18:58:06 by vcucuiet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 # include "libft.h"
 
 char	**expand(char *str, char **env, int exit_status);
+char	**exp_chr(char *str, char **env, size_t idx, int exit_status);
 char	*exp_cringe_dolars(char *str);
 char	*exp_chr_var_and_exp(char *str, char **env, size_t *idx);
 int		exp_is_var_sep(char c);
@@ -26,6 +27,12 @@ char	*exp_chose_var(char *str, char **env, size_t *idx, int exit_status);
 char	*exp_extract_none_var(char *str, size_t start, size_t end);
 char	*exp_var_append_to_last(char *dest, char *src);
 char	**exp_verif_expand(char **var, int *len_var, int pose, int *need_new);
+int		exp_verif_if_space_without_q(char *str);
+char	**exp_append_new_str(char **res, char *str, size_t *i, int *r_len);
+char	*exp_skip_ifs(char *str);
+char	**exp_splited_var(char *str);
+char	**exp_append_tmp_to_var(char **var, char **tmp, int pos,
+			int *need_new);
 char	**exp_var_append_without_new_idx(char **res, int *r_len, char *var,
 			int *need_new);
 int		exp_calc_if_need_new_var(char c, int need_new, char *str, size_t idx);

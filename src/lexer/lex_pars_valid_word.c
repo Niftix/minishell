@@ -6,7 +6,7 @@
 /*   By: vcucuiet <vcucuiet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/16 16:41:08 by vcucuiet          #+#    #+#             */
-/*   Updated: 2026/04/29 11:21:26 by vcucuiet         ###   ########.fr       */
+/*   Updated: 2026/05/19 18:58:52 by vcucuiet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static int	lex_put_brace_error(char *str)
 
 static int	lex_verif_brace(char *str)
 {
-	size_t i;
+	size_t	i;
 	int		brace;
 	int		tracer;
 
@@ -31,8 +31,8 @@ static int	lex_verif_brace(char *str)
 		return (3);
 	tracer = 1;
 	brace = 1;
-	while (str[i] && brace && tracer &&
-			(ft_isalnum(str[i]) || str[i] == '{' || str[i] == '}' || str[i] == '_'))
+	while (str[i] && brace && tracer && (ft_isalnum(str[i]) || str[i] == '{'
+			|| str[i] == '}' || str[i] == '_'))
 	{
 		if (str[i] == '{')
 			brace++;
@@ -52,7 +52,7 @@ static int	lex_verif_brace(char *str)
 static int	lex_varif_valid_variable(char *str, int i)
 {
 	if (str[i + 1] == '{')
-		 return (lex_verif_brace(str + i + 2));
+		return (lex_verif_brace(str + i + 2));
 	return (0);
 }
 

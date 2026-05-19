@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exp_set_exp_extract_var.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vcucuiet <vita@student.42.fr>              +#+  +:+       +#+        */
+/*   By: vcucuiet <vcucuiet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/22 14:52:43 by vcucuiet          #+#    #+#             */
-/*   Updated: 2026/04/26 15:56:13 by vcucuiet         ###   ########.fr       */
+/*   Updated: 2026/05/19 18:10:29 by vcucuiet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	exp_set_exp_extract_var(char *quote, size_t *start, char *str,
 			size_t *idx)
 {
-	size_t i;
+	size_t	i;
 
 	*quote = 'x';
 	*start = *idx;

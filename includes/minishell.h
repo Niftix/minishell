@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mville <mville@student.42.fr>              +#+  +:+       +#+        */
+/*   By: vcucuiet <vcucuiet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/05 16:37:12 by mville            #+#    #+#             */
-/*   Updated: 2026/05/19 11:39:17 by mville           ###   ########.fr       */
+/*   Updated: 2026/05/19 18:52:11 by vcucuiet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,7 +129,6 @@ void	right_pipe_reader(t_shell *shell, t_ast *ast, int *fd);
 /* EXEC->EXEC_AND_OR.C */
 int		exec_and(t_shell *shell, t_ast *ast);
 int		exec_or(t_shell *shell, t_ast *ast);
-
 
 /* EXEC->EXEC_FD.C */
 int		fd_save(t_shell *shell);

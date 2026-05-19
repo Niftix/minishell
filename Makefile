@@ -37,6 +37,7 @@ SRC_FILES = main.c \
 		exec/exec_signal.c \
 		exec/resolve_path.c \
 		expand/exp_calc_if_need_new_var.c \
+		expand/exp_chr.c \
 		expand/exp_cringe_dolars.c \
 		expand/exp_env_var.c \
 		expand/exp_none_var.c \
@@ -44,6 +45,7 @@ SRC_FILES = main.c \
 		expand/exp_utils_1.c \
 		expand/exp_utils_2.c \
 		expand/exp_var_append_without_new_idx.c \
+		expand/exp_verif_exp_utils.c \
 		expand/exp_verif_expand.c \
 		expand/expand.c \
 		lexer/lex_pars.c \
@@ -52,14 +54,14 @@ SRC_FILES = main.c \
 		lexer/lexer.c \
 		lexer/lexer_debug.c \
 		lexer/lexer_set_value.c \
-			lexer/lexer_tokeniser.c \
-			lexer/lexer_utils.c \
-			heredoc/hd_file.c \
-			heredoc/hd_read.c \
-			heredoc/hd_resolve.c \
-			heredoc/hd_sigint_verif.c \
-			heredoc/hd_resolve_token_error.c \
-			heredoc/hd_utils.c \
+		lexer/lexer_tokeniser.c \
+		lexer/lexer_utils.c \
+		heredoc/hd_file.c \
+		heredoc/hd_read.c \
+		heredoc/hd_resolve.c \
+		heredoc/hd_sigint_verif.c \
+		heredoc/hd_resolve_token_error.c \
+		heredoc/hd_utils.c \
 		parser/ast.c \
 		parser/parser.c \
 		parser/parser_cmd.c \
