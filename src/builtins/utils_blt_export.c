@@ -6,7 +6,7 @@
 /*   By: mville <mville@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/08 01:52:21 by mville            #+#    #+#             */
-/*   Updated: 2026/04/13 22:59:49 by mville           ###   ########.fr       */
+/*   Updated: 2026/05/19 14:36:13 by mville           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ static void	display_export(char *arg)
 	int		i;
 
 	equal_sign = ft_strchr(arg, '=');
-	ft_putstr_fd("declare -x ", 1);
+	ft_putstr_fd("export ", 1);
 	if (equal_sign == NULL)
 	{
 		ft_putstr_fd(arg, 1);
