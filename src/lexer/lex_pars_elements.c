@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lex_pars_elements.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vcucuiet <vita@student.42.fr>              +#+  +:+       +#+        */
+/*   By: vcucuiet <vcucuiet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/14 20:43:27 by vcucuiet          #+#    #+#             */
-/*   Updated: 2026/05/18 09:36:37 by vcucuiet         ###   ########.fr       */
+/*   Updated: 2026/05/19 18:59:35 by vcucuiet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,8 @@ static int	valid_open_parent(t_lexer *prev, t_lexer *now)
 	if (tmp->type == TOKEN_RPAREN)
 		return (1);
 	if (prev && (prev->type != TOKEN_AND && prev->type != TOKEN_OR
-		&& prev->type != TOKEN_PIPE
-		&& prev->type != TOKEN_LPAREN && prev->type != TOKEN_LPAREN))
+			&& prev->type != TOKEN_PIPE
+			&& prev->type != TOKEN_LPAREN && prev->type != TOKEN_LPAREN))
 		return (1);
 	o_parent = 1;
 	while (1)
