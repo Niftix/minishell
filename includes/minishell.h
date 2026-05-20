@@ -129,6 +129,7 @@ int		exec_pipe(t_shell *shell, t_ast *ast);
 void	left_pipe_writer(t_shell *shell, t_ast *ast, int *fd);
 void	right_pipe_reader(t_shell *shell, t_ast *ast, int *fd);
 
+int		pipe_no_cmd(t_ast *ast);
 int		pipe_empty_cmd(t_shell *shell, t_ast *ast);
 
 /* EXEC->EXEC_AND_OR.C */
