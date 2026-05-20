@@ -67,6 +67,7 @@ static char	*resolve_slash_cmd(char *cmd)
 char	*resolve_cmd_path(t_shell *shell, t_ast *ast)
 {
 	char	*tmp;
+	char	*no_exec;
 	char	**path;
 	int		i;
 
@@ -76,15 +77,18 @@ char	*resolve_cmd_path(t_shell *shell, t_ast *ast)
 	if (!path)
 		return (resolve_without_path(ast->args_cmd[0]));
 	i = 0;
+	no_exec = NULL;
 	while (path[i])
 	{
 		tmp = build_full_path(path[i], ast->args_cmd[0]);
 		if (!tmp)
-			return (ft_free_tab(path), NULL);
+			return (ft_free_tab(path), free(no_exec), NULL);
 		if (access(tmp, X_OK) == 0 && !check_if_directory(tmp))
-			return (ft_free_tab(path), tmp);
+			return (ft_free_tab(path), free(no_exec), tmp);
+		if (save_no_exec_path(&no_exec, tmp))
+			return (ft_free_tab(path), NULL);
 		free(tmp);
 		i++;
 	}
-	return (ft_free_tab(path), NULL);
+	return (ft_free_tab(path), no_exec);
 }
