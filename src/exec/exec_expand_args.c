@@ -6,7 +6,7 @@
 /*   By: mville <mville@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/20 07:37:34 by mville            #+#    #+#             */
-/*   Updated: 2026/05/20 07:37:36 by mville           ###   ########.fr       */
+/*   Updated: 2026/05/20 08:27:55 by mville           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,13 @@
 
 static char	**expand_and_wildcard(char *word, t_shell *shell)
 {
+	char	*tmp;
 	char	**new_words;
 	char	**wildcard_words;
 
+	tmp = ft_strdup(word);
+	if (!tmp)
+		return (NULL);
 	new_words = expand(word, shell->env, shell->status_exit);
 	if (!new_words)
 		return (NULL);
@@ -52,7 +56,7 @@ char	**join_args(char **args_cmd, char **new_words, int *count)
 	return (args_new);
 }
 
-char	**expand_cmd_args(char **raw_args, t_shell *shell)
+char	**expand_cmd_args(char **args_brut, t_shell *shell)
 {
 	char	**args;
 	char	**new_words;
@@ -65,9 +69,9 @@ char	**expand_cmd_args(char **raw_args, t_shell *shell)
 	args[0] = NULL;
 	i = 0;
 	count = 0;
-	while (raw_args && raw_args[i])
+	while (args_brut && args_brut[i])
 	{
-		new_words = expand_and_wildcard(ft_strdup(raw_args[i]), shell);
+		new_words = expand_and_wildcard(args_brut[i], shell);
 		if (!new_words)
 			return (ft_free_tab(args), NULL);
 		args = join_args(args, new_words, &count);
