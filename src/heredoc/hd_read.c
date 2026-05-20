@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hd_read.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mville <mville@student.42.fr>              +#+  +:+       +#+        */
+/*   By: vcucuiet <vcucuiet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/17 14:43:31 by mville            #+#    #+#             */
-/*   Updated: 2026/05/17 15:32:51 by mville           ###   ########.fr       */
+/*   Updated: 2026/05/20 15:40:37 by vcucuiet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,7 @@ int	read_hd(t_redirect *redir, t_shell *shell)
 	int		expand;
 	int		status;
 	pid_t	pid;
+	int		check;
 
 	expand = check_quote(redir);
 	name = create_hd(redir);
@@ -100,5 +101,6 @@ int	read_hd(t_redirect *redir, t_shell *shell)
 	if (pid == 0)
 		read_hd_child(redir, shell, expand);
 	waitpid(pid, &status, 0);
-	return (wait_hd_child(redir, name, status));
+	check = wait_hd_child(redir, name, status);
+	return (check);
 }

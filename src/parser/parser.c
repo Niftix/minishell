@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mville <mville@student.42.fr>              +#+  +:+       +#+        */
+/*   By: vcucuiet <vcucuiet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/07 12:31:35 by mville            #+#    #+#             */
-/*   Updated: 2026/04/28 19:34:33 by mville           ###   ########.fr       */
+/*   Updated: 2026/05/20 15:30:46 by vcucuiet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,6 @@ t_ast	*check_parse(t_lexer *lex, t_shell *shell)
 		return (NULL);
 	if (lex->type == TOKEN_ERROR)
 	{
-		token_error_check_hd(lex, shell);
 		shell->status_exit = 2;
 		return (NULL);
 	}

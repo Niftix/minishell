@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_pipe_child.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mville <mville@student.42.fr>              +#+  +:+       +#+        */
+/*   By: vcucuiet <vcucuiet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/14 16:40:00 by mville            #+#    #+#             */
-/*   Updated: 2026/05/20 07:47:04 by mville           ###   ########.fr       */
+/*   Updated: 2026/05/20 15:30:22 by vcucuiet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ static int	exec_pipe_command(t_shell *shell, t_ast *ast)
 	if (!ast->args_cmd || !ast->args_cmd[0])
 		return (pipe_no_cmd(ast));
 	if (!ast->args_cmd[0][0])
-		return (pipe_empty_cmd(shell, ast));
+		return (pipe_empty_cmd(ast));
 	if (ast->redirects && all_redirects(ast->redirects))
 		return (1);
 	if (check_builtins(ast->args_cmd[0]))
