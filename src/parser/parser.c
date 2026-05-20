@@ -67,18 +67,6 @@ t_ast	*parse_and_or(t_lexer **current, t_shell *shell)
 	return (node);
 }
 
-static void	token_error_check_hd(t_lexer *lex, t_shell *shell)
-{
-	if (resolve_token_error_with_hd(lex, shell))
-		shell->status_exit = 1;
-	else
-	{
-		if (lex->value)
-			parser_put_error(NULL);
-		shell->status_exit = 2;
-	}
-}
-
 t_ast	*check_parse(t_lexer *lex, t_shell *shell)
 {
 	t_ast	*ast;
@@ -88,6 +76,7 @@ t_ast	*check_parse(t_lexer *lex, t_shell *shell)
 	if (lex->type == TOKEN_ERROR)
 	{
 		token_error_check_hd(lex, shell);
+		shell->status_exit = 2;
 		return (NULL);
 	}
 	ast = parse_and_or(&lex, shell);
