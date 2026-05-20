@@ -6,7 +6,7 @@
 /*   By: vcucuiet <vcucuiet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/05 16:37:12 by mville            #+#    #+#             */
-/*   Updated: 2026/05/20 15:30:07 by vcucuiet         ###   ########.fr       */
+/*   Updated: 2026/05/20 17:12:35 by vcucuiet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,6 +109,7 @@ void	clean_static_var(void);
 
 /* UTILS->SIGNAL_UTILS.C */
 void	signal_init(void);
+void	signal_interactive(void);
 
 /* EXPAND */
 
