@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hd_utils.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mville <mville@student.42.fr>              +#+  +:+       +#+        */
+/*   By: vcucuiet <vcucuiet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/07 12:31:23 by mville            #+#    #+#             */
-/*   Updated: 2026/05/18 23:27:43 by mville           ###   ########.fr       */
+/*   Updated: 2026/05/20 17:46:25 by vcucuiet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,6 @@ int	write_line_hd(t_redirect *redir, t_shell *shell, char *line, int exp)
 	}
 	ft_putstr_fd(line, redir->fd);
 	ft_putstr_fd("\n", redir->fd);
-	free(line);
+	//free(line);
 	return (0);
 }

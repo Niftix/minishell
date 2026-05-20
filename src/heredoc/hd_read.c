@@ -6,7 +6,7 @@
 /*   By: vcucuiet <vcucuiet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/17 14:43:31 by mville            #+#    #+#             */
-/*   Updated: 2026/05/20 15:40:37 by vcucuiet         ###   ########.fr       */
+/*   Updated: 2026/05/20 17:48:39 by vcucuiet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,16 +38,22 @@ static int	read_hd_child(t_redirect *redir, t_shell *shell, int expand)
 		if (g_status == 2)
 		{
 			free(line);
-			exit(130);
+			child_exit(shell, 130);
 		}
 		if (!line || ft_strcmp(line, redir->target) == 0)
 		{
+			if (!line)
+			{
+				ft_putstr_fd("minishell: warning: here-document delimited by end-of-file (wanted '", 2);
+				(ft_putstr_fd(redir->target, 2), ft_putstr_fd("')\n", 2));
+			}
 			free(line);
-			exit(0);
+			child_exit(shell, 0);
 		}
 		if (write_line_hd(redir, shell, line, expand))
-			exit(1);
+			(free(line), child_exit(shell, 1));
 	}
+	return (0);
 }
 
 static int	read_hd_parent(t_redirect *redir, t_shell *shell, int expand,
@@ -60,6 +66,12 @@ static int	read_hd_parent(t_redirect *redir, t_shell *shell, int expand,
 		line = read_hd_line();
 		if (!line || ft_strcmp(line, redir->target) == 0)
 		{
+			if (!line)
+			{
+				ft_putstr_fd("minishell: warning: here-document delimited by end-of-file (wanted '", 2);
+				ft_putstr_fd(redir->target, 2);
+				ft_putstr_fd("')\n", 2);
+			}
 			free(line);
 			break ;
 		}
@@ -73,7 +85,7 @@ static int	wait_hd_child(t_redirect *redir, char *name, int status)
 {
 	if (WIFEXITED(status) && WEXITSTATUS(status) == 130)
 	{
-		g_status = 2;
+		g_status = SIGINT;
 		return (hd_fail(redir, name));
 	}
 	if (!WIFEXITED(status) || WEXITSTATUS(status) != 0)
@@ -87,7 +99,7 @@ int	read_hd(t_redirect *redir, t_shell *shell)
 	int		expand;
 	int		status;
 	pid_t	pid;
-	int		check;
+	pid_t	waited;
 
 	expand = check_quote(redir);
 	name = create_hd(redir);
@@ -99,8 +111,13 @@ int	read_hd(t_redirect *redir, t_shell *shell)
 	if (pid < 0)
 		return (hd_fail(redir, name));
 	if (pid == 0)
-		read_hd_child(redir, shell, expand);
-	waitpid(pid, &status, 0);
-	check = wait_hd_child(redir, name, status);
-	return (check);
+		(free(name), read_hd_child(redir, shell, expand));
+	parent_wait_signal();
+	waited = waitpid(pid, &status, 0);
+	while (waited == -1 && errno == EINTR)
+		waited = waitpid(pid, &status, 0);
+	signal_interactive();
+	if (waited == -1)
+		return (hd_fail(redir, name));
+	return (wait_hd_child(redir, name, status));
 }
