@@ -6,7 +6,7 @@
 /*   By: mville <mville@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/08 01:52:21 by mville            #+#    #+#             */
-/*   Updated: 2026/05/19 14:36:13 by mville           ###   ########.fr       */
+/*   Updated: 2026/05/20 07:05:10 by mville           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ static void	display_export(char *arg)
 		return ;
 	}
 	write(1, arg, (equal_sign - arg) + 1);
-	ft_putstr_fd("\"", 1);
+	write(1, "\"", 1);
 	i = 1;
 	while (equal_sign[i])
 	{

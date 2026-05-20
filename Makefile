@@ -25,9 +25,10 @@ SRC_FILES = main.c \
 		builtins/blt_cd_home.c \
 		exec/build_env.c \
 		exec/exec_and_or.c \
-		exec/exec_cmd.c \
-		exec/exec_cmd_child.c \
-		exec/exec_core.c \
+			exec/exec_cmd.c \
+			exec/exec_cmd_child.c \
+			exec/exec_expand_args.c \
+			exec/exec_core.c \
 		exec/exec_core_blt.c \
 		exec/exec_fd.c \
 		exec/exec_group.c \

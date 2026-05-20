@@ -34,9 +34,8 @@ int				parse_one_redirect(t_lexer **cur, t_redirect **list,
 /* PARSER->PARSER_CMD.C */
 t_ast			*parse_simple_cmd(t_lexer **cur, t_shell *shell);
 t_ast			*parse_cmd(t_lexer **cur, t_shell *shell);
-char			**join_args(char **args_cmd, char **new_words, int *nb_args);
 int				add_word_to_cmd(t_ast *node, t_lexer *cur, t_shell *shell,
-					int *nb_args);
+						int *nb_args);
 
 /* PARSER->PARSER.C */
 t_ast			*parse_and_or(t_lexer **cur, t_shell *shell);

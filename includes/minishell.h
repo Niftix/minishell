@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vcucuiet <vcucuiet@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mville <mville@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/05 16:37:12 by mville            #+#    #+#             */
-/*   Updated: 2026/05/19 18:52:11 by vcucuiet         ###   ########.fr       */
+/*   Updated: 2026/05/20 07:21:55 by mville           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,6 +120,9 @@ int		ast_dispatch(t_shell *shell, t_ast *ast);
 /* EXEC->EXEC_CMD.C */
 int		exec_cmd(t_shell *shell, t_ast *ast);
 void	exec_fork_child(t_shell *shell, t_ast *ast);
+char	**expand_cmd_args(char **raw_args, t_shell *shell);
+int		expand_ast_args(t_shell *shell, t_ast *ast);
+char	**join_args(char **args_cmd, char **new_words, int *count);
 
 /* EXEC->EXEC_PIPE.C */
 int		exec_pipe(t_shell *shell, t_ast *ast);
@@ -136,6 +139,8 @@ void	fd_recovery(t_shell *shell);
 
 /* EXEC->EXEC_SIGNAL.C */
 void	gest_signal(void);
+void	parent_wait_signal(void);
+int		parent_signal_status(int status);
 int		is_valid_id(char *s);
 int		exit_is_num(char *s);
 int		cd_chdir(char *dir);

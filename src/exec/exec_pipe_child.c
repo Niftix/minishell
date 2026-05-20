@@ -6,7 +6,7 @@
 /*   By: mville <mville@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/14 16:40:00 by mville            #+#    #+#             */
-/*   Updated: 2026/05/19 10:52:42 by mville           ###   ########.fr       */
+/*   Updated: 2026/05/20 07:47:04 by mville           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,8 @@ static int	exec_pipe_command(t_shell *shell, t_ast *ast)
 	char	*path;
 	char	**exec_env;
 
+	if (expand_ast_args(shell, ast))
+		return (1);
 	if (!ast->args_cmd || !ast->args_cmd[0] || !ast->args_cmd[0][0])
 	{
 		if (ast->redirects && all_redirects(ast->redirects))

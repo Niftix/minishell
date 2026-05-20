@@ -6,7 +6,7 @@
 /*   By: mville <mville@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/07 12:55:33 by mville            #+#    #+#             */
-/*   Updated: 2026/04/07 14:02:27 by mville           ###   ########.fr       */
+/*   Updated: 2026/05/20 07:23:57 by mville           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,9 +46,9 @@ int	exec_pipe(t_shell *shell, t_ast *ast)
 	if (rpid == 0)
 		right_pipe_reader(shell, ast, fd);
 	close_pipe(fd, 0);
+	parent_wait_signal();
 	waitpid(lpid, NULL, 0);
 	waitpid(rpid, &status, 0);
-	if (WIFSIGNALED(status))
-		return (128 + WTERMSIG(status));
-	return (WEXITSTATUS(status));
+	signal_init();
+	return (parent_signal_status(status));
 }
