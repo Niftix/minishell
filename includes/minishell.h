@@ -131,6 +131,7 @@ void	right_pipe_reader(t_shell *shell, t_ast *ast, int *fd);
 
 int		pipe_no_cmd(t_ast *ast);
 int		pipe_empty_cmd(t_shell *shell, t_ast *ast);
+int	no_exec_path_checker(char **no_exec, char *tmp)
 
 /* EXEC->EXEC_AND_OR.C */
 int		exec_and(t_shell *shell, t_ast *ast);
