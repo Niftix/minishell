@@ -58,7 +58,7 @@ static int	exec_pipe_command(t_shell *shell, t_ast *ast)
 	if (expand_ast_args(shell, ast))
 		return (1);
 	if (!ast->args_cmd || !ast->args_cmd[0])
-		return (pipe_no_cmd(shell, ast));
+		return (pipe_no_cmd(ast));
 	if (!ast->args_cmd[0][0])
 		return (pipe_empty_cmd(shell, ast));
 	if (ast->redirects && all_redirects(ast->redirects))
