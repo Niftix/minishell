@@ -6,7 +6,7 @@
 /*   By: vcucuiet <vcucuiet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/07 12:31:23 by mville            #+#    #+#             */
-/*   Updated: 2026/05/20 17:46:25 by vcucuiet         ###   ########.fr       */
+/*   Updated: 2026/05/20 18:58:45 by vcucuiet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,14 @@ int	write_line_hd(t_redirect *redir, t_shell *shell, char *line, int exp)
 	}
 	ft_putstr_fd(line, redir->fd);
 	ft_putstr_fd("\n", redir->fd);
-	//free(line);
+	free(line);
 	return (0);
+}
+
+void	put_hd_none_line_error(char *name)
+{
+	ft_putstr_fd("minishell: warning: here-document ", 2);
+	ft_putstr_fd("delimited by end-of-file (wanted '", 2);
+	ft_putstr_fd(name, 2);
+	ft_putstr_fd("')\n", 2);
 }

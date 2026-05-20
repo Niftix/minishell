@@ -6,7 +6,7 @@
 /*   By: vcucuiet <vcucuiet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/19 18:35:35 by vcucuiet          #+#    #+#             */
-/*   Updated: 2026/05/19 18:40:02 by vcucuiet         ###   ########.fr       */
+/*   Updated: 2026/05/20 18:52:10 by vcucuiet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,11 +73,10 @@ char	**exp_splited_var(char *str)
 	char	quote;
 	char	**res;
 
-	str = exp_skip_ifs(str);
-	quote = 'x';
-	i = -1;
-	r_len = 1;
+	exp_verif_set_value(&str, &quote, &i, &r_len);
 	res = malloc(sizeof(char *) * r_len);
+	if (!res)
+		return (NULL);
 	res[r_len - 1] = NULL;
 	while (str[++i])
 	{

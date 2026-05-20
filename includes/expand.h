@@ -6,7 +6,7 @@
 /*   By: vcucuiet <vcucuiet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/06 18:02:33 by vcucuiet          #+#    #+#             */
-/*   Updated: 2026/05/19 18:58:06 by vcucuiet         ###   ########.fr       */
+/*   Updated: 2026/05/20 18:51:25 by vcucuiet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,5 +39,6 @@ int		exp_calc_if_need_new_var(char c, int need_new, char *str, size_t idx);
 void	exp_set_exp_extract_var(char *quote, size_t *start, char *str,
 			size_t *idx);
 char	exp_get_quote_state(char *str, size_t idx);
+void	exp_verif_set_value(char **str, char *quote, size_t *i, int *r_len);
 
 #endif

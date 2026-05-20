@@ -3,16 +3,25 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mville <mville@student.42.fr>              +#+  +:+       +#+        */
+/*   By: vcucuiet <vcucuiet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/05 16:35:00 by mville            #+#    #+#             */
-/*   Updated: 2026/05/14 21:32:55 by mville           ###   ########.fr       */
+/*   Updated: 2026/05/20 19:04:44 by vcucuiet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "lexer.h"
 #include "parser.h"
+
+static int	exit_shell(t_shell *shell, int status)
+{
+	free_shell(shell);
+	close(STDIN_FILENO);
+	close(STDOUT_FILENO);
+	close(STDERR_FILENO);
+	return (status);
+}
 
 static int	process_ast(t_shell *shell)
 {
@@ -52,8 +61,8 @@ static int	process_input(t_shell *shell, char *input)
 
 int	main(int ac, char **av, char **envp)
 {
-	t_shell	shell;
-	char	*input;
+	t_shell		shell;
+	char		*input;
 
 	(void)ac;
 	(void)av;
@@ -70,10 +79,8 @@ int	main(int ac, char **av, char **envp)
 		}
 		if (input && process_input(&shell, input))
 		{
-			free_shell(&shell);
-			return (1);
+			return (exit_shell(&shell, 1));
 		}
 	}
-	free_shell(&shell);
-	return (shell.status_exit);
+	return (exit_shell(&shell, shell.status_exit));
 }

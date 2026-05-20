@@ -6,7 +6,7 @@
 /*   By: vcucuiet <vcucuiet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/17 14:43:31 by mville            #+#    #+#             */
-/*   Updated: 2026/05/20 17:48:39 by vcucuiet         ###   ########.fr       */
+/*   Updated: 2026/05/20 18:15:29 by vcucuiet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,10 +43,7 @@ static int	read_hd_child(t_redirect *redir, t_shell *shell, int expand)
 		if (!line || ft_strcmp(line, redir->target) == 0)
 		{
 			if (!line)
-			{
-				ft_putstr_fd("minishell: warning: here-document delimited by end-of-file (wanted '", 2);
-				(ft_putstr_fd(redir->target, 2), ft_putstr_fd("')\n", 2));
-			}
+				put_hd_none_line_error(redir->target);
 			free(line);
 			child_exit(shell, 0);
 		}
@@ -67,11 +64,7 @@ static int	read_hd_parent(t_redirect *redir, t_shell *shell, int expand,
 		if (!line || ft_strcmp(line, redir->target) == 0)
 		{
 			if (!line)
-			{
-				ft_putstr_fd("minishell: warning: here-document delimited by end-of-file (wanted '", 2);
-				ft_putstr_fd(redir->target, 2);
-				ft_putstr_fd("')\n", 2);
-			}
+				put_hd_none_line_error(redir->target);
 			free(line);
 			break ;
 		}

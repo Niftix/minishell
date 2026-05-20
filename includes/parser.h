@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mville <mville@student.42.fr>              +#+  +:+       +#+        */
+/*   By: vcucuiet <vcucuiet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/07 11:17:16 by mville            #+#    #+#             */
-/*   Updated: 2026/05/19 10:50:43 by mville           ###   ########.fr       */
+/*   Updated: 2026/05/20 19:03:54 by vcucuiet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int				parse_one_redirect(t_lexer **cur, t_redirect **list,
 t_ast			*parse_simple_cmd(t_lexer **cur, t_shell *shell);
 t_ast			*parse_cmd(t_lexer **cur, t_shell *shell);
 int				add_word_to_cmd(t_ast *node, t_lexer *cur, t_shell *shell,
-						int *nb_args);
+					int *nb_args);
 
 /* PARSER->PARSER.C */
 t_ast			*parse_and_or(t_lexer **cur, t_shell *shell);
@@ -44,6 +44,7 @@ void			parser_put_error(t_lexer *lex);
 void			error_ambiguous_redirect(char *value, t_shell *shell);
 
 /* PARSER->HD_RESOLVE.C */
+void			put_hd_none_line_error(char *name);
 int				read_hd(t_redirect *redir, t_shell *shell);
 int				hd_resolve(t_ast *ast, t_shell *shell);
 int				resolve_token_error_with_hd(t_lexer *lex, t_shell *shell);

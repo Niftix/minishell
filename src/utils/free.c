@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mville <mville@student.42.fr>              +#+  +:+       +#+        */
+/*   By: vcucuiet <vcucuiet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/05 16:36:29 by mville            #+#    #+#             */
-/*   Updated: 2026/04/28 12:33:20 by mville           ###   ########.fr       */
+/*   Updated: 2026/05/20 18:57:53 by vcucuiet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,16 @@ void	free_shell(t_shell *shell)
 	clean_stash(&shell->input_stash);
 	get_next_line(-1);
 	rl_clear_history();
+	if (shell->stdin_backup != -1)
+	{
+		close(shell->stdin_backup);
+		shell->stdin_backup = -1;
+	}
+	if (shell->stdout_backup != -1)
+	{
+		close(shell->stdout_backup);
+		shell->stdout_backup = -1;
+	}
 	if (shell->env)
 	{
 		ft_free_tab(shell->env);
