@@ -85,7 +85,7 @@ char	*resolve_cmd_path(t_shell *shell, t_ast *ast)
 			return (ft_free_tab(path), free(no_exec), NULL);
 		if (access(tmp, X_OK) == 0 && !check_if_directory(tmp))
 			return (ft_free_tab(path), free(no_exec), tmp);
-		if (save_no_exec_path(&no_exec, tmp))
+		if (no_exec_path_checker(&no_exec, tmp))
 			return (ft_free_tab(path), NULL);
 		free(tmp);
 		i++;
