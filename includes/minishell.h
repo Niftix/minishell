@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mville <mville@student.42.fr>              +#+  +:+       +#+        */
+/*   By: vcucuiet <vcucuiet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/05 16:37:12 by mville            #+#    #+#             */
-/*   Updated: 2026/05/20 07:21:55 by mville           ###   ########.fr       */
+/*   Updated: 2026/05/20 15:30:07 by vcucuiet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,8 +130,8 @@ void	left_pipe_writer(t_shell *shell, t_ast *ast, int *fd);
 void	right_pipe_reader(t_shell *shell, t_ast *ast, int *fd);
 
 int		pipe_no_cmd(t_ast *ast);
-int		pipe_empty_cmd(t_shell *shell, t_ast *ast);
-int		no_exec_path_checker(char **no_exec, char *tmp)
+int		pipe_empty_cmd(t_ast *ast);
+int		no_exec_path_checker(char **no_exec, char *tmp);
 
 /* EXEC->EXEC_AND_OR.C */
 int		exec_and(t_shell *shell, t_ast *ast);
