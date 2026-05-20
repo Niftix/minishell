@@ -21,7 +21,7 @@ static char	**expand_and_wildcard(char *word, t_shell *shell)
 	tmp = ft_strdup(word);
 	if (!tmp)
 		return (NULL);
-	new_words = expand(word, shell->env, shell->status_exit);
+	new_words = expand(tmp, shell->env, shell->status_exit);
 	if (!new_words)
 		return (NULL);
 	if (!new_words[0] || new_words[1])
